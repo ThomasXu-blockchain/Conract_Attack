@@ -2596,6 +2596,11 @@ input, select, textarea {
 
 		.image img {
 			display: block;
+			width: 108px;
+			height: 280px;
+			/* object-fit: contain; */
+			
+			/* margin-right: 10px; */
 		}
 
 		.image.left, .image.right {
