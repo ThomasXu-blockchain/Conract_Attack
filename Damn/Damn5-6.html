@@ -1,385 +1,283 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Damn5-6.md</title>
-<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-
-<style>
-/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
-
-body {
-	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
-	font-size: var(--vscode-markdown-font-size, 14px);
-	padding: 0 26px;
-	line-height: var(--vscode-markdown-line-height, 22px);
-	word-wrap: break-word;
-}
-
-#code-csp-warning {
-	position: fixed;
-	top: 0;
-	right: 0;
-	color: white;
-	margin: 16px;
-	text-align: center;
-	font-size: 12px;
-	font-family: sans-serif;
-	background-color:#444444;
-	cursor: pointer;
-	padding: 6px;
-	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
-}
-
-#code-csp-warning:hover {
-	text-decoration: none;
-	background-color:#007acc;
-	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
-}
-
-body.scrollBeyondLastLine {
-	margin-bottom: calc(100vh - 22px);
-}
-
-body.showEditorSelection .code-line {
-	position: relative;
-}
-
-body.showEditorSelection .code-active-line:before,
-body.showEditorSelection .code-line:hover:before {
-	content: "";
-	display: block;
-	position: absolute;
-	top: 0;
-	left: -12px;
-	height: 100%;
-}
-
-body.showEditorSelection li.code-active-line:before,
-body.showEditorSelection li.code-line:hover:before {
-	left: -30px;
-}
-
-.vscode-light.showEditorSelection .code-active-line:before {
-	border-left: 3px solid rgba(0, 0, 0, 0.15);
-}
-
-.vscode-light.showEditorSelection .code-line:hover:before {
-	border-left: 3px solid rgba(0, 0, 0, 0.40);
-}
-
-.vscode-light.showEditorSelection .code-line .code-line:hover:before {
-	border-left: none;
-}
-
-.vscode-dark.showEditorSelection .code-active-line:before {
-	border-left: 3px solid rgba(255, 255, 255, 0.4);
-}
-
-.vscode-dark.showEditorSelection .code-line:hover:before {
-	border-left: 3px solid rgba(255, 255, 255, 0.60);
-}
-
-.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
-	border-left: none;
-}
-
-.vscode-high-contrast.showEditorSelection .code-active-line:before {
-	border-left: 3px solid rgba(255, 160, 0, 0.7);
-}
-
-.vscode-high-contrast.showEditorSelection .code-line:hover:before {
-	border-left: 3px solid rgba(255, 160, 0, 1);
-}
-
-.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
-	border-left: none;
-}
-
-img {
-	max-width: 100%;
-	max-height: 100%;
-}
-
-a {
-	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: underline;
-}
-
-a:focus,
-input:focus,
-select:focus,
-textarea:focus {
-	outline: 1px solid -webkit-focus-ring-color;
-	outline-offset: -1px;
-}
-
-hr {
-	border: 0;
-	height: 2px;
-	border-bottom: 2px solid;
-}
-
-h1 {
-	padding-bottom: 0.3em;
-	line-height: 1.2;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-}
-
-h1, h2, h3 {
-	font-weight: normal;
-}
-
-table {
-	border-collapse: collapse;
-}
-
-table > thead > tr > th {
-	text-align: left;
-	border-bottom: 1px solid;
-}
-
-table > thead > tr > th,
-table > thead > tr > td,
-table > tbody > tr > th,
-table > tbody > tr > td {
-	padding: 5px 10px;
-}
-
-table > tbody > tr + tr > td {
-	border-top: 1px solid;
-}
-
-blockquote {
-	margin: 0 7px 0 5px;
-	padding: 0 16px 0 10px;
-	border-left-width: 5px;
-	border-left-style: solid;
-}
-
-code {
-	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
-	font-size: 1em;
-	line-height: 1.357em;
-}
-
-body.wordWrap pre {
-	white-space: pre-wrap;
-}
-
-pre:not(.hljs),
-pre.hljs code > div {
-	padding: 16px;
-	border-radius: 3px;
-	overflow: auto;
-}
-
-pre code {
-	color: var(--vscode-editor-foreground);
-	tab-size: 4;
-}
-
-/** Theming */
-
-.vscode-light pre {
-	background-color: rgba(220, 220, 220, 0.4);
-}
-
-.vscode-dark pre {
-	background-color: rgba(10, 10, 10, 0.4);
-}
-
-.vscode-high-contrast pre {
-	background-color: rgb(0, 0, 0);
-}
-
-.vscode-high-contrast h1 {
-	border-color: rgb(0, 0, 0);
-}
-
-.vscode-light table > thead > tr > th {
-	border-color: rgba(0, 0, 0, 0.69);
-}
-
-.vscode-dark table > thead > tr > th {
-	border-color: rgba(255, 255, 255, 0.69);
-}
-
-.vscode-light h1,
-.vscode-light hr,
-.vscode-light table > tbody > tr + tr > td {
-	border-color: rgba(0, 0, 0, 0.18);
-}
-
-.vscode-dark h1,
-.vscode-dark hr,
-.vscode-dark table > tbody > tr + tr > td {
-	border-color: rgba(255, 255, 255, 0.18);
-}
-
-</style>
-
-<style>
-/* Tomorrow Theme */
-/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
-/* Original theme - https://github.com/chriskempson/tomorrow-theme */
-
-/* Tomorrow Comment */
-.hljs-comment,
-.hljs-quote {
-	color: #8e908c;
-}
-
-/* Tomorrow Red */
-.hljs-variable,
-.hljs-template-variable,
-.hljs-tag,
-.hljs-name,
-.hljs-selector-id,
-.hljs-selector-class,
-.hljs-regexp,
-.hljs-deletion {
-	color: #c82829;
-}
-
-/* Tomorrow Orange */
-.hljs-number,
-.hljs-built_in,
-.hljs-builtin-name,
-.hljs-literal,
-.hljs-type,
-.hljs-params,
-.hljs-meta,
-.hljs-link {
-	color: #f5871f;
-}
-
-/* Tomorrow Yellow */
-.hljs-attribute {
-	color: #eab700;
-}
-
-/* Tomorrow Green */
-.hljs-string,
-.hljs-symbol,
-.hljs-bullet,
-.hljs-addition {
-	color: #718c00;
-}
-
-/* Tomorrow Blue */
-.hljs-title,
-.hljs-section {
-	color: #4271ae;
-}
-
-/* Tomorrow Purple */
-.hljs-keyword,
-.hljs-selector-tag {
-	color: #8959a8;
-}
-
-.hljs {
-	display: block;
-	overflow-x: auto;
-	color: #4d4d4c;
-	padding: 0.5em;
-}
-
-.hljs-emphasis {
-	font-style: italic;
-}
-
-.hljs-strong {
-	font-weight: bold;
-}
-</style>
-
-<style>
-/*
- * Markdown PDF CSS
+<!DOCTYPE html><html><head>
+      <title>Damn5-6</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\&#x5C0F;&#x6829;\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.6.3\node_modules\@shd101wyy\mume\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <style>
+      /**
+ * prism.js Github theme based on GitHub's theme.
+ * @author Sam Clarke
  */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #333;
+  background: none;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.4;
 
- body {
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
-	padding: 0 12px;
+  -moz-tab-size: 8;
+  -o-tab-size: 8;
+  tab-size: 8;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
 }
 
-pre {
-	background-color: #f8f8f8;
-	border: 1px solid #cccccc;
-	border-radius: 3px;
-	overflow-x: auto;
-	white-space: pre-wrap;
-	overflow-wrap: break-word;
+/* Code blocks */
+pre[class*="language-"] {
+  padding: .8em;
+  overflow: auto;
+  /* border: 1px solid #ddd; */
+  border-radius: 3px;
+  /* background: #fff; */
+  background: #f5f5f5;
 }
 
-pre:not(.hljs) {
-	padding: 23px;
-	line-height: 19px;
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+  background: #f5f5f5;
 }
 
-blockquote {
-	background: rgba(127, 127, 127, 0.1);
-	border-color: rgba(0, 122, 204, 0.5);
+.token.comment,
+.token.blockquote {
+  color: #969896;
 }
 
-.emoji {
-	height: 1.4em;
+.token.cdata {
+  color: #183691;
 }
 
-code {
-	font-size: 14px;
-	line-height: 19px;
+.token.doctype,
+.token.punctuation,
+.token.variable,
+.token.macro.property {
+  color: #333;
 }
 
-/* for inline code */
-:not(pre):not(.hljs) > code {
-	color: #C9AE75; /* Change the old color so it seems less like an error */
-	font-size: inherit;
+.token.operator,
+.token.important,
+.token.keyword,
+.token.rule,
+.token.builtin {
+  color: #a71d5d;
 }
 
-/* Page Break : use <div class="page"/> to insert page break
--------------------------------------------------------- */
-.page {
-	page-break-after: always;
+.token.string,
+.token.url,
+.token.regex,
+.token.attr-value {
+  color: #183691;
 }
 
-</style>
+.token.property,
+.token.number,
+.token.boolean,
+.token.entity,
+.token.atrule,
+.token.constant,
+.token.symbol,
+.token.command,
+.token.code {
+  color: #0086b3;
+}
 
-<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
-</head>
-<body>
-  <script>
-    mermaid.initialize({
-      startOnLoad: true,
-      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
-          ? 'dark'
-          : 'default'
-    });
-  </script>
-<h1 id="damn-defi%E9%9D%B6%E5%9C%BA%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%955-6">Damn Defi靶场刷题记录(5-6)</h1>
-<pre><code>author: Thomas_Xu
-</code></pre>
-<h2 id="5-the-rewarder">5 the-rewarder</h2>
-<p>FlashPool从一开始就获得一百万个代币，提到的4个人中的每一个人都获得100个DVT，这些DVT立即由他们存入奖励池。在此初始设置之后，时间提前5天，并支付一轮奖励：每人25个奖励代币。
-这道题有四个合约，是第一道多合约的题目。不过不用害怕，我们一个一个来分析。</p>
+.token.tag,
+.token.selector,
+.token.prolog {
+  color: #63a35c;
+}
+
+.token.function,
+.token.namespace,
+.token.pseudo-element,
+.token.class,
+.token.class-name,
+.token.pseudo-class,
+.token.id,
+.token.url-reference .token.variable,
+.token.attr-name {
+  color: #795da3;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.title,
+.token.title .token.punctuation {
+  font-weight: bold;
+  color: #1d3e81;
+}
+
+.token.list {
+  color: #ed6a43;
+}
+
+.token.inserted {
+  background-color: #eaffea;
+  color: #55a532;
+}
+
+.token.deleted {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+
+/* JSON */
+.language-json .token.property {
+  color: #183691;
+}
+
+.language-markup .token.tag .token.punctuation {
+  color: #333;
+}
+
+/* CSS */
+code.language-css,
+.language-css .token.function {
+  color: #0086b3;
+}
+
+/* YAML */
+.language-yaml .token.atrule {
+  color: #63a35c;
+}
+
+code.language-yaml {
+  color: #183691;
+}
+
+/* Ruby */
+.language-ruby .token.function {
+  color: #333;
+}
+
+/* Markdown */
+.language-markdown .token.url {
+  color: #795da3;
+}
+
+/* Makefile */
+.language-makefile .token.symbol {
+  color: #795da3;
+}
+
+.language-makefile .token.variable {
+  color: #183691;
+}
+
+.language-makefile .token.builtin {
+  color: #0086b3;
+}
+
+/* Bash */
+.language-bash .token.keyword {
+  color: #0086b3;
+}
+
+/* highlight */
+pre[data-line] {
+  position: relative;
+  padding: 1em 0 1em 3em;
+}
+pre[data-line] .line-highlight-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+}
+
+pre[data-line] .line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 1em;
+  background: hsla(24, 20%, 50%,.08);
+  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+  pointer-events: none;
+  line-height: inherit;
+  white-space: pre;
+}
+
+pre[data-line] .line-highlight:before, 
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-start);
+  position: absolute;
+  top: .4em;
+  left: .6em;
+  min-width: 1em;
+  padding: 0 .5em;
+  background-color: hsla(24, 20%, 50%,.4);
+  color: hsl(24, 20%, 95%);
+  font: bold 65%/1.5 sans-serif;
+  text-align: center;
+  vertical-align: .3em;
+  border-radius: 999px;
+  text-shadow: none;
+  box-shadow: 0 1px white;
+}
+
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-end);
+  top: auto;
+  bottom: .4em;
+}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{padding:0 1.6em;margin-top:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li{margin-bottom:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{list-style-type:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  150px);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+    </head>
+    <body for="html-export">
+      <div class="mume markdown-preview  ">
+      <h1 class="mume-header" id="damn-defi%E9%9D%B6%E5%9C%BA%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%955-6">Damn Defi&#x9776;&#x573A;&#x5237;&#x9898;&#x8BB0;&#x5F55;(5-6)</h1>
+
+<pre class="language-text">author: Thomas_Xu
+</pre>
+<h2 class="mume-header" id="5-the-rewarder">5 the-rewarder</h2>
+
+<p>FlashPool&#x4ECE;&#x4E00;&#x5F00;&#x59CB;&#x5C31;&#x83B7;&#x5F97;&#x4E00;&#x767E;&#x4E07;&#x4E2A;&#x4EE3;&#x5E01;&#xFF0C;&#x63D0;&#x5230;&#x7684;4&#x4E2A;&#x4EBA;&#x4E2D;&#x7684;&#x6BCF;&#x4E00;&#x4E2A;&#x4EBA;&#x90FD;&#x83B7;&#x5F97;100&#x4E2A;DVT&#xFF0C;&#x8FD9;&#x4E9B;DVT&#x7ACB;&#x5373;&#x7531;&#x4ED6;&#x4EEC;&#x5B58;&#x5165;&#x5956;&#x52B1;&#x6C60;&#x3002;&#x5728;&#x6B64;&#x521D;&#x59CB;&#x8BBE;&#x7F6E;&#x4E4B;&#x540E;&#xFF0C;&#x65F6;&#x95F4;&#x63D0;&#x524D;5&#x5929;&#xFF0C;&#x5E76;&#x652F;&#x4ED8;&#x4E00;&#x8F6E;&#x5956;&#x52B1;&#xFF1A;&#x6BCF;&#x4EBA;25&#x4E2A;&#x5956;&#x52B1;&#x4EE3;&#x5E01;&#x3002;<br>
+&#x8FD9;&#x9053;&#x9898;&#x6709;&#x56DB;&#x4E2A;&#x5408;&#x7EA6;&#xFF0C;&#x662F;&#x7B2C;&#x4E00;&#x9053;&#x591A;&#x5408;&#x7EA6;&#x7684;&#x9898;&#x76EE;&#x3002;&#x4E0D;&#x8FC7;&#x4E0D;&#x7528;&#x5BB3;&#x6015;&#xFF0C;&#x6211;&#x4EEC;&#x4E00;&#x4E2A;&#x4E00;&#x4E2A;&#x6765;&#x5206;&#x6790;&#x3002;</p>
 <ul>
-<li><strong>RewardToken</strong>
-这是一个简单的ERC20的Token，没有什么问题。唯一的区别就是这个奖励币可以被无限铸造。</li>
-<li><strong>AccountingToken</strong>
-这是一个有访问控制管理的具有交易快照功能的Token，应该是针对每一轮的奖励而写的Token。不过看上去也没有问题。</li>
-<li><strong>FlashLoanerPool</strong>
-这是比较常见的闪电贷池，让我们来具体看看它是怎么实现的。</li>
+<li><strong>RewardToken</strong><br>
+&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;ERC20&#x7684;Token&#xFF0C;&#x6CA1;&#x6709;&#x4EC0;&#x4E48;&#x95EE;&#x9898;&#x3002;&#x552F;&#x4E00;&#x7684;&#x533A;&#x522B;&#x5C31;&#x662F;&#x8FD9;&#x4E2A;&#x5956;&#x52B1;&#x5E01;&#x53EF;&#x4EE5;&#x88AB;&#x65E0;&#x9650;&#x94F8;&#x9020;&#x3002;</li>
+<li><strong>AccountingToken</strong><br>
+&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x6709;&#x8BBF;&#x95EE;&#x63A7;&#x5236;&#x7BA1;&#x7406;&#x7684;&#x5177;&#x6709;&#x4EA4;&#x6613;&#x5FEB;&#x7167;&#x529F;&#x80FD;&#x7684;Token&#xFF0C;&#x5E94;&#x8BE5;&#x662F;&#x9488;&#x5BF9;&#x6BCF;&#x4E00;&#x8F6E;&#x7684;&#x5956;&#x52B1;&#x800C;&#x5199;&#x7684;Token&#x3002;&#x4E0D;&#x8FC7;&#x770B;&#x4E0A;&#x53BB;&#x4E5F;&#x6CA1;&#x6709;&#x95EE;&#x9898;&#x3002;</li>
+<li><strong>FlashLoanerPool</strong><br>
+&#x8FD9;&#x662F;&#x6BD4;&#x8F83;&#x5E38;&#x89C1;&#x7684;&#x95EA;&#x7535;&#x8D37;&#x6C60;&#xFF0C;&#x8BA9;&#x6211;&#x4EEC;&#x6765;&#x5177;&#x4F53;&#x770B;&#x770B;&#x5B83;&#x662F;&#x600E;&#x4E48;&#x5B9E;&#x73B0;&#x7684;&#x3002;</li>
 </ul>
-<pre class="hljs"><code><div>function flashLoan(uint256 amount) external nonReentrant {
+<pre data-role="codeBlock" data-info class="language-"><code>function flashLoan(uint256 amount) external nonReentrant {
         uint256 balanceBefore = liquidityToken.balanceOf(address(this));
         require(amount &lt;= balanceBefore, &quot;Not enough token balance&quot;);
 
@@ -396,26 +294,24 @@ code {
 
         require(liquidityToken.balanceOf(address(this)) &gt;= balanceBefore, &quot;Flash loan not paid back&quot;);
     }
-</div></code></pre>
-<p>明显的，出现了外部调用，这应该立马引起我们的警觉，这意味着我们可能利用<code>receiveFlashLoan()</code>函数干一些坏事。</p>
+</code></pre><p>&#x660E;&#x663E;&#x7684;&#xFF0C;&#x51FA;&#x73B0;&#x4E86;&#x5916;&#x90E8;&#x8C03;&#x7528;&#xFF0C;&#x8FD9;&#x5E94;&#x8BE5;&#x7ACB;&#x9A6C;&#x5F15;&#x8D77;&#x6211;&#x4EEC;&#x7684;&#x8B66;&#x89C9;&#xFF0C;&#x8FD9;&#x610F;&#x5473;&#x7740;&#x6211;&#x4EEC;&#x53EF;&#x80FD;&#x5229;&#x7528;<code>receiveFlashLoan()</code>&#x51FD;&#x6570;&#x5E72;&#x4E00;&#x4E9B;&#x574F;&#x4E8B;&#x3002;</p>
 <ul>
-<li><strong>TheRewarderPool</strong>
-这应该是这个系统最核心的合约了，里面有存款，奖励，取款的一系列流程。</li>
+<li><strong>TheRewarderPool</strong><br>
+&#x8FD9;&#x5E94;&#x8BE5;&#x662F;&#x8FD9;&#x4E2A;&#x7CFB;&#x7EDF;&#x6700;&#x6838;&#x5FC3;&#x7684;&#x5408;&#x7EA6;&#x4E86;&#xFF0C;&#x91CC;&#x9762;&#x6709;&#x5B58;&#x6B3E;&#xFF0C;&#x5956;&#x52B1;&#xFF0C;&#x53D6;&#x6B3E;&#x7684;&#x4E00;&#x7CFB;&#x5217;&#x6D41;&#x7A0B;&#x3002;</li>
 </ul>
 <blockquote>
-<p>存款会触发奖励分配功能。 首先检查是否经过了足够的时间来开始新一轮，如果是，它将创建快照。无论哪种方式，它都会根据他与所有其他用户的存款金额来计算呼叫者的奖励。然后，它检查调用方是否已经检索到当前回合的奖励，如果没有，则铸造计算出的奖励代币数量。</p>
+<p>&#x5B58;&#x6B3E;&#x4F1A;&#x89E6;&#x53D1;&#x5956;&#x52B1;&#x5206;&#x914D;&#x529F;&#x80FD;&#x3002; &#x9996;&#x5148;&#x68C0;&#x67E5;&#x662F;&#x5426;&#x7ECF;&#x8FC7;&#x4E86;&#x8DB3;&#x591F;&#x7684;&#x65F6;&#x95F4;&#x6765;&#x5F00;&#x59CB;&#x65B0;&#x4E00;&#x8F6E;&#xFF0C;&#x5982;&#x679C;&#x662F;&#xFF0C;&#x5B83;&#x5C06;&#x521B;&#x5EFA;&#x5FEB;&#x7167;&#x3002;&#x65E0;&#x8BBA;&#x54EA;&#x79CD;&#x65B9;&#x5F0F;&#xFF0C;&#x5B83;&#x90FD;&#x4F1A;&#x6839;&#x636E;&#x4ED6;&#x4E0E;&#x6240;&#x6709;&#x5176;&#x4ED6;&#x7528;&#x6237;&#x7684;&#x5B58;&#x6B3E;&#x91D1;&#x989D;&#x6765;&#x8BA1;&#x7B97;&#x547C;&#x53EB;&#x8005;&#x7684;&#x5956;&#x52B1;&#x3002;&#x7136;&#x540E;&#xFF0C;&#x5B83;&#x68C0;&#x67E5;&#x8C03;&#x7528;&#x65B9;&#x662F;&#x5426;&#x5DF2;&#x7ECF;&#x68C0;&#x7D22;&#x5230;&#x5F53;&#x524D;&#x56DE;&#x5408;&#x7684;&#x5956;&#x52B1;&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#xFF0C;&#x5219;&#x94F8;&#x9020;&#x8BA1;&#x7B97;&#x51FA;&#x7684;&#x5956;&#x52B1;&#x4EE3;&#x5E01;&#x6570;&#x91CF;&#x3002;</p>
 </blockquote>
-<p>在了解了工作原理之后，我注意到了这个问题：如果你的时间安排得当，并用你的存款开始新一轮，<strong>你可以立即领取该轮的奖励并退出</strong>。从另一份合同中完成所有这些操作，这意味着在一次交易中，您可以使用闪回符并索取大部分奖励。</p>
+<p>&#x5728;&#x4E86;&#x89E3;&#x4E86;&#x5DE5;&#x4F5C;&#x539F;&#x7406;&#x4E4B;&#x540E;&#xFF0C;&#x6211;&#x6CE8;&#x610F;&#x5230;&#x4E86;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#xFF1A;&#x5982;&#x679C;&#x4F60;&#x7684;&#x65F6;&#x95F4;&#x5B89;&#x6392;&#x5F97;&#x5F53;&#xFF0C;&#x5E76;&#x7528;&#x4F60;&#x7684;&#x5B58;&#x6B3E;&#x5F00;&#x59CB;&#x65B0;&#x4E00;&#x8F6E;&#xFF0C;<strong>&#x4F60;&#x53EF;&#x4EE5;&#x7ACB;&#x5373;&#x9886;&#x53D6;&#x8BE5;&#x8F6E;&#x7684;&#x5956;&#x52B1;&#x5E76;&#x9000;&#x51FA;</strong>&#x3002;&#x4ECE;&#x53E6;&#x4E00;&#x4EFD;&#x5408;&#x540C;&#x4E2D;&#x5B8C;&#x6210;&#x6240;&#x6709;&#x8FD9;&#x4E9B;&#x64CD;&#x4F5C;&#xFF0C;&#x8FD9;&#x610F;&#x5473;&#x7740;&#x5728;&#x4E00;&#x6B21;&#x4EA4;&#x6613;&#x4E2D;&#xFF0C;&#x60A8;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x95EA;&#x56DE;&#x7B26;&#x5E76;&#x7D22;&#x53D6;&#x5927;&#x90E8;&#x5206;&#x5956;&#x52B1;&#x3002;</p>
 <ul>
-<li><strong>Exploit</strong>
-闪电贷函数有一个外部调用可以被我们利用，而奖励池里我们只需要存款进去，就可以立即获取奖励并退出。</li>
+<li><strong>Exploit</strong><br>
+&#x95EA;&#x7535;&#x8D37;&#x51FD;&#x6570;&#x6709;&#x4E00;&#x4E2A;&#x5916;&#x90E8;&#x8C03;&#x7528;&#x53EF;&#x4EE5;&#x88AB;&#x6211;&#x4EEC;&#x5229;&#x7528;&#xFF0C;&#x800C;&#x5956;&#x52B1;&#x6C60;&#x91CC;&#x6211;&#x4EEC;&#x53EA;&#x9700;&#x8981;&#x5B58;&#x6B3E;&#x8FDB;&#x53BB;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x7ACB;&#x5373;&#x83B7;&#x53D6;&#x5956;&#x52B1;&#x5E76;&#x9000;&#x51FA;&#x3002;</li>
 </ul>
 <blockquote>
-<p>那么我们就可以从闪电贷池里jiu借钱存到奖励池里，领取奖励后取款，最后把钱还给借贷池就大功告成了。</p>
+<p>&#x90A3;&#x4E48;&#x6211;&#x4EEC;&#x5C31;&#x53EF;&#x4EE5;&#x4ECE;&#x95EA;&#x7535;&#x8D37;&#x6C60;&#x91CC;jiu&#x501F;&#x94B1;&#x5B58;&#x5230;&#x5956;&#x52B1;&#x6C60;&#x91CC;&#xFF0C;&#x9886;&#x53D6;&#x5956;&#x52B1;&#x540E;&#x53D6;&#x6B3E;&#xFF0C;&#x6700;&#x540E;&#x628A;&#x94B1;&#x8FD8;&#x7ED9;&#x501F;&#x8D37;&#x6C60;&#x5C31;&#x5927;&#x529F;&#x544A;&#x6210;&#x4E86;&#x3002;</p>
 </blockquote>
-<p>来看代码</p>
-<pre class="hljs"><code><div>
-pragma solidity ^0.8.0;
+<p>&#x6765;&#x770B;&#x4EE3;&#x7801;</p>
+<pre data-role="codeBlock" data-info class="language-"><code>pragma solidity ^0.8.0;
 
 import &quot;./FlashLoanerPool.sol&quot;;
 import &quot;./TheRewarderPool.sol&quot;;
@@ -450,40 +346,40 @@ contract RewarderExploit{
         liquidityToken.transfer(address(loanpool), _amount);
     }
 }
-</div></code></pre>
-<ul>
-<li>总结
-这应该是所有希望激励用户存款的系统都会面临的漏洞（暂且叫闪借攻击吧），即使您为了防止来自闪借攻击，强制将回合开始（快照）放在与流动性存款不同的交易，拥有大量代币的用户仍然可以在一轮结束时存入它们，并在新一轮开始后立即提款。你的协议可能希望激励长期质押，而不是短期套利交易。
-因此，最好是摆脱回合，根据存款的每一秒来计算奖励，就像今天许多现代DeFi项目所做的那样。</li>
+</code></pre><ul>
+<li>&#x603B;&#x7ED3;<br>
+&#x8FD9;&#x5E94;&#x8BE5;&#x662F;&#x6240;&#x6709;&#x5E0C;&#x671B;&#x6FC0;&#x52B1;&#x7528;&#x6237;&#x5B58;&#x6B3E;&#x7684;&#x7CFB;&#x7EDF;&#x90FD;&#x4F1A;&#x9762;&#x4E34;&#x7684;&#x6F0F;&#x6D1E;&#xFF08;&#x6682;&#x4E14;&#x53EB;&#x95EA;&#x501F;&#x653B;&#x51FB;&#x5427;&#xFF09;&#xFF0C;&#x5373;&#x4F7F;&#x60A8;&#x4E3A;&#x4E86;&#x9632;&#x6B62;&#x6765;&#x81EA;&#x95EA;&#x501F;&#x653B;&#x51FB;&#xFF0C;&#x5F3A;&#x5236;&#x5C06;&#x56DE;&#x5408;&#x5F00;&#x59CB;&#xFF08;&#x5FEB;&#x7167;&#xFF09;&#x653E;&#x5728;&#x4E0E;&#x6D41;&#x52A8;&#x6027;&#x5B58;&#x6B3E;&#x4E0D;&#x540C;&#x7684;&#x4EA4;&#x6613;&#xFF0C;&#x62E5;&#x6709;&#x5927;&#x91CF;&#x4EE3;&#x5E01;&#x7684;&#x7528;&#x6237;&#x4ECD;&#x7136;&#x53EF;&#x4EE5;&#x5728;&#x4E00;&#x8F6E;&#x7ED3;&#x675F;&#x65F6;&#x5B58;&#x5165;&#x5B83;&#x4EEC;&#xFF0C;&#x5E76;&#x5728;&#x65B0;&#x4E00;&#x8F6E;&#x5F00;&#x59CB;&#x540E;&#x7ACB;&#x5373;&#x63D0;&#x6B3E;&#x3002;&#x4F60;&#x7684;&#x534F;&#x8BAE;&#x53EF;&#x80FD;&#x5E0C;&#x671B;&#x6FC0;&#x52B1;&#x957F;&#x671F;&#x8D28;&#x62BC;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x77ED;&#x671F;&#x5957;&#x5229;&#x4EA4;&#x6613;&#x3002;<br>
+&#x56E0;&#x6B64;&#xFF0C;&#x6700;&#x597D;&#x662F;&#x6446;&#x8131;&#x56DE;&#x5408;&#xFF0C;&#x6839;&#x636E;&#x5B58;&#x6B3E;&#x7684;&#x6BCF;&#x4E00;&#x79D2;&#x6765;&#x8BA1;&#x7B97;&#x5956;&#x52B1;&#xFF0C;&#x5C31;&#x50CF;&#x4ECA;&#x5929;&#x8BB8;&#x591A;&#x73B0;&#x4EE3;DeFi&#x9879;&#x76EE;&#x6240;&#x505A;&#x7684;&#x90A3;&#x6837;&#x3002;</li>
 </ul>
-<h2 id="6-selfie">6 Selfie</h2>
-<p>这个题和以往的题唯一不同的地方，就是多了一个治理机制。但同时，这个治理机制如果不安全，反而会适得其反。</p>
+<h2 class="mume-header" id="6-selfie">6 Selfie</h2>
+
+<p>&#x8FD9;&#x4E2A;&#x9898;&#x548C;&#x4EE5;&#x5F80;&#x7684;&#x9898;&#x552F;&#x4E00;&#x4E0D;&#x540C;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x5C31;&#x662F;&#x591A;&#x4E86;&#x4E00;&#x4E2A;&#x6CBB;&#x7406;&#x673A;&#x5236;&#x3002;&#x4F46;&#x540C;&#x65F6;&#xFF0C;&#x8FD9;&#x4E2A;&#x6CBB;&#x7406;&#x673A;&#x5236;&#x5982;&#x679C;&#x4E0D;&#x5B89;&#x5168;&#xFF0C;&#x53CD;&#x800C;&#x4F1A;&#x9002;&#x5F97;&#x5176;&#x53CD;&#x3002;</p>
 <ul>
 <li>
-<p><strong>SelfiePool</strong>
-这个池里有一个闪电贷的函数，同时有一个特殊的可以转出所有资金的函数<code>drainAllFunds()</code>。值得注意的是这个函数有一个修饰符<code>onlyGovernance</code>也就是只能被治理合约所调用，看起来非常安全，但其实我们一旦获得治理合约的控制权，我们就可以榨干<code>SelfiePool</code>.</p>
+<p><strong>SelfiePool</strong><br>
+&#x8FD9;&#x4E2A;&#x6C60;&#x91CC;&#x6709;&#x4E00;&#x4E2A;&#x95EA;&#x7535;&#x8D37;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x540C;&#x65F6;&#x6709;&#x4E00;&#x4E2A;&#x7279;&#x6B8A;&#x7684;&#x53EF;&#x4EE5;&#x8F6C;&#x51FA;&#x6240;&#x6709;&#x8D44;&#x91D1;&#x7684;&#x51FD;&#x6570;<code>drainAllFunds()</code>&#x3002;&#x503C;&#x5F97;&#x6CE8;&#x610F;&#x7684;&#x662F;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x6709;&#x4E00;&#x4E2A;&#x4FEE;&#x9970;&#x7B26;<code>onlyGovernance</code>&#x4E5F;&#x5C31;&#x662F;&#x53EA;&#x80FD;&#x88AB;&#x6CBB;&#x7406;&#x5408;&#x7EA6;&#x6240;&#x8C03;&#x7528;&#xFF0C;&#x770B;&#x8D77;&#x6765;&#x975E;&#x5E38;&#x5B89;&#x5168;&#xFF0C;&#x4F46;&#x5176;&#x5B9E;&#x6211;&#x4EEC;&#x4E00;&#x65E6;&#x83B7;&#x5F97;&#x6CBB;&#x7406;&#x5408;&#x7EA6;&#x7684;&#x63A7;&#x5236;&#x6743;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x53EF;&#x4EE5;&#x69A8;&#x5E72;<code>SelfiePool</code>.</p>
 </li>
 <li>
-<p><strong>SimpleGovernance</strong>
-这就是之前提到的治理合约，显而易见的是我们需要在这里面找到漏洞干一些坏事。让我们来看看吧。
-这个合约比较复杂，我们简单说一说</p>
+<p><strong>SimpleGovernance</strong><br>
+&#x8FD9;&#x5C31;&#x662F;&#x4E4B;&#x524D;&#x63D0;&#x5230;&#x7684;&#x6CBB;&#x7406;&#x5408;&#x7EA6;&#xFF0C;&#x663E;&#x800C;&#x6613;&#x89C1;&#x7684;&#x662F;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x5728;&#x8FD9;&#x91CC;&#x9762;&#x627E;&#x5230;&#x6F0F;&#x6D1E;&#x5E72;&#x4E00;&#x4E9B;&#x574F;&#x4E8B;&#x3002;&#x8BA9;&#x6211;&#x4EEC;&#x6765;&#x770B;&#x770B;&#x5427;&#x3002;<br>
+&#x8FD9;&#x4E2A;&#x5408;&#x7EA6;&#x6BD4;&#x8F83;&#x590D;&#x6742;&#xFF0C;&#x6211;&#x4EEC;&#x7B80;&#x5355;&#x8BF4;&#x4E00;&#x8BF4;</p>
 <ul>
 <li>queueAction
 <blockquote>
-<p>通过这个函数我们可以把data放进队列，而为了成功排队，我们必须拥有总供应量的一半以上，而由于我们现在有闪借池，这点很容易绕过。
-我们无法立即执行操作，因为有2天的延迟，我们必须先等待。但是，我们在这里所要做的就是将时间快进2天，因为没有什么可以确保我们在延迟期间仍然持有这些治理令牌</p>
+<p>&#x901A;&#x8FC7;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x628A;data&#x653E;&#x8FDB;&#x961F;&#x5217;&#xFF0C;&#x800C;&#x4E3A;&#x4E86;&#x6210;&#x529F;&#x6392;&#x961F;&#xFF0C;&#x6211;&#x4EEC;&#x5FC5;&#x987B;&#x62E5;&#x6709;&#x603B;&#x4F9B;&#x5E94;&#x91CF;&#x7684;&#x4E00;&#x534A;&#x4EE5;&#x4E0A;&#xFF0C;&#x800C;&#x7531;&#x4E8E;&#x6211;&#x4EEC;&#x73B0;&#x5728;&#x6709;&#x95EA;&#x501F;&#x6C60;&#xFF0C;&#x8FD9;&#x70B9;&#x5F88;&#x5BB9;&#x6613;&#x7ED5;&#x8FC7;&#x3002;<br>
+&#x6211;&#x4EEC;&#x65E0;&#x6CD5;&#x7ACB;&#x5373;&#x6267;&#x884C;&#x64CD;&#x4F5C;&#xFF0C;&#x56E0;&#x4E3A;&#x6709;2&#x5929;&#x7684;&#x5EF6;&#x8FDF;&#xFF0C;&#x6211;&#x4EEC;&#x5FC5;&#x987B;&#x5148;&#x7B49;&#x5F85;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x6211;&#x4EEC;&#x5728;&#x8FD9;&#x91CC;&#x6240;&#x8981;&#x505A;&#x7684;&#x5C31;&#x662F;&#x5C06;&#x65F6;&#x95F4;&#x5FEB;&#x8FDB;2&#x5929;&#xFF0C;&#x56E0;&#x4E3A;&#x6CA1;&#x6709;&#x4EC0;&#x4E48;&#x53EF;&#x4EE5;&#x786E;&#x4FDD;&#x6211;&#x4EEC;&#x5728;&#x5EF6;&#x8FDF;&#x671F;&#x95F4;&#x4ECD;&#x7136;&#x6301;&#x6709;&#x8FD9;&#x4E9B;&#x6CBB;&#x7406;&#x4EE4;&#x724C;</p>
 </blockquote>
 </li>
-<li>executeAction
-这个函数使用来执行的，按照队列id一个交易一个交易的执行，但是这个函数明显是有借入风险的，我们只需要把作为参数传入的address改为我们想借入的合约地址，然后在排队的时候修改<code>data</code>的内容，很容易做到这一点。这样，我们就可以冒充治理合约来调用<code>drainAllFunds()</code>了。</li>
+<li>executeAction<br>
+&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x4F7F;&#x7528;&#x6765;&#x6267;&#x884C;&#x7684;&#xFF0C;&#x6309;&#x7167;&#x961F;&#x5217;id&#x4E00;&#x4E2A;&#x4EA4;&#x6613;&#x4E00;&#x4E2A;&#x4EA4;&#x6613;&#x7684;&#x6267;&#x884C;&#xFF0C;&#x4F46;&#x662F;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x660E;&#x663E;&#x662F;&#x6709;&#x501F;&#x5165;&#x98CE;&#x9669;&#x7684;&#xFF0C;&#x6211;&#x4EEC;&#x53EA;&#x9700;&#x8981;&#x628A;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x4F20;&#x5165;&#x7684;address&#x6539;&#x4E3A;&#x6211;&#x4EEC;&#x60F3;&#x501F;&#x5165;&#x7684;&#x5408;&#x7EA6;&#x5730;&#x5740;&#xFF0C;&#x7136;&#x540E;&#x5728;&#x6392;&#x961F;&#x7684;&#x65F6;&#x5019;&#x4FEE;&#x6539;<code>data</code>&#x7684;&#x5185;&#x5BB9;&#xFF0C;&#x5F88;&#x5BB9;&#x6613;&#x505A;&#x5230;&#x8FD9;&#x4E00;&#x70B9;&#x3002;&#x8FD9;&#x6837;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x53EF;&#x4EE5;&#x5192;&#x5145;&#x6CBB;&#x7406;&#x5408;&#x7EA6;&#x6765;&#x8C03;&#x7528;<code>drainAllFunds()</code>&#x4E86;&#x3002;</li>
 </ul>
 </li>
 <li>
-<p><strong>Exploit</strong>
-根据以上分析写出Exploit如下：</p>
+<p><strong>Exploit</strong><br>
+&#x6839;&#x636E;&#x4EE5;&#x4E0A;&#x5206;&#x6790;&#x5199;&#x51FA;Exploit&#x5982;&#x4E0B;&#xFF1A;</p>
 </li>
 </ul>
-<pre class="hljs"><code><div>pragma solidity ^0.8.0;
+<pre data-role="codeBlock" data-info class="language-"><code>pragma solidity ^0.8.0;
 
 import &quot;./SimpleGovernance.sol&quot;;
 import &quot;./SelfiePool.sol&quot;;
@@ -524,8 +420,18 @@ contract SelfieExploit {
     receive () external payable {}
 }
 
-</div></code></pre>
-<p>总结：治理合约越复杂，越可能出现漏洞，一定谨慎。</p>
+</code></pre><p>&#x603B;&#x7ED3;&#xFF1A;&#x6CBB;&#x7406;&#x5408;&#x7EA6;&#x8D8A;&#x590D;&#x6742;&#xFF0C;&#x8D8A;&#x53EF;&#x80FD;&#x51FA;&#x73B0;&#x6F0F;&#x6D1E;&#xFF0C;&#x4E00;&#x5B9A;&#x8C28;&#x614E;&#x3002;</p>
 
-</body>
-</html>
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
