@@ -1,7 +1,7 @@
 # 溢出攻击
 ---
 
-                                                                                                    author：甘赞栩
+    author：Thomas_Xu
 在介绍溢出攻击前，让我们先来了解一下solidity中溢出和下溢。
 * 溢出
     假设我们有一个 uint8, 只能存储8 bit数据。这意味着我们能存储的最大数字就是二进制 11111111 (或者说十进制的 2^8 - 1 = 255).<br/>
@@ -144,7 +144,7 @@ _value + burnPerTransaction =0 ，即可成功攻击，为balanceOf[_to]增加�
     比如，使用 SafeMath 库的时候，我们将使用 using SafeMath for uint256 这样的语法。 SafeMath 库有四个方法 — add， sub， mul， 以及 div。现在我们可以这样来让 uint256 调用这些方法：
     ```
     using SafeMath for uint256;
-
+    
     uint256 a = 5;
     uint256 b = a.add(3); // 5 + 3 = 8
     uint256 c = a.mul(2); // 5 * 2 = 10
@@ -153,7 +153,7 @@ _value + burnPerTransaction =0 ，即可成功攻击，为balanceOf[_to]增加�
     我们来看一下SafeMath的源码：
     ```
     library SafeMath {
-
+    
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
         if (a == 0) {
         return 0;
@@ -162,26 +162,27 @@ _value + burnPerTransaction =0 ，即可成功攻击，为balanceOf[_to]增加�
         assert(c / a == b);
         return c;
     }
-
+    
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
         // assert(b > 0); // Solidity automatically throws when dividing by 0
         uint256 c = a / b;
         // assert(a == b * c + a % b); // There is no case in which this doesn't hold
         return c;
     }
-
+    
     function sub(uint256 a, uint256 b) internal pure returns (uint256) {
         assert(b <= a);
         return a - b;
     }
-
+    
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
         uint256 c = a + b;
         assert(c >= a);
         return c;
     }
     }
-
+    
     ```
     解释一下源码中的`assert`
+    
     >assert 和 require 相似，若结果为否它就会抛出错误。 assert 和 require 区别在于，require 若失败则会返还给用户剩下的 gas， assert则不会。所以大部分情况下，你写代码的时候会比较喜欢 require，assert 只在代码可能出现严重错误的时候使用，比如 uint 溢出。

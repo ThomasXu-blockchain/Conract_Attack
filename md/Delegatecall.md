@@ -1,4 +1,7 @@
 # Solidity之DelegateCall
+---
+
+    author：Thomas_Xu
 在Solidity中，如果只是为了代码复用，我们会把公共代码抽出来，部署到一个library中，后面就可以像调用C库、Java库一样使用了。但是library中不允许定义任何storage类型的变量，这就意味着library不能修改合约的状态。如果需要修改合约状态，我们需要部署一个新的合约，这就涉及到合约调用合约的情况。
 ## 三种调用函数
   在 Solidity 中，call 函数簇可以实现跨合约的函数调用功能，其中包括 call、delegatecall 和 callcode 三种方式。<br/>
@@ -15,7 +18,7 @@
   具体来说，CALL修改的是被调用者的storage，而CALLCODE修改的是调用者的storage。
   ![](../images/Delegatecall01.png)
   * **CALLCODE vs. DELEGATECALL**
-  可以认为`DELEGATECALL`是`CALLCODE`的一个bugfix版本，官方已经不建议使用`CALLCODE`了。<br/>
+    可以认为`DELEGATECALL`是`CALLCODE`的一个bugfix版本，官方已经不建议使用`CALLCODE`了。<br/>
   >CALLCODE和DELEGATECALL的区别在于：msg.sender不同。
 
   具体来说，DELEGATECALL会一直使用原始调用者的地址，而CALLCODE不会。
