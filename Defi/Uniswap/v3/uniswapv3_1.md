@@ -72,18 +72,20 @@ Uniswap 不需要记录每个 tick 所有的信息，只需要记录所有作为
 ## 源码解读
 ### 代码结构
 v3的代码结构和v2几乎没有区别，将合约分成了两个仓库：
-  
+
 * [uniswap-v3-core](https://github.com/Uniswap/uniswap-v3-core)
 * [uniswap-v3-periphery](https://github.com/Uniswap/uniswap-v3-periphery)
   
+
 core 仓库的功能主要包含在以下 2 个合约中：
-  
+
 * **UniswapV3Factory**：提供创建 pool 的接口，并且追踪所有的 pool
   
 * **UniswapV3Pool**：实现代币交易，流动性管理，交易手续费的收取，oracle 数据管理。接口的实现粒度比较低，不适合普通用户使用，错误的调用其中的接口可能会造成经济上的损失。
   
+
 periphery仓库的功能主要包含在以下2个合约中：
-  
+
 * **SwapRouter**：提供代币交易的接口，它是对 UniswapV3Pool 合约中交易相关接口的进一步封装，前端界面主要与这个合约来进行对接。
 * **NonfungiblePositionManager：** 用来增加/移除/修改 Pool 的流动性，并且通过 NFT token 将流动性代币化。使用 ERC721 token（v2 使用的是 ERC20）的原因是同一个池的多个流动性并不能等价替换（v3 的集中流性动功能）。
 
@@ -622,3 +624,57 @@ function exactInput(ExactInputParams memory params)
 }
 ```
 
+#### 路径的编码
+
+细心看的话其实可以知道上面输入的参数中 `path` 字段是 `bytes` 类型，通过这样可以实现更加紧凑的编码。Uniswap会将`bytes`作为一个数组使用，bytes类型就是一连串的`byte1`,因此相比普通数组其结构更加紧凑。在 Uniswap V3 中 `path`内部编码结构如下图：
+
+![](C:\Users\小栩\Documents\GitHub\Conract_Attack\images\uniswap\v3\path_encode.jpg)
+
+图中展示了一个包含 2个路径（pool0, 和 pool1）的 path 编码。Uniswap 将编码解码操作封装在了 `Path` 库中，本文不再赘述其过程。每次交易时，会取出头部的 `tokenIn`, `tokenOut`, `fee`，使用这三个参数找到对应的交易池，完成交易。
+
+#### 单个池的交易过程
+
+单个池的交易在 `exactInputSingle` 函数中：
+
+```solidity
+function exactInputSingle(
+    uint256 amountIn,
+    address recipient,
+    SwapData memory data
+) private returns (uint256 amountOut) {
+    // 将 path 解码，获取头部的 tokenIn, tokenOut, fee
+    (address tokenIn, address tokenOut, uint24 fee) = data.path.decodeFirstPool();
+
+    // 因为交易池只保存了 token x 的价格，这里我们需要知道输入的 token 是交易池 x token 还是 y token
+    bool zeroForOne = tokenIn < tokenOut;
+
+    // 完成交易
+    (int256 amount0, int256 amount1) =
+        getPool(tokenIn, tokenOut, fee).swap(
+            recipient,
+            zeroForOne,
+            amountIn.toInt256(),
+            zeroForOne ? MIN_SQRT_RATIO : MAX_SQRT_RATIO,
+            // 给回调函数用的参数
+            abi.encode(data)
+        );
+
+    return uint256(-(zeroForOne ? amount1 : amount0));
+}
+```
+
+交易过程是先获取交易池，然后确定本次交易的输出是交易池的`token x`还是`token y`
+
+这是因为交易池中只保存了x的价格，所以`token x`和`token y`的计算公式是不一样的。最用再调用`UniswapV3Pool`的`swap`完成交易。
+
+#### 交易分解
+
+`UniswapV3Pool.swap` 函数比较长，这里简要描述其交易步骤：
+
+假设支付的token为x，价格为：
+$$
+\sqrt(P) = \sqrt(\frac{y}{x} )
+$$
+
+
+![](../../../images/uniswap/v3/swap.png)

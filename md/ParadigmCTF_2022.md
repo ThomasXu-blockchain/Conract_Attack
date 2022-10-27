@@ -290,7 +290,7 @@ contract Exploit{
 
 ```
 
-这里先用11个ETH去交换usdc,交换得到的usdc发送到`mcHelper`合约,这里的11个ETH其实只要大于10即可,目的是为了将`mcHelper`里的WETH全部加到流动性池子里.
+这里先用11个ETH去交换usdc,交换得到的usdc发送到`mcHelper`合约,这里的11个ETH其实只要大于10即可,目的是为了将`mcHelper`里的WETH全部加到流动性池子里.也可以通过`getAmountOut`函数计算处需要传入的usdc数目。
 然后我换一些dai到自己合约,以便于触发`mcHelper`的`swapTokenForPoolToken()`函数
 
 js测试代码：
