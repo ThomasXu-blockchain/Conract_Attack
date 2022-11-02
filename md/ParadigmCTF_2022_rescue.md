@@ -1,13 +1,14 @@
-# paradigm 2022 ctf 题解
+# paradigm 2022 ctf 题解——Rescue
 ---
 
     author：Thomas_Xu
 **环境配置**:
-我重新搭了一个hardhat框架的测试环境,而由于题目出在以太坊的主链上,我使用`Alchemy`fork了一个主网节点进行测试.
+由于题目环境需要使用docker，环境配置有点繁琐。我重新搭了一个hardhat框架的测试环境,而由于题目出在以太坊的主链上,并使用`Alchemy`fork了一个主网节点进行测试.
 
 ## Resucue
 首先先来看一下这道题目的描述:`  I accidentally sent some WETH to a contract, can you help me?`看起来像是由于操作失误,导致像一个合约转了一些ETH,想要完成此Challange就必须试图挽救一下这笔损失.
 接下来看一看合约代码:
+
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
 
@@ -168,51 +169,56 @@ function _addLiquidity(address token0, address token1, uint256 minAmountOut) int
 ![](../images/ParadigmCTF/2022/CTF03.png)
 
 当然我们也可以用脚本来获取交易对信息:
-```python
-import json
+```javascript
+const { expect } = require("chai");
+const { ethers } = require('hardhat');
+const masterLike = require('../contracts/rescue/MatserChefLike.json')
+describe("Challange rescue", function() {
+    let attacker,deployer;
+    it("should return the solved", async function() {
+        [attacker,deployer] = await ethers.getSigners();
+        const Weth = await ethers.getContractAt("WETH9","0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", attacker);
+        const SetupFactory = await ethers.getContractFactory("Setup", attacker);
+  
+        const setup = await SetupFactory.deploy({
+            value: ethers.utils.parseEther("50")
+        });
+        
+        //Exploit
+        let abi = [{"inputs":[{"internalType":"uint256","name":"id","type":"uint256"}],"name":"poolInfo","outputs":[{"internalType":"address","name":"lpToken","type":"address"},{"internalType":"uint256","name":"allocPoint","type":"uint256"},{"internalType":"uint256","name":"lastRewardBlock","type":"uint256"},{"internalType":"uint256","name":"accSushiPerShare","type":"uint256"}],"stateMutability":"view","type":"function"}];
+       
+        let UniswapV2pairLikeAbi = [{"inputs":[],"name":"token0","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"token1","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}];
 
-import web3
-from web3 import Web3
-
-RPC_URL = 'http://127.0.0.1:8545/b7cb95db-d484-4b12-8c94-08c92580eeec'
-w3 = web3.Web3(web3.Web3.HTTPProvider(RPC_URL))
-# 通过solc获得abi
-MasterChefLikeAbi = '''
-[{"inputs":[{"internalType":"uint256","name":"id","type":"uint256"}],"name":"poolInfo","outputs":[{"internalType":"address","name":"lpToken","type":"address"},{"internalType":"uint256","name":"allocPoint","type":"uint256"},{"internalType":"uint256","name":"lastRewardBlock","type":"uint256"},{"internalType":"uint256","name":"accSushiPerShare","type":"uint256"}],"stateMutability":"nonpayable","type":"function"}]
-'''
-UniswapV2pairLikeAbi = '''
-[{"inputs":[],"name":"token0","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"token1","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"nonpayable","type":"function"}]
-'''
-
-setup_abi = '''
-[{"inputs":[],"stateMutability":"payable","type":"constructor"},{"inputs":[],"name":"isSolved","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"mcHelper","outputs":[{"internalType":"contract MasterChefHelper","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"weth","outputs":[{"internalType":"contract WETH9","name":"","type":"address"}],"stateMutability":"view","type":"function"}]
-'''
-
-erc20_abi = '''
-[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"}]
-'''
+        erc20_abi = [{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"}]
 
 
-def get_pair_info():
-    mastercheflike = w3.eth.contract(address=Web3.toChecksumAddress('0xc2EdaD668740f1aA35E4D8f227fB8E17dcA888Cd'),abi=json.loads(MasterChefLikeAbi))
-    for i in range(28):
-        pool_info = mastercheflike.functions.poolInfo(i).call()
-        # lpToken address
-        lp_token = pool_info[0]
-        pair = w3.eth.contract(address=Web3.toChecksumAddress(lp_token), abi=json.loads(UniswapV2pairLikeAbi))
-        token0 = pair.functions.token0().call()
-        token1 = pair.functions.token1().call()
-        token0_contract = w3.eth.contract(address=Web3.toChecksumAddress(token0),abi=json.loads(erc20_abi))
-        token1_contract = w3.eth.contract(address=Web3.toChecksumAddress(token1),abi=json.loads(erc20_abi))
-        token0_name = token0_contract.functions.symbol().call()
-        token1_name = token1_contract.functions.symbol().call()
-        format_msg = f'pair_id:{i},lp_address:{lp_token},token0:{token0_name},token1:{token1_name}'
-        print(format_msg)
-        print(f'token0_address:{token0},token1_address:{token1}')
+        let contractAddress = "0xc2EdaD668740f1aA35E4D8f227fB8E17dcA888Cd";
 
+        let provider = await ethers.getDefaultProvider();
+        const MasterLike = new ethers.Contract(contractAddress, abi, provider);
 
-if __name__ == '__main__':
-    get_pair_info()
+        for(let i = 0; i < 18; i++){
+            // let pool_info = await MasterLike.connect(attacker).poolInfo(i);
+            let pool_info = await MasterLike.poolInfo(i);
+            let lp_token = pool_info[0];
+            const pair = new ethers.Contract(ethers.utils.getAddress(lp_token), UniswapV2pairLikeAbi, provider);
+            const token0 = await pair.token0();
+            let token1 = await pair.token1();
+            let token_contract0 = new ethers.Contract(token0, erc20_abi, provider);
+            let token_contract1 = new ethers.Contract(token1, erc20_abi, provider);
+            let token0_name = await token_contract0.symbol();
+            let tokne1_name = await token_contract1.symbol();
+            // console.log(lp_token)
+            console.log(`lp_token is : ${lp_token}  token0 is : ${token0_name} token1 is : ${tokne1_name}`);
+        }
+
+        // const ExploitFactory = await ethers.getContractFactory("Exploit",attacker);
+        // const exploit = await ExploitFactory.deploy(setup.address, {value : ethers.utils.parseEther("50")});
+
+        expect(await setup.isSolved()).to.equal(true);
+    });
+  });
+  
 
 ```
 获取到的交易对如下:
