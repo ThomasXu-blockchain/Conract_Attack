@@ -1,0 +1,816 @@
+<!DOCTYPE html><html><head>
+      <title>ERC777,1820</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\&#x5C0F;&#x6829;\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.6.5\node_modules\@shd101wyy\mume\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <style>
+      /**
+ * prism.js Github theme based on GitHub's theme.
+ * @author Sam Clarke
+ */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #333;
+  background: none;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.4;
+
+  -moz-tab-size: 8;
+  -o-tab-size: 8;
+  tab-size: 8;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: .8em;
+  overflow: auto;
+  /* border: 1px solid #ddd; */
+  border-radius: 3px;
+  /* background: #fff; */
+  background: #f5f5f5;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+  background: #f5f5f5;
+}
+
+.token.comment,
+.token.blockquote {
+  color: #969896;
+}
+
+.token.cdata {
+  color: #183691;
+}
+
+.token.doctype,
+.token.punctuation,
+.token.variable,
+.token.macro.property {
+  color: #333;
+}
+
+.token.operator,
+.token.important,
+.token.keyword,
+.token.rule,
+.token.builtin {
+  color: #a71d5d;
+}
+
+.token.string,
+.token.url,
+.token.regex,
+.token.attr-value {
+  color: #183691;
+}
+
+.token.property,
+.token.number,
+.token.boolean,
+.token.entity,
+.token.atrule,
+.token.constant,
+.token.symbol,
+.token.command,
+.token.code {
+  color: #0086b3;
+}
+
+.token.tag,
+.token.selector,
+.token.prolog {
+  color: #63a35c;
+}
+
+.token.function,
+.token.namespace,
+.token.pseudo-element,
+.token.class,
+.token.class-name,
+.token.pseudo-class,
+.token.id,
+.token.url-reference .token.variable,
+.token.attr-name {
+  color: #795da3;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.title,
+.token.title .token.punctuation {
+  font-weight: bold;
+  color: #1d3e81;
+}
+
+.token.list {
+  color: #ed6a43;
+}
+
+.token.inserted {
+  background-color: #eaffea;
+  color: #55a532;
+}
+
+.token.deleted {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+
+/* JSON */
+.language-json .token.property {
+  color: #183691;
+}
+
+.language-markup .token.tag .token.punctuation {
+  color: #333;
+}
+
+/* CSS */
+code.language-css,
+.language-css .token.function {
+  color: #0086b3;
+}
+
+/* YAML */
+.language-yaml .token.atrule {
+  color: #63a35c;
+}
+
+code.language-yaml {
+  color: #183691;
+}
+
+/* Ruby */
+.language-ruby .token.function {
+  color: #333;
+}
+
+/* Markdown */
+.language-markdown .token.url {
+  color: #795da3;
+}
+
+/* Makefile */
+.language-makefile .token.symbol {
+  color: #795da3;
+}
+
+.language-makefile .token.variable {
+  color: #183691;
+}
+
+.language-makefile .token.builtin {
+  color: #0086b3;
+}
+
+/* Bash */
+.language-bash .token.keyword {
+  color: #0086b3;
+}
+
+/* highlight */
+pre[data-line] {
+  position: relative;
+  padding: 1em 0 1em 3em;
+}
+pre[data-line] .line-highlight-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: block;
+  width: 100%;
+}
+
+pre[data-line] .line-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: inherit 0;
+  margin-top: 1em;
+  background: hsla(24, 20%, 50%,.08);
+  background: linear-gradient(to right, hsla(24, 20%, 50%,.1) 70%, hsla(24, 20%, 50%,0));
+  pointer-events: none;
+  line-height: inherit;
+  white-space: pre;
+}
+
+pre[data-line] .line-highlight:before, 
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-start);
+  position: absolute;
+  top: .4em;
+  left: .6em;
+  min-width: 1em;
+  padding: 0 .5em;
+  background-color: hsla(24, 20%, 50%,.4);
+  color: hsl(24, 20%, 95%);
+  font: bold 65%/1.5 sans-serif;
+  text-align: center;
+  vertical-align: .3em;
+  border-radius: 999px;
+  text-shadow: none;
+  box-shadow: 0 1px white;
+}
+
+pre[data-line] .line-highlight[data-end]:after {
+  content: attr(data-end);
+  top: auto;
+  bottom: .4em;
+}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{padding:0 1.6em;margin-top:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li{margin-bottom:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{list-style-type:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  150px);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+    </head>
+    <body for="html-export">
+      <div class="mume markdown-preview  ">
+      <h1 class="mume-header" id="erc7771820%E5%8D%8F%E8%AE%AE%E5%88%86%E6%9E%90">ERC777&#xFF0C;1820&#x534F;&#x8BAE;&#x5206;&#x6790;</h1>
+
+<hr>
+<pre class="language-text">author&#xFF1A;Thomas_Xu
+</pre>
+<h2 class="mume-header" id="erc777">ERC777</h2>
+
+<p>&#x4E0E;&#x4EE5;&#x592A;&#x574A;&#x751F;&#x6001;&#x7CFB;&#x7EDF;&#x4E2D;&#x5E7F;&#x6CDB;&#x91C7;&#x7528;&#x7684;ERC20&#x6807;&#x51C6;&#x4E0D;&#x540C;&#xFF0C;ERC777&#x6807;&#x51C6;&#x901A;&#x5E38;&#x88AB;&#x79F0;&#x4E3A;&#x57CE;&#x91CC;&#x7684;&#x65B0;&#x751F;&#x513F;&#x3002;&#x4E00;&#x4E2A;&#x6F5C;&#x529B;&#x5DE8;&#x5927;&#x7684;&#x5B69;&#x5B50;&#x3002;&#x6709;&#x4E9B;&#x4EBA;&#x751A;&#x81F3;&#x58F0;&#x79F0;ERC777&#x6807;&#x51C6;&#x662F;ERC20&#x6807;&#x51C6;&#x7684;&#x6709;&#x6548;&#x7EE7;&#x627F;&#x8005;&#x3002;ERC777&#x6807;&#x51C6;&#x89C4;&#x8303;&#x5728;<a href="https://link.zhihu.com/?target=https%3A//github.com/ethereum/EIPs/blob/master/EIPS/eip-777.md">EIP777&#xFF08;&#x4EE5;&#x592A;&#x574A;&#x6539;&#x8FDB;&#x63D0;&#x6848;</a>&#x6587;&#x4EF6;&#x4E2D;&#x6709;&#x8BE6;&#x5C3D;&#x63CF;&#x8FF0;&#x3002;</p>
+<h2 class="mume-header" id="erc777%E8%A7%A3%E5%86%B3%E4%BA%86%E5%93%AA%E4%BA%9Berc20%E7%9A%84%E9%97%AE%E9%A2%98">ERC777&#x89E3;&#x51B3;&#x4E86;&#x54EA;&#x4E9B;ERC20&#x7684;&#x95EE;&#x9898;?</h2>
+
+<h3 class="mume-header" id="%E8%BD%AC%E8%B4%A6%E9%80%9A%E7%9F%A5%E6%9C%BA%E5%88%B6"><strong>&#x8F6C;&#x8D26;&#x901A;&#x77E5;&#x673A;&#x5236;</strong></h3>
+
+<p>&#x7531;&#x4E8E;<strong>ERC20 &#x6807;&#x51C6;&#x6CA1;&#x6709;&#x4E00;&#x4E2A;&#x8F6C;&#x8D26;&#x901A;&#x77E5;&#x673A;&#x5236;</strong>&#xFF0C;&#x5F88;&#x591A;ERC20&#x4EE3;&#x5E01;&#x8BEF;&#x8F6C;&#x5230;&#x5408;&#x7EA6;&#x4E4B;&#x540E;&#xFF0C;&#x518D;&#x4E5F;&#x6CA1;&#x6709;&#x529E;&#x6CD5;&#x628A;&#x5E01;&#x8F6C;&#x79FB;&#x51FA;&#x6765;&#xFF0C;&#x5DF2;&#x7ECF;&#x6709;&#x5927;&#x91CF;&#x7684;ERC20 &#x56E0;&#x4E3A;&#x8FD9;&#x4E2A;&#x539F;&#x56E0;&#x88AB;&#x9501;&#x6B7B;&#xFF0C;&#x5982;<a href="https://etherscan.io/address/0x9a642d6b3368ddc662CA244bAdf32cDA716005BC">&#x9501;&#x6B7B;&#x7684;QTUM</a>&#xFF0C;<a href="https://etherscan.io/address/0x86fa049857e0209aa7d9e616f7eb3b3b78ecfdb0">&#x9501;&#x6B7B;&#x7684;EOS</a> &#x3002;</p>
+<h3 class="mume-header" id="%E8%BF%90%E8%90%A5%E5%95%86%E6%9C%BA%E5%88%B6">&#x8FD0;&#x8425;&#x5546;&#x673A;&#x5236;</h3>
+
+<p>&#x5047;&#x8BBE;&#x60A8;&#x5E0C;&#x671B;&#x5141;&#x8BB8;&#x7B2C;&#x4E09;&#x65B9;&#x5E10;&#x6237;&#xFF08;&#x6216;&#x5408;&#x7EA6;&#xFF09;&#x4F7F;&#x7528;&#x60A8;&#x7684;&#x4EE3;&#x5E01;&#x3002;&#x6700;&#x5E38;&#x89C1;&#x7684;&#x9700;&#x6C42;&#x662F;&#x5728;&#x4F7F;&#x7528;&#x53BB;&#x4E2D;&#x5FC3;&#x5316;&#x4EA4;&#x6613;&#x6240;&#x667A;&#x80FD;&#x5408;&#x7EA6;&#x4EA4;&#x6613;&#x4EE3;&#x5E01;&#x65F6;&#x3002;</p>
+<p>&#x6B64;&#x8FC7;&#x7A0B;&#x4E2D;&#x7684;&#x7B2C;&#x4E00;&#x6B65;&#x662F;&#x4F60;&#x9700;&#x8981;&#x901A;&#x8FC7;&#x8C03;&#x7528;ERC20&#x667A;&#x80FD;&#x5408;&#x7EA6;&#x4E0A;&#x7684;<code>approve</code>&#x65B9;&#x6CD5;&#x51FD;&#x6570;&#x6765;&#x6279;&#x51C6;&#x8F6C;&#x8D26;&#x8D26;&#x6237;&#x5E76;&#x8BBE;&#x7F6E;&#x4ED6;&#x4EEC;&#x6709;&#x6743;&#x83B7;&#x5F97;&#x7684;&#x8D44;&#x91D1;&#x9650;&#x989D;&#x3002;&#x9664;&#x4E86;&#x7528;&#x4F60;&#x7684;&#x8D44;&#x91D1;&#x4FE1;&#x4EFB;&#x7B2C;&#x4E09;&#x65B9;&#x4E4B;&#x5916;&#xFF0C;&#x4F60;&#x8FD8;&#x9700;&#x8981;&#x786E;&#x4FDD;&#x652F;&#x51FA;&#x9650;&#x989D;&#x59CB;&#x7EC8;&#x8DB3;&#x4EE5;&#x6EE1;&#x8DB3;&#x6240;&#x9700;&#x7684;&#x4EA4;&#x6613;&#xFF0C;&#x8FD8;&#x9700;&#x8003;&#x8651;gas&#x7B49;&#x56E0;&#x7D20;&#x5BF9;&#x4EA4;&#x6613;&#x7684;&#x5F71;&#x54CD;&#x3002;</p>
+<p>&#x5728;ERC777&#x7684;&#x8FD0;&#x8425;&#x5546;&#x673A;&#x5236;&#x4E0B;&#xFF0C;&#x4F60;&#x53EA;&#x9700;&#x8981;&#x8F6C;&#x79FB;&#x64CD;&#x4F5C;&#x6743;&#x9650;&#x540E;&#x5C31;&#x4EC0;&#x4E48;&#x90FD;&#x4E0D;&#x7528;&#x64CD;&#x5FC3;&#x4E86;&#x3002;</p>
+<h3 class="mume-header" id="%E4%BA%A4%E6%98%93%E9%A2%9D%E5%A4%96%E4%BF%A1%E6%81%AF">&#x4EA4;&#x6613;&#x989D;&#x5916;&#x4FE1;&#x606F;</h3>
+
+<p>&#x53E6;&#x5916;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#x662F;<strong>ERC20 &#x8F6C;&#x8D26;&#x65F6;&#xFF0C;&#x65E0;&#x6CD5;&#x643A;&#x5E26;&#x989D;&#x5916;&#x7684;&#x4FE1;&#x606F;</strong>&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;&#x6211;&#x4EEC;&#x6709;&#x4E00;&#x4E9B;&#x5BA2;&#x6237;&#x5E0C;&#x671B;&#x8BA9;&#x7528;&#x6237;&#x4F7F;&#x7528; ERC20 &#x4EE3;&#x5E01;&#x8D2D;&#x4E70;&#x5546;&#x54C1;&#xFF0C;&#x56E0;&#x4E3A;&#x8F6C;&#x8D26;&#x6CA1;&#x6CD5;&#x643A;&#x5E26;&#x989D;&#x5916;&#x7684;&#x4FE1;&#x606F;&#xFF0C; &#x7528;&#x6237;&#x7684;&#x4EE3;&#x5E01;&#x8F6C;&#x79FB;&#x8FC7;&#x6765;&#xFF0C;&#x4E0D;&#x77E5;&#x9053;&#x7528;&#x6237;&#x5177;&#x4F53;&#x8981;&#x8D2D;&#x4E70;&#x54EA;&#x4EF6;&#x5546;&#x54C1;&#xFF0C;&#x4ECE;&#x800C;&#x5C55;&#x52A0;&#x4E86;&#x7EBF;&#x4E0B;&#x989D;&#x5916;&#x7684;&#x6C9F;&#x901A;&#x6210;&#x672C;&#x3002;</p>
+<p>ERC777&#x5F88;&#x597D;&#x7684;&#x89E3;&#x51B3;&#x4E86;&#x8FD9;&#x4E9B;&#x95EE;&#x9898;&#xFF0C;&#x540C;&#x65F6;ERC777 &#x4E5F;&#x517C;&#x5BB9; ERC20 &#x6807;&#x51C6;&#x3002;&#x56E0;&#x6B64;&#x5F3A;&#x70C8;&#x5EFA;&#x8BAE;&#x65B0;&#x5F00;&#x53D1;&#x7684;&#x4EE3;&#x5E01;&#x4F7F;&#x7528;ERC777&#x6807;&#x51C6;&#x3002;</p>
+<p>ERC777 &#x5728; ERC20&#x7684;&#x57FA;&#x7840;&#x4E0A;&#x5B9A;&#x4E49;&#x4E86; <code>send(dest, value, data)</code> &#x6765;&#x8F6C;&#x79FB;&#x4EE3;&#x5E01;&#xFF0C; send&#x51FD;&#x6570;&#x989D;&#x5916;&#x7684;&#x53C2;&#x6570;&#x7528;&#x6765;&#x643A;&#x5E26;&#x5176;&#x4ED6;&#x7684;&#x4FE1;&#x606F;&#xFF0C;send&#x51FD;&#x6570;&#x4F1A;&#x68C0;&#x67E5;&#x6301;&#x6709;&#x8005;&#x548C;&#x63A5;&#x6536;&#x8005;&#x662F;&#x5426;&#x5B9E;&#x73B0;&#x4E86;&#x76F8;&#x5E94;&#x7684;&#x94A9;&#x5B50;&#x51FD;&#x6570;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x5B9E;&#x73B0;&#xFF08;&#x4E0D;&#x7BA1;&#x662F;&#x666E;&#x901A;&#x7528;&#x6237;&#x5730;&#x5740;&#x8FD8;&#x662F;&#x5408;&#x7EA6;&#x5730;&#x5740;&#x90FD;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x94A9;&#x5B50;&#x51FD;&#x6570;&#xFF09;&#xFF0C;&#x5219;&#x8C03;&#x7528;&#x76F8;&#x5E94;&#x7684;&#x94A9;&#x5B50;&#x51FD;&#x6570;&#x3002;</p>
+<h3 class="mume-header" id="%E4%BA%A4%E6%98%93%E7%9B%91%E5%90%AC">&#x4EA4;&#x6613;&#x76D1;&#x542C;</h3>
+
+<p>&#x7531;&#x4E8E;ERC1820&#x63A5;&#x53E3;&#x7684;&#x5B9E;&#x73B0;&#xFF0C;&#x4F7F;ERC777&#x5177;&#x6709;&#x5F88;&#x5B8C;&#x5907;&#x7684;&#x4EA4;&#x6613;&#x76D1;&#x542C;&#x673A;&#x5236;&#xFF0C;&#x5229;&#x7528;&#x8FD9;&#x79CD;&#x76D1;&#x542C;&#x53EF;&#x4EE5;&#x5B8C;&#x6210;&#x8BB8;&#x591A;&#x529F;&#x80FD;&#xFF0C;&#x4F8B;&#x5982;&#x6148;&#x5584;&#x673A;&#x6784;&#x7684;&#x6350;&#x6B3E;&#x8BB0;&#x5F55;&#xFF0C;&#x652F;&#x51FA;&#x60C5;&#x51B5;&#x76D1;&#x542C;&#xFF0C;&#x7B49;&#x7B49;&#x3002;</p>
+<blockquote>
+<p>ERC20 &#x6807;&#x51C6;&#x4E0B;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4E00;&#x4E2A;&#x53D8;&#x901A;&#x7684;&#x529E;&#x6CD5;&#xFF0C;&#x91C7;&#x7528;&#x4E24;&#x4E2A;&#x4EA4;&#x6613;&#x7EC4;&#x5408;&#x5B8C;&#x6210;&#xFF0C;&#x65B9;&#x6CD5;&#x662F;&#xFF1A;&#x7B2C;1&#x6B65;&#xFF1A;&#x5148;&#x8BA9;&#x7528;&#x6237;&#x628A;&#x8981;&#x8F6C;&#x79FB;&#x7684;&#x91D1;&#x989D;&#x7528; ERC20 &#x7684;approve &#x6388;&#x6743;&#x7684;&#x5B58;&#x5E01;&#x5408;&#x7EA6;&#xFF08;&#x8FD9;&#x6B65;&#x901A;&#x5E38;&#x79F0;&#x4E3A;&#x89E3;&#x9501;&#xFF09;&#xFF0C;&#x7B2C;2&#x6B65;&#xFF1A;&#x518D;&#x6B21;&#x8BA9;&#x7528;&#x6237;&#x8C03;&#x7528;&#x5B58;&#x5E01;&#x5408;&#x7EA6;&#x7684;&#x8BA1;&#x606F;&#x51FD;&#x6570;&#xFF0C;&#x76EE;&#x6807;&#x51FD;&#x6570;&#x4E2D;&#x901A;&#x8FC7; transferFrom &#x628A;&#x4EE3;&#x5E01;&#x4ECE;&#x7528;&#x6237;&#x624B;&#x91CC;&#x8F6C;&#x79FB;&#x7684;&#x5408;&#x7EA6;&#x5185;&#xFF0C;&#x5E76;&#x5F00;&#x59CB;&#x76D1;&#x542C;&#x5230;&#x4EA4;&#x6613;&#x540E;&#x7684;&#x64CD;&#x4F5C;&#x3002;</p>
+</blockquote>
+<h2 class="mume-header" id="erc1820-%E6%8E%A5%E5%8F%A3%E6%B3%A8%E5%86%8C%E8%A1%A8%E5%90%88%E7%BA%A6">ERC1820 &#x63A5;&#x53E3;&#x6CE8;&#x518C;&#x8868;&#x5408;&#x7EA6;</h2>
+
+<p>&#x5373;&#x4FBF;&#x662F;&#x4E00;&#x4E2A;&#x666E;&#x901A;&#x7528;&#x6237;&#x5730;&#x5740;&#xFF0C;&#x540C;&#x6837;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x5BF9; ERC777 &#x8F6C;&#x8D26;&#x7684;&#x76D1;&#x542C;&#xFF0C; &#x542C;&#x8D77;&#x6765;&#x6709;&#x70B9;&#x795E;&#x5947;&#xFF0C;&#x5176;&#x5B9E;&#x8FD9;&#x662F;&#x901A;&#x8FC7; ERC1820 &#x63A5;&#x53E3;&#x6CE8;&#x518C;&#x8868;&#x5408;&#x7EA6;&#x6765;&#x662F;&#x5B9E;&#x73B0;&#x7684;&#x3002;</p>
+<blockquote>
+<p>ERC1820 &#x76F8;&#x5F53;&#x7684;&#x91CD;&#x8981;&#xFF0C;&#x4EE5;&#x81F3;&#x4E8E;ERC777&#x5355;&#x72EC;&#x628A;&#x5B83;&#x62C6;&#x51FA;&#x6765;&#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;EIP&#x3002;</p>
+</blockquote>
+<h3 class="mume-header" id="%E5%8A%A8%E6%9C%BA">&#x52A8;&#x673A;</h3>
+
+<p>&#x5728;&#x4EE5;&#x592A;&#x574A;&#x4E0A;&#x6709;&#x5F88;&#x591A;&#x65B9;&#x6CD5;&#x5B9A;&#x4E49;&#x4F2A;&#x81EA;&#x7701;&#xFF0C;<a href="https://learnblockchain.cn/docs/eips/eip-165.html">ERC165</a>&#x4E0D;&#x80FD;&#x7531;&#x666E;&#x901A;&#x7528;&#x6237;&#x5E10;&#x6237;&#x4F7F;&#x7528;&#x3002; <a href="https://github.com/ethereum/EIPs/issues/672">ERC672</a> &#x5219;&#x4F7F;&#x7528;&#x4E86;&#x53CD;&#x5411; <a href="https://ens.domains/">ENS</a>&#xFF0C;&#x53CD;&#x5411; <a href="https://ens.domains/">ENS</a> &#x6709;&#x4E24;&#x4E2A;&#x95EE;&#x9898;&#xFF1A;&#x589E;&#x52A0;&#x4E86;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x590D;&#x6742;&#x5EA6;&#xFF0C;&#x5176;&#x6B21;&#xFF0C;<a href="https://ens.domains/">ENS</a> &#x662F;&#x7531;&#x591A;&#x7B7E;&#x63A7;&#x5236;&#x7684;&#x4E2D;&#x5FC3;&#x5316;&#x5408;&#x7EA6;&#x3002; &#x4ECE;&#x7406;&#x8BBA;&#x4E0A;&#x8BB2;&#xFF0C;&#x8FD9;&#x79CD;&#x591A;&#x7B7E;&#x80FD;&#x591F;&#x4FEE;&#x6539;&#x7CFB;&#x7EDF;&#x3002;</p>
+<p>ERC1820&#x6807;&#x51C6;&#x6BD4; <a href="https://github.com/ethereum/EIPs/issues/672">ERC672</a> &#x7B80;&#x5355;&#x5F97;&#x591A;&#xFF0C;&#x5E76;&#x4E14;&#x5B8C;&#x5168;&#x53BB;&#x4E2D;&#x5FC3;&#x5316;&#x3002;</p>
+<p>&#x6B64;&#x6807;&#x51C6;&#x8FD8;&#x4E3A;&#x6240;&#x6709;&#x94FE;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x552F;&#x4E00;&#xFF08;&#x76F8;&#x540C;&#x7684;&#xFF09;&#x5730;&#x5740;<code>0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24</code>&#x3002;&#x4ECE;&#x800C;&#x89E3;&#x51B3;&#x4E86;&#x89E3;&#x51B3;&#x4E0D;&#x540C;&#x94FE;&#x7684;&#x67E5;&#x627E;&#x6CE8;&#x518C;&#x8868;&#x5730;&#x5740;&#x7684;&#x95EE;&#x9898;&#x3002;</p>
+<h3 class="mume-header" id="erc1820%E8%A7%84%E8%8C%83">ERC1820&#x89C4;&#x8303;</h3>
+
+<p>&#x4EE5;&#x4E0B;&#x662F;ERC1820&#x7684;&#x6E90;&#x7801;&#x53CA;&#x89E3;&#x91CA;</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity"><span class="token keyword keyword-pragma">pragma</span> <span class="token keyword keyword-solidity">solidity</span> <span class="token number">0.5</span><span class="token number">.3</span><span class="token punctuation">;</span>
+<span class="token comment">// IV is value needed to have a vanity address starting with &apos;0x1820&apos;.</span>
+<span class="token comment">// IV: 53759</span>
+
+<span class="token comment">/// @dev &#x5982;&#x679C;&#x5408;&#x7EA6;&#x4E3A;&#x5176;&#x4ED6;&#x7684;&#x5730;&#x5740;&#x5B9E;&#x73B0;&#x4E86;&#x63A5;&#x53E3;&#xFF0C; &#x5219;&#x5FC5;&#x987B;&#x5B9E;&#x73B0;&#x8FD9;&#x4E2A;&#x63A5;&#x53E3;&#x3002;</span>
+<span class="token keyword keyword-interface">interface</span> <span class="token class-name">ERC1820ImplementerInterface</span> <span class="token punctuation">{</span>
+    <span class="token comment">/// @notice &#x6307;&#x793A;&#x5408;&#x7EA6;&#x662F;&#x5426;&#x4E3A;&#x5730;&#x5740; &#x201C;addr&#x201D; &#x5B9E;&#x73B0;&#x63A5;&#x53E3; &#x201C;interfaceHash&#x201D;&#x3002;</span>
+    <span class="token comment">/// @param interfaceHash &#x63A5;&#x53E3;&#x540D;&#x79F0;&#x7684; keccak256 &#x54C8;&#x5E0C;&#x503C;</span>
+    <span class="token comment">/// @param addr &#x4E3A;&#x54EA;&#x4E00;&#x4E2A;&#x5730;&#x5740;&#x5B9E;&#x73B0;&#x63A5;&#x53E3;</span>
+    <span class="token comment">/// @return &#x53EA;&#x6709;&#x5F53;&#x5408;&#x7EA6;&#x4E3A;&#x5730;&#x5740;&apos;addr&apos;&#x5B9E;&#x73B0;&apos;interfaceHash&apos;&#x65F6;&#x8FD4;&#x56DE; ERC1820_ACCEPT_MAGIC</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">canImplementInterfaceForAddress</span><span class="token punctuation">(</span><span class="token builtin">bytes32</span> interfaceHash<span class="token punctuation">,</span> <span class="token builtin">address</span> addr<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token keyword keyword-view">view</span> <span class="token keyword keyword-returns">returns</span><span class="token punctuation">(</span><span class="token builtin">bytes32</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+
+<span class="token comment">/// @title ERC1820 &#x4F2A;&#x81EA;&#x7701;&#x6CE8;&#x518C;&#x8868;&#x5408;&#x7EA6;</span>
+<span class="token comment">/// @notice &#x8BE5;&#x5408;&#x7EA6;&#x662F;ERC1820&#x6CE8;&#x518C;&#x8868;&#x7684;&#x5B98;&#x65B9;&#x5B9E;&#x73B0;&#x3002;</span>
+<span class="token keyword keyword-contract">contract</span> <span class="token class-name">ERC1820Registry</span> <span class="token punctuation">{</span>
+    <span class="token comment">/// @notice ERC165 &#x65E0;&#x6548; ID.</span>
+    <span class="token builtin">bytes4</span> <span class="token keyword keyword-constant">constant</span> <span class="token keyword keyword-internal">internal</span> INVALID_ID <span class="token operator">=</span> <span class="token number">0xffffffff</span><span class="token punctuation">;</span>
+    <span class="token comment">/// @notice ERC165 &#x7684; supportsInterface &#x63A5;&#x53E3;ID (= `bytes4(keccak256(&apos;supportsInterface(bytes4)&apos;))`).</span>
+    <span class="token builtin">bytes4</span> <span class="token keyword keyword-constant">constant</span> <span class="token keyword keyword-internal">internal</span> ERC165ID <span class="token operator">=</span> <span class="token number">0x01ffc9a7</span><span class="token punctuation">;</span>
+    <span class="token comment">/// @notice &#x5982;&#x679C;&#x5408;&#x7EA6;&#x4EE3;&#x8868;&#x67D0;&#x4E2A;&#x5176;&#x4ED6;&#x5730;&#x5740;&#x5B9E;&#x73B0;&#x63A5;&#x53E3;&#xFF0C;&#x5219;&#x8FD4;&#x56DE;Magic&#x503C;&#x3002;</span>
+    <span class="token builtin">bytes32</span> <span class="token keyword keyword-constant">constant</span> <span class="token keyword keyword-internal">internal</span> ERC1820_ACCEPT_MAGIC <span class="token operator">=</span> <span class="token function">keccak256</span><span class="token punctuation">(</span>abi<span class="token punctuation">.</span><span class="token function">encodePacked</span><span class="token punctuation">(</span><span class="token string">&quot;ERC1820_ACCEPT_MAGIC&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/// @notice &#x6620;&#x5C04;&#x5730;&#x5740;&#x53CA;&#x63A5;&#x53E3;&#x5230;&#x5BF9;&#x5E94;&#x7684;&#x5B9E;&#x73B0;&#x5408;&#x7EA6;&#x5730;&#x5740;</span>
+    <span class="token keyword keyword-mapping">mapping</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token operator">=&gt;</span> <span class="token keyword keyword-mapping">mapping</span><span class="token punctuation">(</span><span class="token builtin">bytes32</span> <span class="token operator">=&gt;</span> <span class="token builtin">address</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-internal">internal</span> interfaces<span class="token punctuation">;</span>
+    <span class="token comment">/// @notice &#x6620;&#x5C04;&#x5730;&#x5740;&#x5230;&#x7BA1;&#x7406;&#x8005;</span>
+    <span class="token keyword keyword-mapping">mapping</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token operator">=&gt;</span> <span class="token builtin">address</span><span class="token punctuation">)</span> <span class="token keyword keyword-internal">internal</span> managers<span class="token punctuation">;</span>
+    <span class="token comment">/// @notice &#x6BCF;&#x4E2A;&#x5730;&#x5740;&#x548C;erc165&#x63A5;&#x53E3;&#x7684;flag&#xFF0C;&#x6307;&#x793A;&#x662F;&#x5426;&#x88AB;&#x7F13;&#x5B58;&#x3002;</span>
+    <span class="token keyword keyword-mapping">mapping</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token operator">=&gt;</span> <span class="token keyword keyword-mapping">mapping</span><span class="token punctuation">(</span><span class="token builtin">bytes4</span> <span class="token operator">=&gt;</span> <span class="token builtin">bool</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword keyword-internal">internal</span> erc165Cached<span class="token punctuation">;</span>
+
+    <span class="token comment">/// @notice &#x8868;&#x793A;&#x5408;&#x7EA6;&#x662F;&apos;addr&apos;&#x7684;&apos;interfaceHash&apos;&#x7684;&apos;&#x5B9E;&#x73B0;&#x8005;&apos;&#x3002;</span>
+    <span class="token keyword keyword-event">event</span> <span class="token function">InterfaceImplementerSet</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> addr<span class="token punctuation">,</span> <span class="token builtin">bytes32</span> <span class="token keyword keyword-indexed">indexed</span> interfaceHash<span class="token punctuation">,</span> <span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> implementer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">/// @notice &#x8868;&#x793A;&apos;newManager&apos;&#x662F;&apos;addr&apos;&#x7684;&#x65B0;&#x7BA1;&#x7406;&#x8005;&#x7684;&#x5730;&#x5740;&#x3002;</span>
+    <span class="token keyword keyword-event">event</span> <span class="token function">ManagerChanged</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> addr<span class="token punctuation">,</span> <span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> newManager<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/// @notice &#x67E5;&#x8BE2;&#x5730;&#x5740;&#x662F;&#x5426;&#x5B9E;&#x73B0;&#x4E86;&#x63A5;&#x53E3;&#x4EE5;&#x53CA;&#x901A;&#x8FC7;&#x54EA;&#x4E2A;&#x5408;&#x7EA6;&#x5B9E;&#x73B0;&#x7684;&#x3002;</span>
+    <span class="token comment">/// @param _addr &#x67E5;&#x8BE2;&#x5730;&#x5740;&#xFF08;&#x5982;&#x679C;&apos;_addr&apos;&#x662F;&#x96F6;&#x5730;&#x5740;&#xFF0C;&#x5219;&#x5047;&#x5B9A;&#x4E3A;&apos;msg.sender&apos;&#xFF09;&#x3002;</span>
+    <span class="token comment">/// @param _interfaceHash &#x67E5;&#x8BE2;&#x63A5;&#x53E3;&#xFF0C;&#x5B83;&#x662F;&#x63A5;&#x53E3;&#x540D;&#x79F0;&#x5B57;&#x7B26;&#x4E32;&#x7684; keccak256 &#x54C8;&#x5E0C;&#x503C;</span>
+    <span class="token comment">/// &#x4F8B;&#x5982;: &apos;web3.utils.keccak256(&quot;ERC777TokensRecipient&quot;)&apos; &#x8868;&#x793A; &apos;ERC777TokensRecipient&apos; &#x63A5;&#x53E3;.</span>
+    <span class="token comment">/// @return &#x8FD4;&#x56DE;&#x5B9E;&#x73B0;&#x8005;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x6CA1;&#x6709;&#x5B9E;&#x73B0;&#x8FD4;&#x56DE; &#x2018;0&#x2019;</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">getInterfaceImplementer</span><span class="token punctuation">(</span><span class="token builtin">address</span> _addr<span class="token punctuation">,</span> <span class="token builtin">bytes32</span> _interfaceHash<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token keyword keyword-view">view</span> <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">address</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token builtin">address</span> addr <span class="token operator">=</span> _addr <span class="token operator">==</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">?</span> msg<span class="token punctuation">.</span>sender <span class="token punctuation">:</span> _addr<span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token function">isERC165Interface</span><span class="token punctuation">(</span>_interfaceHash<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token builtin">bytes4</span> erc165InterfaceHash <span class="token operator">=</span> <span class="token builtin">bytes4</span><span class="token punctuation">(</span>_interfaceHash<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword keyword-return">return</span> <span class="token function">implementsERC165Interface</span><span class="token punctuation">(</span>addr<span class="token punctuation">,</span> erc165InterfaceHash<span class="token punctuation">)</span> <span class="token operator">?</span> addr <span class="token punctuation">:</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword keyword-return">return</span> interfaces<span class="token punctuation">[</span>addr<span class="token punctuation">]</span><span class="token punctuation">[</span>_interfaceHash<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/// @notice &#x8BBE;&#x7F6E;&#x67D0;&#x4E2A;&#x5730;&#x5740;&#x7684;&#x63A5;&#x53E3;&#x7531;&#x54EA;&#x4E2A;&#x5408;&#x7EA6;&#x5B9E;&#x73B0;&#xFF0C;&#x9700;&#x8981;&#x7531;&#x7BA1;&#x7406;&#x5458;&#x6765;&#x8BBE;&#x7F6E;&#x3002;&#xFF08;&#x6BCF;&#x4E2A;&#x5730;&#x5740;&#x662F;&#x4ED6;&#x81EA;&#x5DF1;&#x7684;&#x7BA1;&#x7406;&#x5458;&#xFF0C;&#x76F4;&#x5230;&#x8BBE;&#x7F6E;&#x4E86;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x5730;&#x5740;&#xFF09;&#x3002;</span>
+    <span class="token comment">/// @param _addr &#x5F85;&#x8BBE;&#x7F6E;&#x7684;&#x5173;&#x8054;&#x63A5;&#x53E3;&#x7684;&#x5730;&#x5740;&#xFF08;&#x5982;&#x679C;&apos;_addr&apos;&#x662F;&#x96F6;&#x5730;&#x5740;&#xFF0C;&#x5219;&#x5047;&#x5B9A;&#x4E3A;&apos;msg.sender&apos;&#xFF09;</span>
+    <span class="token comment">/// @param _interfaceHash &#x63A5;&#x53E3;&#xFF0C;&#x5B83;&#x662F;&#x63A5;&#x53E3;&#x540D;&#x79F0;&#x5B57;&#x7B26;&#x4E32;&#x7684; keccak256 &#x54C8;&#x5E0C;&#x503C;</span>
+    <span class="token comment">/// &#x4F8B;&#x5982;: &apos;web3.utils.keccak256(&quot;ERC777TokensRecipient&quot;)&apos; &#x8868;&#x793A; &apos;ERC777TokensRecipient&apos; &#x63A5;&#x53E3;&#x3002;</span>
+    <span class="token comment">/// @param _implementer &#x4E3A;&#x5730;&#x5740;&apos;_addr&apos;&#x5B9E;&#x73B0;&#x4E86; &apos;_interfaceHash&apos;&#x63A5;&#x53E3;&#x7684;&#x5408;&#x7EA6;&#x5730;&#x5740;</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">setInterfaceImplementer</span><span class="token punctuation">(</span><span class="token builtin">address</span> _addr<span class="token punctuation">,</span> <span class="token builtin">bytes32</span> _interfaceHash<span class="token punctuation">,</span> <span class="token builtin">address</span> _implementer<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token punctuation">{</span>
+        <span class="token builtin">address</span> addr <span class="token operator">=</span> _addr <span class="token operator">==</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">?</span> msg<span class="token punctuation">.</span>sender <span class="token punctuation">:</span> _addr<span class="token punctuation">;</span>
+        <span class="token keyword keyword-require">require</span><span class="token punctuation">(</span><span class="token function">getManager</span><span class="token punctuation">(</span>addr<span class="token punctuation">)</span> <span class="token operator">==</span> msg<span class="token punctuation">.</span>sender<span class="token punctuation">,</span> <span class="token string">&quot;Not the manager&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword keyword-require">require</span><span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">isERC165Interface</span><span class="token punctuation">(</span>_interfaceHash<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">&quot;Must not be an ERC165 hash&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>_implementer <span class="token operator">!=</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> _implementer <span class="token operator">!=</span> msg<span class="token punctuation">.</span>sender<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword keyword-require">require</span><span class="token punctuation">(</span>
+                <span class="token function">ERC1820ImplementerInterface</span><span class="token punctuation">(</span>_implementer<span class="token punctuation">)</span>
+                    <span class="token punctuation">.</span><span class="token function">canImplementInterfaceForAddress</span><span class="token punctuation">(</span>_interfaceHash<span class="token punctuation">,</span> addr<span class="token punctuation">)</span> <span class="token operator">==</span> ERC1820_ACCEPT_MAGIC<span class="token punctuation">,</span>
+                <span class="token string">&quot;Does not implement the interface&quot;</span>
+            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        interfaces<span class="token punctuation">[</span>addr<span class="token punctuation">]</span><span class="token punctuation">[</span>_interfaceHash<span class="token punctuation">]</span> <span class="token operator">=</span> _implementer<span class="token punctuation">;</span>
+        <span class="token keyword keyword-emit">emit</span> <span class="token function">InterfaceImplementerSet</span><span class="token punctuation">(</span>addr<span class="token punctuation">,</span> _interfaceHash<span class="token punctuation">,</span> _implementer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/// @notice &#x4E3A;&#x5730;&#x5740;_addr &#x8BBE;&#x7F6E;&#x65B0;&#x7684;&#x7BA1;&#x7406;&#x5458;&#x5730;&#x5740;_newManager&#xFF0C; &#x65B0;&#x7684;&#x7BA1;&#x7406;&#x5458;&#x80FD;&#x7ED9;&apos;_addr&apos; &#x8C03;&#x7528; &apos;setInterfaceImplementer&apos; &#x8BBE;&#x7F6E;&#x662F;&#x5B9E;&#x73B0;&#x8005;&#x3002;</span>
+    <span class="token comment">///  (&#x4F20; &apos;0x0&apos; &#x4E3A;&#x5730;&#x5740;_addr &#x91CD;&#x7F6E;&#x7BA1;&#x7406;&#x5458;)</span>
+
+    <span class="token keyword keyword-function">function</span> <span class="token function">setManager</span><span class="token punctuation">(</span><span class="token builtin">address</span> _addr<span class="token punctuation">,</span> <span class="token builtin">address</span> _newManager<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-require">require</span><span class="token punctuation">(</span><span class="token function">getManager</span><span class="token punctuation">(</span>_addr<span class="token punctuation">)</span> <span class="token operator">==</span> msg<span class="token punctuation">.</span>sender<span class="token punctuation">,</span> <span class="token string">&quot;Not the manager&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        managers<span class="token punctuation">[</span>_addr<span class="token punctuation">]</span> <span class="token operator">=</span> _newManager <span class="token operator">==</span> _addr <span class="token operator">?</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">:</span> _newManager<span class="token punctuation">;</span>
+        <span class="token keyword keyword-emit">emit</span> <span class="token function">ManagerChanged</span><span class="token punctuation">(</span>_addr<span class="token punctuation">,</span> _newManager<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/// @notice &#x83B7;&#x53D6;&#x5730;&#x5740; _addr&#x7684;&#x7BA1;&#x7406;&#x5458;</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">getManager</span><span class="token punctuation">(</span><span class="token builtin">address</span> _addr<span class="token punctuation">)</span> <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-view">view</span> <span class="token keyword keyword-returns">returns</span><span class="token punctuation">(</span><span class="token builtin">address</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// By default the manager of an address is the same address</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>managers<span class="token punctuation">[</span>_addr<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword keyword-return">return</span> _addr<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-else">else</span> <span class="token punctuation">{</span>
+            <span class="token keyword keyword-return">return</span> managers<span class="token punctuation">[</span>_addr<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/// @notice &#x8BA1;&#x7B97;&#x7ED9;&#x5B9A;&#x540D;&#x79F0;&#x7684;&#x63A5;&#x53E3;&#x7684;keccak256&#x54C8;&#x5E0C;&#x503C;&#x3002;</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">interfaceHash</span><span class="token punctuation">(</span><span class="token builtin">string</span> <span class="token keyword keyword-calldata">calldata</span> _interfaceName<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token keyword keyword-pure">pure</span> <span class="token keyword keyword-returns">returns</span><span class="token punctuation">(</span><span class="token builtin">bytes32</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-return">return</span> <span class="token function">keccak256</span><span class="token punctuation">(</span>abi<span class="token punctuation">.</span><span class="token function">encodePacked</span><span class="token punctuation">(</span>_interfaceName<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/// ERC165 &#x76F8;&#x5173;&#x65B9;&#x6CD5;</span>
+
+    <span class="token comment">/// @notice &#x66F4;&#x65B0;&#x5408;&#x7EA6;&#x662F;&#x5426;&#x5B9E;&#x73B0;&#x4E86;ERC165&#x63A5;&#x53E3;&#x7684;&#x7F13;&#x5B58;&#x3002;</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">updateERC165Cache</span><span class="token punctuation">(</span><span class="token builtin">address</span> _contract<span class="token punctuation">,</span> <span class="token builtin">bytes4</span> _interfaceId<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token punctuation">{</span>
+        interfaces<span class="token punctuation">[</span>_contract<span class="token punctuation">]</span><span class="token punctuation">[</span>_interfaceId<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">implementsERC165InterfaceNoCache</span><span class="token punctuation">(</span>
+            _contract<span class="token punctuation">,</span> _interfaceId<span class="token punctuation">)</span> <span class="token operator">?</span> _contract <span class="token punctuation">:</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        erc165Cached<span class="token punctuation">[</span>_contract<span class="token punctuation">]</span><span class="token punctuation">[</span>_interfaceId<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/// @notice &#x68C0;&#x67E5;&#x5408;&#x7EA6;&#x662F;&#x5426;&#x5B9E;&#x73B0;ERC165&#x63A5;&#x53E3;&#x3002;</span>
+    <span class="token comment">//  &#x5982;&#x679C;&#x672A;&#x7F13;&#x5B58;&#x7ED3;&#x679C;&#xFF0C;&#x5219;&#x5BF9;&#x5408;&#x7EA6;&#x5730;&#x5740;&#x8FDB;&#x884C;&#x67E5;&#x627E;&#x3002; &#x5982;&#x679C;&#x7ED3;&#x679C;&#x672A;&#x7F13;&#x5B58;&#x6216;&#x7F13;&#x5B58;&#x5DF2;&#x8FC7;&#x671F;&#xFF0C;&#x5219;&#x5FC5;&#x987B;&#x901A;&#x8FC7;&#x4F7F;&#x7528;&#x5408;&#x7EA6;&#x5730;&#x5740;&#x8C03;&#x7528;&#x201C;updateERC165Cache&#x201D;&#x624B;&#x52A8;&#x66F4;&#x65B0;&#x7F13;&#x5B58;&#x3002;</span>
+    <span class="token comment">/// @param _contract &#x8981;&#x68C0;&#x67E5;&#x7684;&#x5408;&#x7EA6;&#x5730;&#x5740;&#x3002;</span>
+    <span class="token comment">/// @param _interfaceId &#x8981;&#x68C0;&#x67E5;ERC165&#x63A5;&#x53E3;&#x3002;</span>
+    <span class="token comment">/// @return True &#x5982;&#x679C;&#x5408;&#x7EA6;&#x5B9E;&#x73B0;&#x4E86;&#x63A5;&#x53E3;&#x8FD4;&#x56DE; true, &#x5426;&#x5219;false.</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">implementsERC165Interface</span><span class="token punctuation">(</span><span class="token builtin">address</span> _contract<span class="token punctuation">,</span> <span class="token builtin">bytes4</span> _interfaceId<span class="token punctuation">)</span> <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-view">view</span> <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">bool</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>erc165Cached<span class="token punctuation">[</span>_contract<span class="token punctuation">]</span><span class="token punctuation">[</span>_interfaceId<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword keyword-return">return</span> <span class="token function">implementsERC165InterfaceNoCache</span><span class="token punctuation">(</span>_contract<span class="token punctuation">,</span> _interfaceId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword keyword-return">return</span> interfaces<span class="token punctuation">[</span>_contract<span class="token punctuation">]</span><span class="token punctuation">[</span>_interfaceId<span class="token punctuation">]</span> <span class="token operator">==</span> _contract<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/// @notice &#x5728;&#x4E0D;&#x4F7F;&#x7528;&#x6216;&#x66F4;&#x65B0;&#x7F13;&#x5B58;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x68C0;&#x67E5;&#x5408;&#x7EA6;&#x662F;&#x5426;&#x5B9E;&#x73B0;ERC165&#x63A5;&#x53E3;&#x3002;</span>
+    <span class="token comment">/// @param _contract &#x8981;&#x68C0;&#x67E5;&#x7684;&#x5408;&#x7EA6;&#x5730;&#x5740;&#x3002;</span>
+    <span class="token comment">/// @param _interfaceId &#x8981;&#x68C0;&#x67E5;ERC165&#x63A5;&#x53E3;&#x3002;</span>
+    <span class="token comment">/// @return True &#x5982;&#x679C;&#x5408;&#x7EA6;&#x5B9E;&#x73B0;&#x4E86;&#x63A5;&#x53E3;&#x8FD4;&#x56DE; true, &#x5426;&#x5219;false.</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">implementsERC165InterfaceNoCache</span><span class="token punctuation">(</span><span class="token builtin">address</span> _contract<span class="token punctuation">,</span> <span class="token builtin">bytes4</span> _interfaceId<span class="token punctuation">)</span> <span class="token keyword keyword-public">public</span> <span class="token keyword keyword-view">view</span> <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">bool</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token builtin">uint256</span> success<span class="token punctuation">;</span>
+        <span class="token builtin">uint256</span> result<span class="token punctuation">;</span>
+
+        <span class="token punctuation">(</span>success<span class="token punctuation">,</span> result<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token function">noThrowCall</span><span class="token punctuation">(</span>_contract<span class="token punctuation">,</span> ERC165ID<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>success <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">||</span> result <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token punctuation">(</span>success<span class="token punctuation">,</span> result<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token function">noThrowCall</span><span class="token punctuation">(</span>_contract<span class="token punctuation">,</span> INVALID_ID<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>success <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">||</span> result <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token punctuation">(</span>success<span class="token punctuation">,</span> result<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token function">noThrowCall</span><span class="token punctuation">(</span>_contract<span class="token punctuation">,</span> _interfaceId<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>success <span class="token operator">==</span> <span class="token number">1</span> <span class="token operator">&amp;&amp;</span> result <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword keyword-return">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/// @notice &#x68C0;&#x67E5;_interfaceHash &#x662F;&#x5426;&#x662F;ERC165&#x63A5;&#x53E3;&#xFF08;&#x4EE5;28&#x4E2A;&#x96F6;&#x7ED3;&#x5C3E;&#xFF09;&#x3002;</span>
+    <span class="token comment">/// @param _interfaceHash &#x8981;&#x68C0;&#x67E5;&#x63A5;&#x53E3; hash&#x3002;</span>
+    <span class="token comment">/// @return  &#x5982;&#x679C; &apos;_interfaceHash&apos;&#x662F;ERC165&#x63A5;&#x53E3;&#x8FD4;&#x56DE; True, &#x5426;&#x5219;&#x8FD4;&#x56DE;false</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">isERC165Interface</span><span class="token punctuation">(</span><span class="token builtin">bytes32</span> _interfaceHash<span class="token punctuation">)</span> <span class="token keyword keyword-internal">internal</span> <span class="token keyword keyword-pure">pure</span> <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">bool</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword keyword-return">return</span> _interfaceHash <span class="token operator">&amp;</span> <span class="token number">0x00000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">/// @dev &#x8C03;&#x7528;&#x5408;&#x7EA6;&#x63A5;&#x53E3;&#xFF0C;&#x5982;&#x679C;&#x51FD;&#x6570;&#x4E0D;&#x5B58;&#x5728;&#x4E5F;&#x4E0D;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#x3002;</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">noThrowCall</span><span class="token punctuation">(</span><span class="token builtin">address</span> _contract<span class="token punctuation">,</span> <span class="token builtin">bytes4</span> _interfaceId<span class="token punctuation">)</span>
+        <span class="token keyword keyword-internal">internal</span> <span class="token keyword keyword-view">view</span> <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">uint256</span> success<span class="token punctuation">,</span> <span class="token builtin">uint256</span> result<span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token builtin">bytes4</span> erc165ID <span class="token operator">=</span> ERC165ID<span class="token punctuation">;</span>
+
+        <span class="token keyword keyword-assembly">assembly</span> <span class="token punctuation">{</span>
+            <span class="token keyword keyword-let">let</span> x <span class="token operator">:=</span> <span class="token function">mload</span><span class="token punctuation">(</span><span class="token number">0x40</span><span class="token punctuation">)</span>               <span class="token comment">// Find empty storage location using &quot;free memory pointer&quot;</span>
+            <span class="token function">mstore</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> erc165ID<span class="token punctuation">)</span>                <span class="token comment">// Place signature at beginning of empty storage</span>
+            <span class="token function">mstore</span><span class="token punctuation">(</span><span class="token function">add</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> <span class="token number">0x04</span><span class="token punctuation">)</span><span class="token punctuation">,</span> _interfaceId<span class="token punctuation">)</span> <span class="token comment">// Place first argument directly next to signature</span>
+
+            success <span class="token operator">:=</span> <span class="token function">staticcall</span><span class="token punctuation">(</span>
+                <span class="token number">30000</span><span class="token punctuation">,</span>                         <span class="token comment">// 30k gas</span>
+                _contract<span class="token punctuation">,</span>                     <span class="token comment">// To addr</span>
+                x<span class="token punctuation">,</span>                             <span class="token comment">// Inputs are stored at location x</span>
+                <span class="token number">0x24</span><span class="token punctuation">,</span>                          <span class="token comment">// Inputs are 36 (4 + 32) bytes long</span>
+                x<span class="token punctuation">,</span>                             <span class="token comment">// Store output over input (saves space)</span>
+                <span class="token number">0x20</span>                           <span class="token comment">// Outputs are 32 bytes long</span>
+            <span class="token punctuation">)</span>
+
+            result <span class="token operator">:=</span> <span class="token function">mload</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span>                 <span class="token comment">// Load the result</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</pre><h3 class="mume-header" id="%E9%83%A8%E7%BD%B2%E6%96%B9%E6%B3%95">&#x90E8;&#x7F72;&#x65B9;&#x6CD5;</h3>
+
+<p>ERC1820&#x7684;&#x90E8;&#x7F72;&#x65B9;&#x5F0F;&#x76F8;&#x5F53;&#x5DE7;&#x5999;&#xFF0C;&#x4F7F;&#x7528;&#x4E86;&#x65E0;&#x5BC6;&#x94A5;&#x90E8;&#x7F72;&#x65B9;&#x6CD5;&#xFF08;<a href="https://github.com/Arachnid/">Nick</a>&#x7684;&#x65B9;&#x6CD5;&#xFF09;&#xFF0C;&#x8BE5;&#x65B9;&#x6CD5;&#x4F9D;&#x8D56;&#x4E8E;&#x4E00;&#x6B21;&#x6027;&#x5730;&#x5740;&#x3002;</p>
+<p>&#x6709;&#x5174;&#x8DA3;&#x7684;&#x670B;&#x53CB;&#x53EF;&#x4EE5;&#x53BB;&#x770B;<a href="https://learnblockchain.cn/docs/eips/eip-1820.html#%E8%A7%84%E8%8C%83">EIP1820&#x5B98;&#x65B9;&#x6587;&#x6863;</a></p>
+<h3 class="mume-header" id="%E4%B8%BB%E8%A6%81%E6%8E%A5%E5%8F%A3">&#x4E3B;&#x8981;&#x63A5;&#x53E3;</h3>
+
+<p>ERC1820&#x5408;&#x7EA6;&#x63D0;&#x8FC7;&#x4E86;&#x4E24;&#x4E2A;&#x4E3B;&#x8981;&#x63A5;&#x53E3;&#xFF1A;</p>
+<ul>
+<li><code>setInterfaceImplementer(address _addr, bytes32 _interfaceHash, address _implementer)</code><br>
+&#x7528;&#x6765;&#x8BBE;&#x7F6E;&#x5730;&#x5740;&#xFF08;_addr&#xFF09;&#x7684;&#x63A5;&#x53E3;&#xFF08;_interfaceHash &#x63A5;&#x53E3;&#x540D;&#x79F0;&#x7684; keccak256 &#xFF09;&#x7531;&#x54EA;&#x4E2A;&#x5408;&#x7EA6;&#x5B9E;&#x73B0;&#xFF08;_implementer&#xFF09;&#x3002;</li>
+<li><code>getInterfaceImplementer(address _addr, bytes32 _interfaceHash) external view returns (address)</code><br>
+&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x7528;&#x6765;&#x67E5;&#x8BE2;&#x5730;&#x5740;&#xFF08;_addr&#xFF09;&#x7684;&#x63A5;&#x53E3;&#x7531;&#x54EA;&#x4E2A;&#x5408;&#x7EA6;&#x5B9E;&#x73B0;&#x3002;</li>
+</ul>
+<p>setInterfaceImplementer&#x51FD;&#x6570;&#x4F1A;&#x53C2;&#x6570;&#x4FE1;&#x606F;&#x8BB0;&#x5F55;&#x5230;&#x4E0B;&#x9762;&#x8FD9;&#x4E2A;interfaces&#x6620;&#x5C04;&#x91CC;&#xFF1A;</p>
+<pre data-role="codeBlock" data-info class="language-"><code>// &#x8BB0;&#x5F55; &#x5730;&#x5740;(&#x7B2C;&#x4E00;&#x4E2A;&#x952E;) &#x7684;&#x63A5;&#x53E3;&#xFF08;&#x7B2C;&#x4E8C;&#x4E2A;&#x952E;&#xFF09;&#x7684;&#x5B9E;&#x73B0;&#x5730;&#x5740;&#xFF08;&#x7B2C;&#x4E8C;&#x4E2A;&#x503C;&#xFF09;
+mapping(address =&gt; mapping(bytes32 =&gt; address)) interfaces;
+</code></pre><p>&#x76F8;&#x5BF9;&#x5E94;&#x7684; getInterfaceImplementer() &#x901A;&#x8FC7; interfaces &#x8FD9;&#x4E2A;mapping &#x6765;&#x83B7;&#x5F97;&#x63A5;&#x53E3;&#x7684;&#x5B9E;&#x73B0;&#x3002;</p>
+<p>ERC777 &#x4F7F;&#x7528; send&#x8F6C;&#x8D26;&#x65F6;&#x4F1A;&#x5206;&#x522B;&#x5728;&#x6301;&#x6709;&#x8005;&#x548C;&#x63A5;&#x6536;&#x8005;&#x5730;&#x5740;&#x4E0A;&#x4F7F;&#x7528;ERC1820 &#x7684;getInterfaceImplementer&#x51FD;&#x6570;&#x8FDB;&#x884C;&#x67E5;&#x8BE2;&#xFF0C;&#x67E5;&#x770B;&#x662F;&#x5426;&#x6709;&#x5BF9;&#x5E94;&#x7684;&#x5B9E;&#x73B0;&#x5408;&#x7EA6;&#xFF0C;ERC777 &#x6807;&#x51C6;&#x89C4;&#x8303;&#x91CC;&#x9884;&#x5B9A;&#x4E86;&#x63A5;&#x53E3;&#x53CA;&#x51FD;&#x6570;&#x540D;&#x79F0;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x5B9E;&#x73B0;&#x5219;&#x8FDB;&#x884C;&#x76F8;&#x5E94;&#x7684;&#x8C03;&#x7528;&#x3002;</p>
+<h2 class="mume-header" id="erc777-%E6%A0%87%E5%87%86%E8%A7%84%E8%8C%83">ERC777 &#x6807;&#x51C6;&#x89C4;&#x8303;</h2>
+
+<h3 class="mume-header" id="%E6%8E%A5%E5%8F%A3">&#x63A5;&#x53E3;</h3>
+
+<p>ERC777 &#x4E3A;&#x4E86;&#x5728;&#x5B9E;&#x73B0;&#x4E0A;&#x53EF;&#x4EE5;&#x517C;&#x5BB9;ERC20&#xFF0C;&#x9664;&#x4E86;&#x67E5;&#x8BE2;&#x51FD;&#x6570;&#x548C;ERC20&#x4E00;&#x81F4;&#x5916;&#xFF0C;&#x64CD;&#x4F5C;&#x63A5;&#x53E3;&#x5747;&#x91C7;&#x7528;&#x7684;&#x72EC;&#x7ACB;&#x7684;&#x547D;&#x540D;&#xFF08;&#x907F;&#x514D;&#x76F8;&#x540C;&#x7684;&#x547D;&#x4EE4;&#x65E0;&#x6CD5;&#x5206;&#x8FA8;&#x662F;&#x54EA;&#x4E2A;&#x6807;&#x51C6;&#xFF09;&#xFF0C;ERC777&#x7684;&#x63A5;&#x53E3;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF0C;&#x8981;&#x6C42;&#x6240;&#x6709;&#x7684;ERC777&#x4EE3;&#x5E01;&#x5408;&#x7EA6;&#x90FD;&#x5FC5;&#x987B;&#x5B9E;&#x73B0;&#x8FD9;&#x4E9B;&#x63A5;&#x53E3;&#xFF1A;</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity"><span class="token keyword keyword-interface">interface</span> <span class="token class-name">ERC777Token</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">name</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token keyword keyword-view">view</span> <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">string</span> <span class="token keyword keyword-memory">memory</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">symbol</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token keyword keyword-view">view</span> <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">string</span> <span class="token keyword keyword-memory">memory</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">totalSupply</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token keyword keyword-view">view</span> <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">uint256</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">balanceOf</span><span class="token punctuation">(</span><span class="token builtin">address</span> holder<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token keyword keyword-view">view</span> <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">uint256</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// &#x5B9A;&#x4E49;&#x4EE3;&#x5E01;&#x6700;&#x5C0F;&#x7684;&#x5212;&#x5206;&#x7C92;&#x5EA6;</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">granularity</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token keyword keyword-view">view</span> <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">uint256</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// &#x64CD;&#x4F5C;&#x5458; &#x76F8;&#x5173;&#x7684;&#x64CD;&#x4F5C;&#xFF08;&#x64CD;&#x4F5C;&#x5458;&#x662F;&#x53EF;&#x4EE5;&#x4EE3;&#x8868;&#x6301;&#x6709;&#x8005;&#x53D1;&#x9001;&#x548C;&#x9500;&#x6BC1;&#x4EE3;&#x5E01;&#x7684;&#x8D26;&#x53F7;&#x5730;&#x5740;&#xFF09;</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">defaultOperators</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token keyword keyword-view">view</span> <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">address</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token keyword keyword-memory">memory</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">isOperatorFor</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> operator<span class="token punctuation">,</span>
+        <span class="token builtin">address</span> holder
+    <span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token keyword keyword-view">view</span> <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">bool</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">authorizeOperator</span><span class="token punctuation">(</span><span class="token builtin">address</span> operator<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">revokeOperator</span><span class="token punctuation">(</span><span class="token builtin">address</span> operator<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// &#x53D1;&#x9001;&#x4EE3;&#x5E01;</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">send</span><span class="token punctuation">(</span><span class="token builtin">address</span> to<span class="token punctuation">,</span> <span class="token builtin">uint256</span> amount<span class="token punctuation">,</span> <span class="token builtin">bytes</span> <span class="token keyword keyword-calldata">calldata</span> data<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">operatorSend</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+        <span class="token builtin">uint256</span> amount<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword keyword-calldata">calldata</span> data<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword keyword-calldata">calldata</span> operatorData
+    <span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// &#x9500;&#x6BC1;&#x4EE3;&#x5E01;</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">burn</span><span class="token punctuation">(</span><span class="token builtin">uint256</span> amount<span class="token punctuation">,</span> <span class="token builtin">bytes</span> <span class="token keyword keyword-calldata">calldata</span> data<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">operatorBurn</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">uint256</span> amount<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword keyword-calldata">calldata</span> data<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword keyword-calldata">calldata</span> operatorData
+    <span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// &#x53D1;&#x9001;&#x4EE3;&#x5E01;&#x4E8B;&#x4EF6;</span>
+    <span class="token keyword keyword-event">event</span> <span class="token function">Sent</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> operator<span class="token punctuation">,</span>
+        <span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> to<span class="token punctuation">,</span>
+        <span class="token builtin">uint256</span> amount<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> data<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> operatorData
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// &#x94F8;&#x5E01;&#x4E8B;&#x4EF6;</span>
+    <span class="token keyword keyword-event">event</span> <span class="token function">Minted</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> operator<span class="token punctuation">,</span>
+        <span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> to<span class="token punctuation">,</span>
+        <span class="token builtin">uint256</span> amount<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> data<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> operatorData
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// &#x9500;&#x6BC1;&#x4EE3;&#x5E01;&#x4E8B;&#x4EF6;</span>
+    <span class="token keyword keyword-event">event</span> <span class="token function">Burned</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> operator<span class="token punctuation">,</span>
+        <span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">uint256</span> amount<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> data<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> operatorData
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// &#x6388;&#x6743;&#x8FD0;&#x8425;&#x5546;&#x4E8B;&#x4EF6;</span>
+    <span class="token keyword keyword-event">event</span> <span class="token function">AuthorizedOperator</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> operator<span class="token punctuation">,</span>
+        <span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> holder
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// &#x64A4;&#x9500;&#x8FD0;&#x8425;&#x5546;&#x4E8B;&#x4EF6;</span>
+    <span class="token keyword keyword-event">event</span> <span class="token function">RevokedOperator</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> operator<span class="token punctuation">,</span> <span class="token builtin">address</span> <span class="token keyword keyword-indexed">indexed</span> holder<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</pre><h3 class="mume-header" id="%E6%8E%A5%E5%8F%A3%E8%AF%B4%E6%98%8E%E4%B8%8E%E5%AE%9E%E7%8E%B0%E7%BA%A6%E5%AE%9A">&#x63A5;&#x53E3;&#x8BF4;&#x660E;&#x4E0E;&#x5B9E;&#x73B0;&#x7EA6;&#x5B9A;</h3>
+
+<p>ERC777 &#x5408;&#x7EA6;&#x5FC5;&#x987B;&#x8981;&#x901A;&#x8FC7; ERC1820 &#x6CE8;&#x518C; <code>ERC777Token</code> &#x63A5;&#x53E3;&#xFF0C;&#x8FD9;&#x6837;&#x4EFB;&#x4F55;&#x4EBA;&#x90FD;&#x53EF;&#x4EE5;&#x67E5;&#x8BE2;&#x5408;&#x7EA6;&#x662F;&#x5426;&#x662F;ERC777&#x6807;&#x51C6;&#x7684;&#x5408;&#x7EA6;&#xFF0C;&#x6CE8;&#x518C;&#x65B9;&#x6CD5;&#x662F;: &#x8C03;&#x7528;ERC1820 &#x6CE8;&#x518C;&#x5408;&#x7EA6;&#x7684; <code>setInterfaceImplementer</code> &#x65B9;&#x6CD5;&#xFF0C;&#x53C2;&#x6570; _addr &#x53CA; _implementer &#x5747;&#x662F;&#x5408;&#x7EA6;&#x7684;&#x5730;&#x5740;&#xFF0C;_interfaceHash &#x662F; <code>ERC777Token</code> &#x7684; keccak256 &#x54C8;&#x5E0C;&#x503C;&#xFF08;0xac7fbab5...177054&#xFF09;</p>
+<p>&#x5982;&#x679C; ERC777 &#x8981;&#x5B9E;&#x73B0;ERC20&#x6807;&#x51C6;&#xFF0C;&#x8FD8;&#x5FC5;&#x987B;&#x901A;&#x8FC7;ERC1820 &#x6CE8;&#x518C;<code>ERC20Token</code>&#x63A5;&#x53E3;&#x3002;</p>
+<h3 class="mume-header" id="erc777-%E4%BF%A1%E6%81%AF%E8%AF%B4%E6%98%8E%E5%87%BD%E6%95%B0">ERC777 &#x4FE1;&#x606F;&#x8BF4;&#x660E;&#x51FD;&#x6570;</h3>
+
+<p>name()&#xFF0C;symbol()&#xFF0C;totalSupply()&#xFF0C;balanceOf(address) &#x548C;&#x542B;&#x4E49;&#x548C;&#x5728;ERC20 &#x4E2D;&#x5B8C;&#x5168;&#x4E00;&#x6837;&#x3002;</p>
+<p>&#x552F;&#x4E00;&#x4E0D;&#x4E00;&#x6837;&#x7684;&#x662F;granularity()&#xFF0C;&#x7528;&#x6765;&#x5B9A;&#x4E49;&#x4EE3;&#x5E01;&#x6700;&#x5C0F;&#x7684;&#x5212;&#x5206;&#x7C92;&#x5EA6;&#xFF08;&gt;=1&#xFF09;&#xFF0C; &#x8981;&#x6C42;&#x5FC5;&#x987B;&#x5728;&#x521B;&#x5EFA;&#x65F6;&#x8BBE;&#x5B9A;&#xFF0C;&#x4E4B;&#x540E;&#x4E0D;&#x53EF;&#x4EE5;&#x66F4;&#x6539;&#xFF0C;&#x4E0D;&#x7BA1;&#x662F;&#x5728;&#x94F8;&#x5E01;&#x3001;&#x53D1;&#x9001;&#x8FD8;&#x662F;&#x9500;&#x6BC1;&#x64CD;&#x4F5C;&#x7684;&#x4EE3;&#x5E01;&#x6570;&#x91CF;&#xFF0C;&#x5FC5;&#x9700;&#x662F;&#x7C92;&#x5EA6;&#x7684;&#x6574;&#x6570;&#x500D;&#x3002;</p>
+<blockquote>
+<p>granularity &#x548C; ERC20 &#x7684; decimals &#x4E0D;&#x4E00;&#x6837;&#xFF0C;decimals&#x7528;&#x6765;&#x5B9A;&#x4E49;&#x5C0F;&#x6570;&#x4F4D;&#x6570;&#xFF0C;decimals &#x662F;ERC20 &#x53EF;&#x9009;&#x51FD;&#x6570;&#xFF0C;&#x4E3A;&#x4E86;&#x517C;&#x5BB9; ERC20 &#x4EE3;&#x5E01;, decimals &#x51FD;&#x6570;&#x8981;&#x6C42;&#x5FC5;&#x987B;&#x8FD4;&#x56DE;18&#x3002;&#x800C; granularity &#x8868;&#x793A;&#x7684;&#x662F;&#x57FA;&#x4E8E;&#x6700;&#x5C0F;&#x4F4D;&#x6570;(&#x5185;&#x90E8;&#x5B58;&#x50A8;)&#x7684;&#x5212;&#x5206;&#x7C92;&#x5EA6;&#x3002;&#x4F8B;&#x5982;&#xFF1A;0.5&#x4E2A;&#x4EE3;&#x5E01;&#x5B58;&#x50A8;&#x4E3A; <code>500,000,000,000,000,000</code> (0.5 X 10^18)&#xFF0C;&#x5982;&#x679C;&#x7C92;&#x5EA6;&#x4E3A;2&#xFF0C;&#x5219;&#x6700;&#x5C0F;&#x8F6C;&#x8D26;&#x5355;&#x4F4D;&#x662F;2&#xFF08;&#x76F8;&#x5BF9;&#x4E8E;<code>500,000,000,000,000,000</code>&#xFF09;&#x3002;</p>
+</blockquote>
+<h3 class="mume-header" id="erc777%E8%BF%90%E8%90%A5%E5%95%86">ERC777&#x8FD0;&#x8425;&#x5546;</h3>
+
+<p>ERC777 &#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x8FD0;&#x8425;&#x5546;&#x89D2;&#x8272;&#xFF0C;&#x8FD0;&#x8425;&#x5546;&#x88AB;&#x4F5C;&#x4E3A;&#x79FB;&#x52A8;&#x4EE3;&#x5E01;&#x7684;&#x5730;&#x5740;&#x3002; &#x6BCF;&#x4E2A;&#x5730;&#x5740;&#x76F4;&#x89C2;&#x5730;&#x79FB;&#x52A8;&#x81EA;&#x5DF1;&#x7684;&#x4EE3;&#x5E01;&#xFF0C;&#x5C06;&#x6301;&#x6709;&#x4EBA;&#x548C;&#x8FD0;&#x8425;&#x5546;&#x7684;&#x6982;&#x5FF5;&#x5206;&#x5F00;&#x53EF;&#x4EE5;&#x63D0;&#x4F9B;&#x66F4;&#x5927;&#x7684;&#x7075;&#x6D3B;&#x6027;&#x3002;</p>
+<p>&#x6B64;&#x5916;&#xFF0C;ERC777&#x8FD8;&#x53EF;&#x4EE5;&#x5B9A;&#x4E49;&#x9ED8;&#x8BA4;&#x64CD;&#x4F5C;&#x5458;&#xFF08;&#x9ED8;&#x8BA4;&#x64CD;&#x4F5C;&#x5458;&#x5217;&#x8868;&#x53EA;&#x80FD;&#x5728;&#x4EE3;&#x5E01;&#x521B;&#x5EFA;&#x65F6;&#x5B9A;&#x4E49;&#x7684;&#xFF0C;&#x5E76;&#x4E14;&#x4E0D;&#x80FD;&#x66F4;&#x6539;&#xFF09;&#xFF0C;&#x9ED8;&#x8BA4;&#x64CD;&#x4F5C;&#x5458;&#x662F;&#x88AB;&#x6240;&#x6709;&#x6301;&#x6709;&#x4EBA;&#x6388;&#x6743;&#x7684;&#x64CD;&#x4F5C;&#x5458;&#xFF0C;&#x8FD9;&#x53EF;&#x4EE5;&#x4E3A;&#x9879;&#x76EE;&#x65B9;&#x7BA1;&#x7406;&#x4EE3;&#x5E01;&#x5E26;&#x6765;&#x65B9;&#x4FBF;&#xFF0C;&#x5F53;&#x7136;&#x8BA4;&#x4F55;&#x6301;&#x6709;&#x4EBA;&#x4ECD;&#x7136;&#x6709;&#x6743;&#x64A4;&#x9500;&#x9ED8;&#x8BA4;&#x64CD;&#x4F5C;&#x5458;&#x3002;</p>
+<p>&#x76F8;&#x5173;&#x51FD;&#x6570;&#xFF1A;</p>
+<ul>
+<li>defaultOperators(): &#x83B7;&#x53D6;&#x4EE3;&#x5E01;&#x5408;&#x7EA6;&#x9ED8;&#x8BA4;&#x7684;&#x64CD;&#x4F5C;&#x5458;&#x5217;&#x8868;.</li>
+<li>authorizeOperator(address operator): &#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x5730;&#x5740;&#x4F5C;&#x4E3A;msg.sender &#x7684;&#x64CD;&#x4F5C;&#x5458;&#xFF0C;&#x9700;&#x8981;&#x89E6;&#x53D1;AuthorizedOperator&#x4E8B;&#x4EF6;&#x3002;</li>
+<li>revokeOperator(address operator): &#x79FB;&#x9664; msg.sender &#x4E0A; operator &#x64CD;&#x4F5C;&#x5458;&#x7684;&#x6743;&#x9650;&#xFF0C; &#x9700;&#x8981;&#x89E6;&#x53D1;RevokedOperator&#x4E8B;&#x4EF6;&#x3002;</li>
+<li>isOperatorFor(address operator, address holder)&#xFF1A; &#x662F;&#x5426;&#x662F;&#x67D0;&#x4E2A;&#x6301;&#x6709;&#x8005;&#x7684;&#x64CD;&#x4F5C;&#x5458;&#x3002;</li>
+</ul>
+<p>&#x5229;&#x7528;&#x8FD0;&#x8425;&#x5546;&#x529F;&#x80FD;&#x7684;&#x53E6;&#x4E00;&#x4E2A;&#x5C0F;&#x7684;&#xFF08;&#x5E76;&#x4E14;&#x4E0D;&#x592A;&#x660E;&#x663E;&#x7684;&#xFF09;&#x597D;&#x5904;&#x662F;&#x7528;&#x6237;&#x4E0D;&#x518D;&#x9700;&#x8981;&#x62C5;&#x5FC3;&#x4EA4;&#x6613;&#x8D39;Gas&#x4EF7;&#x683C;&#x3002;&#x73B0;&#x5728;&#x53EF;&#x4EE5;&#x5C06;&#x5176;&#x59D4;&#x6258;&#x7ED9;&#x8FD0;&#x8425;&#x5546;&#x3002;</p>
+<h3 class="mume-header" id="%E5%8F%91%E9%80%81%E4%BB%A3%E5%B8%81">&#x53D1;&#x9001;&#x4EE3;&#x5E01;</h3>
+
+<p>ERC777&#x4E3B;&#x8981;&#x901A;&#x8FC7;&#x4E24;&#x4E2A;&#x51FD;&#x6570;&#x53D1;&#x9001;&#x4EE3;&#x5E01;</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity"><span class="token function">send</span><span class="token punctuation">(</span><span class="token builtin">address</span> to<span class="token punctuation">,</span> <span class="token builtin">uint256</span> amount<span class="token punctuation">,</span> <span class="token builtin">bytes</span> <span class="token keyword keyword-calldata">calldata</span> data<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span>
+
+<span class="token keyword keyword-function">function</span> <span class="token function">operatorSend</span><span class="token punctuation">(</span>
+    <span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span>
+    <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+    <span class="token builtin">uint256</span> amount<span class="token punctuation">,</span>
+    <span class="token builtin">bytes</span> <span class="token keyword keyword-calldata">calldata</span> data<span class="token punctuation">,</span>
+    <span class="token builtin">bytes</span> <span class="token keyword keyword-calldata">calldata</span> operatorData
+<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span>
+
+</pre><p>operatorSend &#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x53C2;&#x6570;<code>operatorData</code>&#x643A;&#x5E26;&#x64CD;&#x4F5C;&#x8005;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x53D1;&#x9001;&#x4EE3;&#x5E01;&#x9664;&#x4E86;&#x6267;&#x884C;&#x5BF9;&#x5E94;&#x8D26;&#x6237;&#x7684;&#x4F59;&#x989D;&#x52A0;&#x51CF;&#x548C;&#x89E6;&#x53D1;&#x4E8B;&#x4EF6;&#x4E4B;&#x5916;&#xFF0C;&#x8FD8;&#x6709;<strong>&#x989D;&#x5916;&#x7684;&#x89C4;&#x5B9A;</strong>&#xFF1A;</p>
+<ol>
+<li>&#x5982;&#x679C;&#x6301;&#x6709;&#x8005;&#x6709;&#x901A;&#x8FC7; ERC1820 &#x6CE8;&#x518C; <code>ERC777TokensSender</code> &#x5B9E;&#x73B0;&#x63A5;&#x53E3;&#xFF0C; &#x4EE3;&#x5E01;&#x5408;&#x7EA6;&#x5FC5;&#x987B;&#x8C03;&#x7528;&#x5176; <code>tokensToSend</code> &#x94A9;&#x5B50;&#x51FD;&#x6570;&#x3002;</li>
+<li>&#x5982;&#x679C;&#x63A5;&#x6536;&#x8005;&#x6709;&#x901A;&#x8FC7; ERC1820 &#x6CE8;&#x518C; <code>ERC777TokensRecipient</code> &#x5B9E;&#x73B0;&#x63A5;&#x53E3;&#xFF0C; &#x4EE3;&#x5E01;&#x5408;&#x7EA6;&#x5FC5;&#x987B;&#x8C03;&#x7528;&#x5176; <code>tokensReceived</code> &#x94A9;&#x5B50;&#x51FD;&#x6570;&#x3002;</li>
+<li>&#x5982;&#x679C;&#x6709; <code>tokensToSend</code> &#x94A9;&#x5B50;&#x51FD;&#x6570;&#xFF0C;&#x5FC5;&#x987B;&#x5728;&#x4FEE;&#x6539;&#x4F59;&#x989D;&#x72B6;&#x6001;&#x4E4B;&#x524D;&#x8C03;&#x7528;&#x3002;</li>
+<li>&#x5982;&#x679C;&#x6709; <code>tokensReceived</code> &#x94A9;&#x5B50;&#x51FD;&#x6570;&#xFF0C;&#x5FC5;&#x987B;&#x5728;&#x4FEE;&#x6539;&#x4F59;&#x989D;&#x72B6;&#x6001;&#x4E4B;&#x540E;&#x8C03;&#x7528;&#x3002;</li>
+<li>&#x8C03;&#x7528;&#x94A9;&#x5B50;&#x51FD;&#x6570;&#x53CA;&#x89E6;&#x53D1;&#x4E8B;&#x4EF6;&#x65F6;&#xFF0C; <code>data</code> &#x548C; <code>operatorData</code>&#x5FC5;&#x987B;&#x539F;&#x6837;&#x4F20;&#x9012;&#xFF0C;&#x56E0;&#x4E3A; tokensToSend &#x548C; tokensReceived &#x51FD;&#x6570;&#x53EF;&#x80FD;&#x6839;&#x636E;&#x8FD9;&#x4E2A;&#x6570;&#x636E;&#x53D6;&#x6D88;&#x8F6C;&#x8D26;&#xFF08;&#x89E6;&#x53D1; <code>revert</code>&#xFF09;&#x3002;</li>
+</ol>
+<p>&#x8BA9;&#x6211;&#x4EEC;&#x6765;&#x770B;&#x770B;<code>_send</code>&#x51FD;&#x6570;&#x5C31;&#x80FD;&#x7406;&#x89E3;ERC777&#x8BBE;&#x8BA1;&#x7684;&#x5DE7;&#x5999;&#x4E4B;&#x5904;&#x4E86;</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity"><span class="token keyword keyword-function">function</span> <span class="token function">_send</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+        <span class="token builtin">uint256</span> amount<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword keyword-memory">memory</span> userData<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword keyword-memory">memory</span> operatorData<span class="token punctuation">,</span>
+        <span class="token builtin">bool</span> requireReceptionAck
+    <span class="token punctuation">)</span> <span class="token keyword keyword-internal">internal</span> virtual <span class="token punctuation">{</span>
+        <span class="token keyword keyword-require">require</span><span class="token punctuation">(</span><span class="token keyword keyword-from">from</span> <span class="token operator">!=</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">&quot;ERC777: transfer from the zero address&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-require">require</span><span class="token punctuation">(</span>to <span class="token operator">!=</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">&quot;ERC777: transfer to the zero address&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token builtin">address</span> operator <span class="token operator">=</span> <span class="token function">_msgSender</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token function">_callTokensToSend</span><span class="token punctuation">(</span>operator<span class="token punctuation">,</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> amount<span class="token punctuation">,</span> userData<span class="token punctuation">,</span> operatorData<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token function">_move</span><span class="token punctuation">(</span>operator<span class="token punctuation">,</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> amount<span class="token punctuation">,</span> userData<span class="token punctuation">,</span> operatorData<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token function">_callTokensReceived</span><span class="token punctuation">(</span>operator<span class="token punctuation">,</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> amount<span class="token punctuation">,</span> userData<span class="token punctuation">,</span> operatorData<span class="token punctuation">,</span> requireReceptionAck<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</pre><p>&#x8FD9;&#x91CC;&#x5C06;&#x4EA4;&#x6613;&#x5206;&#x6210;&#x4E86;&#x4E09;&#x4E2A;&#x90E8;&#x5206;</p>
+<h4 class="mume-header" id="_calltokenstosend">_callTokensToSend</h4>
+
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity"><span class="token keyword keyword-function">function</span> <span class="token function">_callTokensToSend</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> operator<span class="token punctuation">,</span>
+        <span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+        <span class="token builtin">uint256</span> amount<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword keyword-memory">memory</span> userData<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword keyword-memory">memory</span> operatorData
+    <span class="token punctuation">)</span> <span class="token keyword keyword-private">private</span> <span class="token punctuation">{</span>
+        <span class="token builtin">address</span> implementer <span class="token operator">=</span> _ERC1820_REGISTRY<span class="token punctuation">.</span><span class="token function">getInterfaceImplementer</span><span class="token punctuation">(</span><span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> _TOKENS_SENDER_INTERFACE_HASH<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// &#x6267;&#x884C;&#x94A9;&#x5B50;&#x51FD;&#x6570;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>implementer <span class="token operator">!=</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">IERC777Sender</span><span class="token punctuation">(</span>implementer<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">tokensToSend</span><span class="token punctuation">(</span>operator<span class="token punctuation">,</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> amount<span class="token punctuation">,</span> userData<span class="token punctuation">,</span> operatorData<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+</pre><p>&#x200B;		&#x6B64;&#x51FD;&#x6570;&#x4F1A;&#x68C0;&#x67E5;<code>from</code>&#x5408;&#x7EA6;&#x662F;&#x5426;&#x5728;ERC1820&#x6CE8;&#x518C;&#x8868;&#x4E0A;&#x6CE8;&#x518C;&#x4E86;<code>tokensToSend</code>&#x63A5;&#x53E3;&#xFF0C;&#x5982;&#x679C;&#x6CE8;&#x518C;&#x4E86;&#xFF0C;&#x5C31;&#x4F1A;&#x89E6;&#x53D1;&#x94A9;&#x5B50;&#x51FD;&#x6570;&#x3002;</p>
+<p>&#x200B;	<strong>ERC777TokensSender &#x63A5;&#x53E3;</strong>&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity"><span class="token keyword keyword-interface">interface</span> <span class="token class-name">ERC777TokensSender</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">tokensToSend</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> operator<span class="token punctuation">,</span>
+        <span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+        <span class="token builtin">uint256</span> amount<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword keyword-calldata">calldata</span> userData<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword keyword-calldata">calldata</span> operatorData
+    <span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</pre><p>&#x5982;&#x4E0A;&#xFF0C;&#x5982;&#x679C;&#x6301;&#x6709;&#x8005;&#x5E0C;&#x671B;&#x5728;&#x8F6C;&#x8D26;&#x65F6;&#x6536;&#x5230;&#x4EE3;&#x5E01;&#x8F6C;&#x79FB;&#x901A;&#x77E5;&#xFF0C;&#x5C31;&#x9700;&#x8981;&#x5728;ERC1820&#x5408;&#x7EA6;&#x4E0A;&#x6CE8;&#x518C;&#x53CA;&#x5B9E;&#x73B0; <code>ERC777TokensSender</code> &#x63A5;&#x53E3;&#x3002;</p>
+<blockquote>
+<p>&#x6709;&#x4E00;&#x4E2A;&#x5730;&#x65B9;&#x9700;&#x8981;&#x6CE8;&#x610F;: &#x5BF9;&#x4E8E;&#x6240;&#x6709;&#x7684; ERC777 &#x5408;&#x7EA6;&#xFF0C; &#x4E00;&#x4E2A;&#x6301;&#x6709;&#x8005;&#x5730;&#x5740;&#x53EA;&#x80FD;&#x6CE8;&#x518C;&#x4E00;&#x4E2A;ERC777TokensSender&#x63A5;&#x53E3;&#x5B9E;&#x73B0;&#x3002;&#x56E0;&#x6B64; ERC777TokensSender &#x5B9E;&#x73B0;&#x4F1A;&#x88AB;&#x591A;&#x4E2A;ERC777&#x5408;&#x7EA6;&#x8C03;&#x7528;&#xFF0C;&#x5728;ERC777TokensSender&#x63A5;&#x53E3;&#x7684;&#x5B9E;&#x73B0;&#x5408;&#x7EA6;&#x91CC;&#xFF0C; msg.sender &#x662F;ERC777&#x5408;&#x7EA6;&#x5730;&#x5740;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x64CD;&#x4F5C;&#x8005;&#x3002;</p>
+</blockquote>
+<h4 class="mume-header" id="_move">_move</h4>
+
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity"> <span class="token keyword keyword-function">function</span> <span class="token function">_move</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> operator<span class="token punctuation">,</span>
+        <span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+        <span class="token builtin">uint256</span> amount<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword keyword-memory">memory</span> userData<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword keyword-memory">memory</span> operatorData
+    <span class="token punctuation">)</span> <span class="token keyword keyword-private">private</span> <span class="token punctuation">{</span>
+        <span class="token function">_beforeTokenTransfer</span><span class="token punctuation">(</span>operator<span class="token punctuation">,</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token builtin">uint256</span> fromBalance <span class="token operator">=</span> _balances<span class="token punctuation">[</span><span class="token keyword keyword-from">from</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-require">require</span><span class="token punctuation">(</span>fromBalance <span class="token operator">&gt;=</span> amount<span class="token punctuation">,</span> <span class="token string">&quot;ERC777: transfer amount exceeds balance&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        unchecked <span class="token punctuation">{</span>
+            _balances<span class="token punctuation">[</span><span class="token keyword keyword-from">from</span><span class="token punctuation">]</span> <span class="token operator">=</span> fromBalance <span class="token operator">-</span> amount<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        _balances<span class="token punctuation">[</span>to<span class="token punctuation">]</span> <span class="token operator">+=</span> amount<span class="token punctuation">;</span>
+
+        <span class="token keyword keyword-emit">emit</span> <span class="token function">Sent</span><span class="token punctuation">(</span>operator<span class="token punctuation">,</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> amount<span class="token punctuation">,</span> userData<span class="token punctuation">,</span> operatorData<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-emit">emit</span> <span class="token function">Transfer</span><span class="token punctuation">(</span><span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> amount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</pre><p>&#x200B;		&#x6267;&#x884C;&#x4EE3;&#x5E01;&#x53D1;&#x9001;&#xFF0C;&#x5B9E;&#x73B0;&#x548C;ERC20&#x5E76;&#x65E0;&#x533A;&#x522B;&#x3002;&#x5728;&#x8FD9;&#x91CC;&#x4E0D;&#x8FC7;&#x591A;&#x4ECB;&#x7ECD;</p>
+<h4 class="mume-header" id="_calltokensreceived">_callTokensReceived</h4>
+
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity"><span class="token keyword keyword-function">function</span> <span class="token function">_callTokensReceived</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> operator<span class="token punctuation">,</span>
+        <span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+        <span class="token builtin">uint256</span> amount<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword keyword-memory">memory</span> userData<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword keyword-memory">memory</span> operatorData<span class="token punctuation">,</span>
+        <span class="token builtin">bool</span> requireReceptionAck
+    <span class="token punctuation">)</span> <span class="token keyword keyword-private">private</span> <span class="token punctuation">{</span>
+        <span class="token builtin">address</span> implementer <span class="token operator">=</span> _ERC1820_REGISTRY<span class="token punctuation">.</span><span class="token function">getInterfaceImplementer</span><span class="token punctuation">(</span>to<span class="token punctuation">,</span> _TOKENS_RECIPIENT_INTERFACE_HASH<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>implementer <span class="token operator">!=</span> <span class="token builtin">address</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">IERC777Recipient</span><span class="token punctuation">(</span>implementer<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">tokensReceived</span><span class="token punctuation">(</span>operator<span class="token punctuation">,</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span> to<span class="token punctuation">,</span> amount<span class="token punctuation">,</span> userData<span class="token punctuation">,</span> operatorData<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword keyword-else">else</span> <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>requireReceptionAck<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword keyword-require">require</span><span class="token punctuation">(</span><span class="token operator">!</span>to<span class="token punctuation">.</span><span class="token function">isContract</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">&quot;ERC777: token recipient contract has no implementer for ERC777TokensRecipient&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+</pre><p>&#x6B64;&#x51FD;&#x6570;&#x4F1A;&#x68C0;&#x67E5;<code>to</code>&#x5408;&#x7EA6;&#x662F;&#x5426;&#x5728;ERC1820&#x6CE8;&#x518C;&#x8868;&#x4E0A;&#x6CE8;&#x518C;<code>tokensReceived</code>&#x63A5;&#x53E3;,&#x82E5;&#x6CE8;&#x518C;&#xFF0C;&#x5219;&#x89E6;&#x53D1;&#x94A9;&#x5B50;&#x51FD;&#x6570;&#x3002;</p>
+<p><strong>ERC777TokensRecipient &#x63A5;&#x53E3;</strong>&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity"><span class="token keyword keyword-interface">interface</span> <span class="token class-name">ERC777TokensRecipient</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">tokensReceived</span><span class="token punctuation">(</span>
+        <span class="token builtin">address</span> operator<span class="token punctuation">,</span>
+        <span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span>
+        <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+        <span class="token builtin">uint256</span> amount<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword keyword-calldata">calldata</span> data<span class="token punctuation">,</span>
+        <span class="token builtin">bytes</span> <span class="token keyword keyword-calldata">calldata</span> operatorData
+    <span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</pre><p>&#x5982;&#x679C;&#x63A5;&#x6536;&#x8005;&#x5E0C;&#x671B;&#x5728;&#x8F6C;&#x8D26;&#x65F6;&#x6536;&#x5230;&#x4EE3;&#x5E01;&#x8F6C;&#x79FB;&#x901A;&#x77E5;&#xFF0C;&#x5C31;&#x9700;&#x8981;&#x5728;ERC1820&#x5408;&#x7EA6;&#x4E0A;&#x6CE8;&#x518C;&#x53CA;&#x5B9E;&#x73B0; <code>ERC777TokensRecipient</code> &#x63A5;&#x53E3;&#x3002;</p>
+<h2 class="mume-header" id="%E6%99%AE%E9%80%9A%E8%B4%A6%E6%88%B7%E5%9C%B0%E5%9D%80%E7%9B%91%E5%90%AC%E4%BB%A3%E5%B8%81%E8%BD%AC%E5%87%BA">&#x666E;&#x901A;&#x8D26;&#x6237;&#x5730;&#x5740;&#x76D1;&#x542C;&#x4EE3;&#x5E01;&#x8F6C;&#x51FA;</h2>
+
+<p>&#x5728;&#x8FD9;&#x91CC;&#x8D34;&#x51FA;&#x4E00;&#x4E2A;Tiny&#x718A;&#x5199;&#x7684;&#x76D1;&#x542C;&#x793A;&#x4F8B;&#xFF0C;&#x6211;&#x89C9;&#x5F97;&#x975E;&#x5E38;&#x9002;&#x5408;&#x5C0F;&#x767D;&#x53BB;&#x7406;&#x89E3;&#x76D1;&#x542C;&#x673A;&#x5236;&#x3002;</p>
+<p>&#x76D1;&#x542C;&#x4EE3;&#x5E01;&#x7684;&#x8F6C;&#x51FA;&#x53EF;&#x4EE5;&#x8BA9;&#x6301;&#x6709;&#x8005;&#x5BF9;&#x53D1;&#x51FA;&#x53BB;&#x7684;&#x4EE3;&#x5E01;&#x6709;&#x66F4;&#x591A;&#x7684;&#x63A7;&#x5236;&#xFF0C;&#x4F8B;&#x5982;&#x6301;&#x6709;&#x8005;&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E;&#x4E00;&#x4E9B;&#x9ED1;&#x540D;&#x5355;&#xFF0C;&#x7981;&#x6B62;&#x64CD;&#x4F5C;&#x5458;&#x5BF9;&#x9ED1;&#x540D;&#x5355;&#x5185;&#x8D26;&#x53F7;&#x8F6C;&#x8D26;&#xFF0C;</p>
+<p>&#x6839;&#x636E; ERC1820 &#x6807;&#x51C6;&#xFF0C;&#x53EA;&#x6709;&#x8D26;&#x53F7;&#x7684;&#x7BA1;&#x7406;&#x8005;&#x624D;&#x53EF;&#x4EE5;&#x4E3A;&#x8D26;&#x53F7;&#x6CE8;&#x518C;&#x63A5;&#x53E3;&#x5B9E;&#x73B0;&#x5408;&#x7EA6;&#xFF0C;<br>
+&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x5408;&#x7EA6;&#x8981;&#x4E3A;&#x67D0;&#x4E2A;&#x5730;&#x5740;&#xFF08;&#x6216;&#x81EA;&#x8EAB;&#xFF09;&#x5B9E;&#x73B0;&#x67D0;&#x4E2A;&#x63A5;&#x53E3;&#xFF0C; &#x5219;&#x9700;&#x8981;&#x5B9E;&#x73B0;&#x4E0B;&#x9762;&#x8FD9;&#x4E2A;&#x63A5;&#x53E3;:</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity"><span class="token keyword keyword-interface">interface</span> <span class="token class-name">ERC1820ImplementerInterface</span> <span class="token punctuation">{</span>
+    <span class="token comment">/// @notice &#x6307;&#x793A;&#x5408;&#x7EA6;&#x662F;&#x5426;&#x4E3A;&#x5730;&#x5740; &#x201C;addr&#x201D; &#x5B9E;&#x73B0;&#x63A5;&#x53E3; &#x201C;interfaceHash&#x201D;&#x3002;</span>
+    <span class="token comment">/// @param interfaceHash &#x63A5;&#x53E3;&#x540D;&#x79F0;&#x7684; keccak256 &#x54C8;&#x5E0C;&#x503C;</span>
+    <span class="token comment">/// @param addr &#x4E3A;&#x54EA;&#x4E00;&#x4E2A;&#x5730;&#x5740;&#x5B9E;&#x73B0;&#x63A5;&#x53E3;</span>
+    <span class="token comment">/// @return &#x53EA;&#x6709;&#x5F53;&#x5408;&#x7EA6;&#x4E3A;&#x5730;&#x5740;&apos;addr&apos;&#x5B9E;&#x73B0;&apos;interfaceHash&apos;&#x65F6;&#x8FD4;&#x56DE; ERC1820_ACCEPT_MAGIC</span>
+    <span class="token keyword keyword-function">function</span> <span class="token function">canImplementInterfaceForAddress</span><span class="token punctuation">(</span><span class="token builtin">bytes32</span> interfaceHash<span class="token punctuation">,</span> <span class="token builtin">address</span> addr<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token keyword keyword-view">view</span> <span class="token keyword keyword-returns">returns</span><span class="token punctuation">(</span><span class="token builtin">bytes32</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+</pre><p>&#x901A;&#x8FC7;&#x5728; <code>canImplementInterfaceForAddress</code> &#x8FD4;&#x56DE; <code>ERC1820_ACCEPT_MAGIC</code> &#x4EE5;&#x58F0;&#x660E;&#x5B9E;&#x73B0;&#x4E86; interfaceHash &#x5BF9;&#x5E94;&#x7684;&#x63A5;&#x53E3;&#x3002;&#x5728;&#x8C03;&#x7528;ERC1820&#x7684; setInterfaceImplementer &#x51FD;&#x6570;&#x8BBE;&#x7F6E;&#x63A5;&#x53E3;&#x5B9E;&#x73B0;&#x65F6;&#xFF0C;&#x4F1A;&#x901A;&#x8FC7; <code>canImplementInterfaceForAddress</code> &#x68C0;&#x67E5;&#x5408;&#x7EA6;&#x65F6;&#x5019;&#x5B9E;&#x73B0;&#x4E86;&#x63A5;&#x53E3;&#x3002;</p>
+<p>&#x56E0;&#x6B64;&#x5B9E;&#x73B0;&#x76D1;&#x542C;&#x8F6C;&#x51FA;&#x4F1A;&#x548C;&#x529F;&#x5FB7;&#x7BB1;&#x5408;&#x7EA6;&#x6709;&#x4E9B;&#x4E0D;&#x4E00;&#x6837;&#xFF1A;</p>
+<pre data-role="codeBlock" data-info="solidity" class="language-solidity"><span class="token keyword keyword-pragma">pragma</span> <span class="token keyword keyword-solidity">solidity</span> <span class="token operator">^</span><span class="token version number">0.5.0</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-import">import</span> <span class="token string">&quot;@openzeppelin/contracts/token/ERC777/IERC777Sender.sol&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-import">import</span> <span class="token string">&quot;@openzeppelin/contracts/token/ERC777/IERC777.sol&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-import">import</span> <span class="token string">&quot;@openzeppelin/contracts/introspection/IERC1820Registry.sol&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-import">import</span> <span class="token string">&quot;@openzeppelin/contracts/introspection/IERC1820Implementer.sol&quot;</span><span class="token punctuation">;</span>
+
+
+<span class="token keyword keyword-contract">contract</span> <span class="token class-name">SenderControl</span> <span class="token keyword keyword-is">is</span> IERC777Sender<span class="token punctuation">,</span> IERC1820Implementer <span class="token punctuation">{</span>
+
+  IERC1820Registry <span class="token keyword keyword-private">private</span> _erc1820 <span class="token operator">=</span> <span class="token function">IERC1820Registry</span><span class="token punctuation">(</span><span class="token number">0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token builtin">bytes32</span> <span class="token keyword keyword-constant">constant</span> <span class="token keyword keyword-private">private</span> ERC1820_ACCEPT_MAGIC <span class="token operator">=</span> <span class="token function">keccak256</span><span class="token punctuation">(</span>abi<span class="token punctuation">.</span><span class="token function">encodePacked</span><span class="token punctuation">(</span><span class="token string">&quot;ERC1820_ACCEPT_MAGIC&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">//    keccak256(&quot;ERC777TokensSender&quot;)</span>
+  <span class="token builtin">bytes32</span> <span class="token keyword keyword-constant">constant</span> <span class="token keyword keyword-private">private</span> TOKENS_SENDER_INTERFACE_HASH <span class="token operator">=</span>
+        <span class="token number">0x29ddb589b1fb5fc7cf394961c1adf5f8c6454761adf795e67fe149f658abe895</span><span class="token punctuation">;</span>
+
+  <span class="token keyword keyword-mapping">mapping</span><span class="token punctuation">(</span><span class="token builtin">address</span> <span class="token operator">=&gt;</span> <span class="token builtin">bool</span><span class="token punctuation">)</span> blacklist<span class="token punctuation">;</span>
+  <span class="token builtin">address</span> _owner<span class="token punctuation">;</span>
+
+  <span class="token keyword keyword-constructor">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword keyword-public">public</span> <span class="token punctuation">{</span>
+    _owner <span class="token operator">=</span> msg<span class="token punctuation">.</span>sender<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">//  account call erc1820.setInterfaceImplementer</span>
+  <span class="token keyword keyword-function">function</span> <span class="token function">canImplementInterfaceForAddress</span><span class="token punctuation">(</span><span class="token builtin">bytes32</span> interfaceHash<span class="token punctuation">,</span> <span class="token builtin">address</span> account<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token keyword keyword-view">view</span> <span class="token keyword keyword-returns">returns</span> <span class="token punctuation">(</span><span class="token builtin">bytes32</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>interfaceHash <span class="token operator">==</span> TOKENS_SENDER_INTERFACE_HASH<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword keyword-return">return</span> ERC1820_ACCEPT_MAGIC<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword keyword-else">else</span> <span class="token punctuation">{</span>
+      <span class="token keyword keyword-return">return</span> <span class="token builtin">bytes32</span><span class="token punctuation">(</span><span class="token number">0x00</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword keyword-function">function</span> <span class="token function">setBlack</span><span class="token punctuation">(</span><span class="token builtin">address</span> account<span class="token punctuation">,</span> <span class="token builtin">bool</span> b<span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-require">require</span><span class="token punctuation">(</span>msg<span class="token punctuation">.</span>sender <span class="token operator">==</span> _owner<span class="token punctuation">,</span> <span class="token string">&quot;no premission&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    blacklist<span class="token punctuation">[</span>account<span class="token punctuation">]</span> <span class="token operator">=</span> b<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword keyword-function">function</span> <span class="token function">tokensToSend</span><span class="token punctuation">(</span>
+      <span class="token builtin">address</span> operator<span class="token punctuation">,</span>
+      <span class="token builtin">address</span> <span class="token keyword keyword-from">from</span><span class="token punctuation">,</span>
+      <span class="token builtin">address</span> to<span class="token punctuation">,</span>
+      <span class="token builtin">uint</span> amount<span class="token punctuation">,</span>
+      <span class="token builtin">bytes</span> <span class="token keyword keyword-calldata">calldata</span> userData<span class="token punctuation">,</span>
+      <span class="token builtin">bytes</span> <span class="token keyword keyword-calldata">calldata</span> operatorData
+  <span class="token punctuation">)</span> <span class="token keyword keyword-external">external</span> <span class="token punctuation">{</span>
+    <span class="token keyword keyword-if">if</span> <span class="token punctuation">(</span>blacklist<span class="token punctuation">[</span>to<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword keyword-revert">revert</span><span class="token punctuation">(</span><span class="token string">&quot;ohh... on blacklist&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span>
+
+</pre><p>&#x5408;&#x7EA6;&#x5B9E;&#x73B0; canImplementInterfaceForAddress &#x51FD;&#x6570;&#xFF0C;&#x4EE5;&#x58F0;&#x660E;&#x5BF9; ERC777TokensSender &#x63A5;&#x53E3;&#x7684;&#x5B9E;&#x73B0;&#xFF0C;&#x8FD4;&#x56DE; ERC1820_ACCEPT_MAGIC&#x3002;</p>
+<p>&#x51FD;&#x6570;setBlack&#x7528;&#x6765;&#x8BBE;&#x7F6E;&#x9ED1;&#x540D;&#x5355;&#xFF0C;&#x5B83;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;blacklist&#x6620;&#x5C04;&#x6765;&#x7BA1;&#x7406;&#x9ED1;&#x540D;&#x5355;&#xFF0C; &#x5728; tokensToSend&#x51FD;&#x6570;&#x7684;&#x5B9E;&#x73B0;&#x91CC;&#xFF0C;&#x5148;&#x68C0;&#x67E5;&#x63A5;&#x6536;&#x8005;&#x662F;&#x5426;&#x5728;&#x9ED1;&#x540D;&#x5355;&#x5185;&#xFF0C;&#x5982;&#x679C;&#x5728;&#x5219;revert &#x56DE;&#x9000;&#x4EA4;&#x6613;&#x963B;&#x6B62;&#x8F6C;&#x8D26;&#x3002;</p>
+<p>&#x7ED9;&#x53D1;&#x9001;&#x8005;&#x8D26;&#x53F7;(&#x5047;&#x8BBE;&#x4E3A;A&#xFF09;&#x8BBE;&#x7F6E;&#x4EE3;&#x7406;&#x5408;&#x7EA6;&#x7684;&#x65B9;&#x6CD5;&#x4E3A;&#xFF1A;&#x5148;&#x90E8;&#x7F72;&#x4EE3;&#x7406;&#x5408;&#x7EA6;&#xFF0C;&#x83B7;&#x5F97;&#x4EE3;&#x7406;&#x5408;&#x7EA6;&#x5730;&#x5740;&#xFF0C; &#x7136;&#x540E;&#x7528;A&#x8D26;&#x53F7;&#x53BB;&#x8C03;&#x7528; ERC1820 &#x7684; setInterfaceImplementer&#x51FD;&#x6570;&#xFF0C;&#x53C2;&#x6570;&#x5206;&#x522B;&#x662F; A&#x7684;&#x5730;&#x5740;&#x3001;&#x63A5;&#x53E3;&#x7684; keccak256 &#x5373;0x29ddb589b1fb5fc7cf394961c1adf5f8c6454761adf795e67fe149f658abe895 &#x4EE5;&#x53CA; &#x4EE3;&#x7406;&#x5408;&#x7EA6;&#x5730;&#x5740;&#x3002;</p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
